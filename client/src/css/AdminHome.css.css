@@ -1,0 +1,10 @@
+.navbar {
+  background-color: #60c7c1;
+}
+.navLink {
+  text-decoration: none;
+}
+.profileBoard {
+  height: 100%;
+  float: left;
+}
