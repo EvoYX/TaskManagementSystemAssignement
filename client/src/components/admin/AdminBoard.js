@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 const AdminBoard = () => {
   const [userGroup, setUserGroup] = useState([]);
   useEffect(() => {
+    ///asdnkjndsa
     var splitGroup = localStorage.getItem("user_group").split(",");
     setUserGroup(splitGroup);
   }, []);
