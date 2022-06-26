@@ -1,0 +1,27 @@
+li {
+  margin: 10px;
+}
+
+.navbar {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.navbar .nav-pills .active {
+  color: Black;
+  font-weight: bold;
+}
+
+.navbar .nav-pills > li > a {
+  color: white;
+  text-decoration: none;
+}
+.navbar .nav-pills > li > a:hover {
+  background-color: rgb(7, 7, 71);
+  color: white;
+}
+.navbar .nav-pills .active > a {
+  color: black;
+}

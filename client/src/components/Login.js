@@ -54,8 +54,9 @@ const Login = (props) => {
       <div className="login-form">
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <div className="avatar"></div>
-            <h4 className="modal-title">Login to Your Account</h4>
+            <img src="https://bit.ly/2aQB5uu" alt="login icon" />
+
+            <h4 className="modal-title">Login</h4>
 
             <input
               type="text"

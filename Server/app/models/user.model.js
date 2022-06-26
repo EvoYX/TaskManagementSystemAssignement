@@ -97,7 +97,26 @@ const createGroup = (req, response) => {
     }
   );
 };
-
+//update the accounts_group data (for One group with many users relationship)
+const createGroupWithUsername = (req, response) => {
+  sql.query(
+    `insert into account_user_group (username,groupname)  values ('${req.username}','${req.groupname}')`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        response(err, {
+          message: "Errors in adding the user group details",
+          result: false,
+        });
+      } else {
+        response(null, {
+          message: "Group Detail Created Successfully",
+          result: true,
+        });
+      }
+    }
+  );
+};
 /* Update */
 const disableGroup = (req, response) => {
   sql.query(
@@ -151,20 +170,40 @@ const updateProfile = (req, response) => {
     }
   });
 };
-const updateGroupMember = (req, response) => {
+// const updateGroupMember = (req, response) => {
+//   sql.query(
+//     `update user_group set group_members ='${req.group_members}' where name = '${req.name}' `,
+//     (err, res) => {
+//       if (err) {
+//         console.log("error: ", err);
+//         response(err, {
+//           message: "Unable to add new group members",
+//           result: false,
+//         });
+//         // return;
+//       } else {
+//         response(null, {
+//           message: "Group member updated successfully",
+//           result: true,
+//         });
+//       }
+//     }
+//   );
+// };
+const deleteGroupByUsername = (req, response) => {
   sql.query(
-    `update user_group set group_members ='${req.group_members}' where name = '${req.name}' `,
+    `DELETE FROM account_user_group WHERE username ='${req.username}' `,
     (err, res) => {
       if (err) {
         console.log("error: ", err);
         response(err, {
-          message: "Unable to add new group members",
+          message: "Unable to delete the group",
           result: false,
         });
         // return;
       } else {
         response(null, {
-          message: "Group member updated successfully",
+          message: "delete successfully",
           result: true,
         });
       }
@@ -178,9 +217,10 @@ module.exports = {
   findAllUsers,
   createUsers,
   createGroup,
+  createGroupWithUsername,
   disableGroup,
   disableUser,
   updateProfile,
-  updateGroupMember,
   findGroupByUsername,
+  deleteGroupByUsername,
 };

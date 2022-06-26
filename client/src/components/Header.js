@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "../css/Header.css.css";
 
 import {
   Navbar,
@@ -12,18 +13,29 @@ import {
 const Header = (props) => {
   return (
     <>
-      {/*       <header className="header-bar bg-primary mb-3">
-        <div className="container d-flex flex-column flex-md-row align-items-center p-3">
-          <h4 className="my-0 mr-md-auto font-weight-normal">
-            <Link to="/" className="text-white">
-              TMS
-            </Link>
-          </h4>
-          {props.loggedIn ? <HeaderLoggedIn /> : <HeaderLoggedOut />} 
+      <nav>
+        <div>
+          <nav className="navbar navbar-inverse navbar-static-top">
+            <ul className="nav nav-pills">
+              <li>
+                <Link to="/admin/home">Home</Link>
+              </li>
+              <li>
+                <Link to="/admin/groupmanagement">Group Management</Link>
+              </li>
+              <li>
+                <Link to="/admin/usermanagement">User Management</Link>
+              </li>
+            </ul>
+            <ul className="nav nav-pills">
+              <li>
+                <Link to="/admin/home">Sign out</Link>
+              </li>
+            </ul>
+          </nav>
         </div>
-        
-      </header> */}
-      <Navbar className="navbar">
+      </nav>
+      {/* <Navbar className="navbar">
         <Container fluid>
           <Navbar.Brand href="#home">TMS</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -43,7 +55,7 @@ const Header = (props) => {
             </Nav>
           </Navbar.Collapse>
         </Container>
-      </Navbar>
+      </Navbar> */}
     </>
   );
 };

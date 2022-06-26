@@ -77,18 +77,36 @@ class UserService {
         return responds.data;
       });
   }
-  updateGroupMember(member) {
+  // updateGroupMember(member) {
+  //   return axios
+  //     .post(API_URL + "admin/groupmanagement/updateGroupMember", member)
+  //     .then((responds) => {
+  //       console.log("the responds at client is ", responds.data);
+  //       return responds.data;
+  //     });
+  // }
+  updateProfile(user) {
+    console.log("the user in updating profile is ", user);
     return axios
-      .post(API_URL + "admin/groupmanagement/updateGroupMember", member)
+      .post(API_URL + `${user.username}` + "/updateProfile", user)
       .then((responds) => {
         console.log("the responds at client is ", responds.data);
         return responds.data;
       });
   }
-  updateProfile(user) {
-    console.log("the user in updating profile is ", user);
+  deleteGroupByUser(user) {
+    console.log("deleting in progress ");
     return axios
-      .post(API_URL + `${user.username}` + "/updateProfile", user)
+      .post(API_URL + "admin/deleteGroupMember", user)
+      .then((responds) => {
+        console.log("the responds at client is ", responds.data);
+        return responds.data;
+      });
+  }
+  createGroupByUser(user) {
+    console.log("adding in progress");
+    return axios
+      .post(API_URL + "admin/updateGroupMember", user)
       .then((responds) => {
         console.log("the responds at client is ", responds.data);
         return responds.data;

@@ -13,6 +13,9 @@ const AdminBoard = () => {
   console.log("the result is ", userGroup);
   return (
     <div>
+      <div className="welcome_container">
+        <div className="welcome_title">Welcome</div>
+      </div>
       {/* Profile Container */}
       <div className="card-container">
         <span className="pro">Log Out</span>

@@ -123,6 +123,7 @@ exports.createGroup = async (req, res) => {
     }
   });
 };
+
 exports.disableGroup = async (req, res) => {
   console.log("disabling group");
   User.disableGroup(req.body, (err, data) => {
@@ -158,10 +159,32 @@ exports.updateProfile = async (req, res) => {
     }
   });
 };
-
+//Update accounts table group member columns
 exports.updateGroupMember = async (req, res) => {
   console.log("updating groupmember");
   User.updateGroupMember(req.body, (err, data) => {
+    if (err) {
+      res.send("error", { message: err.message });
+    } else {
+      res.send(data);
+    }
+  });
+};
+//update account_user_group_table data
+exports.updatingGroupByUsername = async (req, res) => {
+  console.log("adding group by username");
+  User.createGroupWithUsername(req.body, (err, data) => {
+    if (err) {
+      res.send("error", { message: err.message });
+    } else {
+      res.send(data);
+    }
+  });
+};
+//delete account_user_group table data
+exports.deleteGroupByUsername = async (req, res) => {
+  console.log("deleting the group that the user belong to");
+  User.deleteGroupByUsername(req.body, (err, data) => {
     if (err) {
       res.send("error", { message: err.message });
     } else {

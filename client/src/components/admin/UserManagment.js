@@ -24,6 +24,8 @@ const UserManagment = () => {
   const [dialogTitle, setTitle] = useState("");
   /* getting all the group */
   useEffect(() => {
+    //getting all users
+    console.log("getting all the user list");
     userService.getAllUsers().then((res) => {
       if (res.message === "Found") setUserList(res.result);
     });

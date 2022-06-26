@@ -13,7 +13,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
 import { useNavigate } from "react-router-dom";
 import alertify from "alertifyjs";
-import "alertifyjs/build/css/alertify.css";
+import "../../../src/alertify/css/themes/bootstrap.css";
 
 const API_URL = "http://localhost:8080/";
 
@@ -86,29 +86,25 @@ const CreateUser = () => {
         console.log("the responds in verify is ", res);
         if (res.auth) {
           userService.createUser(newUser).then((res) => {
-            alertify.success("added successfully");
+            for (let i = 0; i < userGroup.length; i++) {
+              const groupdetail = {
+                username: newUsername,
+                groupname: userGroup[i],
+              };
+              userService.createGroupByUser(groupdetail).then((res) => {
+                console.log("addded");
+              });
+            }
+            alertify.success(
+              "User " + newUsername + " is created successfully"
+            );
           });
         } else {
           alert("Session Timeout, please login again!");
-          navigate("/Login");
+          navigate("/");
         }
       });
     }
-    // await userService.verifyUser().then((res) => {
-    //   console.log("at client side is ", res);
-    // });
-    // var newUser = {
-    //   username: newUsername,
-    //   email: newEmail,
-    //   password: newPassword,
-    //   status: "enable",
-    //   userGroups: userGroup,
-    // };
-
-    // await userService.createUser(newUser).then((res) => {
-    //   console.log("the responds here is ", res);
-    //   alert("added successfully");
-    // });
   };
 
   const handleSelect = async (e) => {
@@ -128,7 +124,7 @@ const CreateUser = () => {
   return (
     <>
       <Container className="container">
-        <div className="title"> Create Form</div>
+        <div className="title"> Add New User</div>
         <form onSubmit={handleSubmit}>
           <div className="form-group formgroup">
             <input

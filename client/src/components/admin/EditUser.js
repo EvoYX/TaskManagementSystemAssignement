@@ -93,139 +93,58 @@ const EditUser = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    /* If User Decided to Change password */
-    if (editPassword != "") {
-      var check = validatePassword(editPassword);
-      if (!check.result) {
-        alertify.alert(check.message.toString());
-      } else {
-        var editUser = {
-          username: localStorage.getItem("selectedUsername"),
-          password: editPassword,
-          email: editEmail,
-          user_group: editGroup,
-        };
-        await userService.verifyUser().then((res) => {
-          if (res.auth) {
-            /* The edit user has group */
-            if (editGroup.length != 0) {
-              editGroup.forEach((updatedGroupMember) => {
-                groupDetailList.forEach((detailGroup) => {
-                  if (detailGroup.name == updatedGroupMember) {
-                    var groupMemberList = detailGroup.group_members;
-                    var memberArray = groupMemberList.split(",");
-                    if (!memberArray.includes(editUser.username)) {
-                      const insert = {
-                        name: detailGroup.name,
-                        group_members:
-                          groupMemberList + "," + editUser.username,
-                      };
-                      userService.updateGroupMember(insert).then((res) => {
-                        if (res.result) console.log("updated successfully");
-                      });
-                    }
-                  }
-                });
-              });
-            } else {
-              /* The edit user has no more group */
-              groupDetailList.forEach((detailGroup) => {
-                const groupMemberList = detailGroup.group_members;
-                const memberArray = groupMemberList.split(",");
-                const newList = memberArray.filter((member) => {
-                  return member != localStorage.getItem("selectedUsername");
-                });
-                const insert = {
-                  name: detailGroup.name,
-                  group_members: newList.join(","),
-                };
-                userService.updateGroupMember(insert).then((res) => {
-                  if (res.result) console.log("updated successfully");
-                });
-              });
-            }
-            userService.updateProfile(editUser).then((res) => {
-              if (res.result) {
-                alertify.success("Updated Successfully");
-                navigate("/admin/usermanagement");
-              } else {
-                alertify.error("Update Failure! Please try again");
-                window.location.reload();
-              }
-            });
+    await userService.verifyUser().then((res) => {
+      if (res.auth) {
+        if (editPassword != "") {
+          var check = validatePassword(editPassword);
+          if (!check.result) {
+            alertify.alert(check.message.toString());
           } else {
-            alert("Sorry!,Session Timeout, Please Login Again!");
-            navigate("/Login");
+            updateprofile(editPassword);
           }
-        });
+        } else {
+          updateprofile();
+        }
+      } else {
+        alert("Sorry!,Session Timeout, Please Login Again!");
+        navigate("/");
       }
-    } else {
-      /* Never Change Password */
-      var editUser = {
-        username: localStorage.getItem("selectedUsername"),
-        email: editEmail,
-        user_group: editGroup,
-      };
-      await userService.verifyUser().then((res) => {
-        console.log("the responds in verify is ", res);
-        if (res.auth) {
-          /* The edit user has group */
-          if (editGroup.length != 0) {
-            editGroup.forEach((updatedGroupMember) => {
-              groupDetailList.forEach((detailGroup) => {
-                if (detailGroup.name == updatedGroupMember) {
-                  const groupMemberList = detailGroup.group_members;
-                  console.log("s", groupMemberList);
-                  var memberArray = groupMemberList.split(",");
-                  if (!memberArray.includes(editUser.username)) {
-                    const insert = {
-                      name: detailGroup.name,
-                      group_members:
-                        groupMemberList +
-                        "," +
-                        localStorage.getItem("selectedUsername"),
-                    };
-                    userService.updateGroupMember(insert).then((res) => {
-                      if (res.result) console.log("updated successfully");
-                    });
-                  }
+    });
+  };
+  const updateprofile = (editPassword) => {
+    var editUser = {
+      username: localStorage.getItem("selectedUsername"),
+      password: editPassword,
+      email: editEmail,
+      user_group: editGroup,
+    };
+
+    userService.updateProfile(editUser).then((res) => {
+      if (res.result) {
+        var user = {
+          username: localStorage.getItem("selectedUsername"),
+        };
+        userService.deleteGroupByUser(user).then((res) => {
+          if (res.result) {
+            for (let i = 0; i < editGroup.length; i++) {
+              var groupdetail = {
+                username: localStorage.getItem("selectedUsername"),
+                groupname: editGroup[i],
+              };
+              userService.createGroupByUser(groupdetail).then((res) => {
+                if (res.result) {
+                  console.log("create succcesfully");
                 }
               });
-            });
-          } else {
-            /* The edit user has no more group */
-            groupDetailList.forEach((detailGroup) => {
-              const groupMemberList = detailGroup.group_members;
-              const memberArray = groupMemberList.split(",");
-              const newList = memberArray.filter((member) => {
-                return member != localStorage.getItem("selectedUsername");
-              });
-              const insert = {
-                name: detailGroup.name,
-                group_members: newList.join(","),
-              };
-              userService.updateGroupMember(insert).then((res) => {
-                if (res.result) console.log("updated successfully");
-              });
-            });
-          }
-
-          userService.updateProfile(editUser).then((res) => {
-            console.log("the responds here is ", res);
-            if (res.result) {
-              alertify.success("Updated Successfully");
-              navigate("/admin/usermanagement");
-            } else {
-              alertify.error("Update Failure! Please try again");
-              window.location.reload();
             }
-          });
-        } else {
-          alert("Sorry!,Session Timeout, Please Login Again!");
-          navigate("/Login");
-        }
-      });
-    }
+          }
+        });
+        alertify.success(
+          localStorage.getItem("selectedUsername") +
+            " profile is being updated successfully"
+        );
+      }
+    });
   };
   const handleCancel = () => {};
   return (
@@ -314,7 +233,7 @@ const EditUser = () => {
               </button>
               <br />
               {/* <input type="button" class="Btn cancel" value="Cancel" />
-              <input type="submit" class="Btn" value="Save Changes" /> */}
+              <input type="submit" className="Btn" value="Save Changes" /> */}
               <button onClick={handleCancel} className="editBtn">
                 Cancel
               </button>
