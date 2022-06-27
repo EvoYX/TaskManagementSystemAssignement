@@ -66,7 +66,25 @@ const findAllGroup = (req, response) => {
     }
   });
 };
-
+const findUserGroupByFilter = (response) => {
+  sql.query(
+    `SELECT * FROM account_user_group  order By groupname`,
+    (err, res) => {
+      if (err) {
+        response(err, { message: "No available groups", result: null });
+      }
+      if (res.length) {
+        response(null, {
+          message: "Found",
+          result: res.map((result) => result),
+        });
+        return;
+      } else {
+        response(null, { message: "No available groups", result: null });
+      }
+    }
+  );
+};
 /* Create */
 const createUsers = (req, response) => {
   sql.query(
@@ -215,6 +233,7 @@ module.exports = {
   findByUsername,
   findAllGroup,
   findAllUsers,
+  findUserGroupByFilter,
   createUsers,
   createGroup,
   createGroupWithUsername,

@@ -37,6 +37,17 @@ exports.findAllGroup = (req, res) => {
     }
   });
 };
+exports.findUserGroupByFilter = (req, res) => {
+  console.log("finding user by group");
+  User.findUserGroupByFilter(req, (err, data) => {
+    if (err) {
+      res.status(500).send({ message: err.message });
+    } else {
+      console.log("the result is ", data);
+      res.send(data);
+    }
+  });
+};
 
 exports.createUser = async (req, res) => {
   console.log("creating user");
@@ -200,6 +211,48 @@ exports.getGroupByUser = async (req, res) => {
       res.send(data);
     } else {
       res.send(data);
+    }
+  });
+};
+exports.getGroupData = async (req, res) => {
+  var groups = []; //get the usergroups table data (consist of only status &name)
+  var groupsData = []; // the data tat will be sent to front end (group name, status, users)
+  var users = []; //temp array to store the username
+  var userGroups = []; //mapping the account_usergroup data table into temp array
+  User.findAllGroup(req, (err, data) => {
+    if (err) {
+      res.status(500).send({ message: err.message });
+    } else {
+      if (data.result != null) {
+        groups = data.result.map((result) => result);
+        User.findUserGroupByFilter((err, usersdata) => {
+          if (err) {
+            res.status(500).send({ message: err.message });
+          } else {
+            userGroups = usersdata.result.map((result) => result);
+            for (let index = 0; index < groups.length; index++) {
+              for (let uIndex = 0; uIndex < userGroups.length; uIndex++) {
+                if (userGroups[uIndex].groupname == groups[index].name) {
+                  users.push(userGroups[uIndex].username);
+                }
+              }
+              const groupData = {
+                groupname: groups[index].name,
+                status: groups[index].status,
+                users: users,
+              };
+              groupsData.push(groupData);
+              users = [];
+            }
+            res.send({ message: "Found", result: groupsData });
+          }
+        });
+      } else {
+        res.send({
+          message: "unable to find groups in group table",
+          result: false,
+        });
+      }
     }
   });
 };

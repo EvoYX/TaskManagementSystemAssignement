@@ -31,7 +31,8 @@ module.exports = (app) => {
   /* for update and delete on account_user_group table */
   router.post("/admin/deleteGroupMember", users.deleteGroupByUsername);
   router.post("/admin/updateGroupMember", users.updatingGroupByUsername);
-
+  router.get("/admin/groupmanagement/findgroup", users.findUserGroupByFilter);
+  router.get("/admin/groupmanagement/data", users.getGroupData);
   /* Post */
   router.post("/admin/usermanagement/createuser", users.createUser);
   router.post("/login", users.login);

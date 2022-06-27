@@ -112,5 +112,24 @@ class UserService {
         return responds.data;
       });
   }
+  /* Finding group consist of how many user */
+  finduserGroupWithFilter() {
+    console.log("finding group");
+    return axios
+      .get(API_URL + "admin/groupmanagement/findgroup")
+      .then((responds) => {
+        console.log("the responds at client is ", responds.data);
+        return responds.data;
+      });
+  }
+  getGroupData() {
+    console.log("finding group");
+    return axios
+      .get(API_URL + "admin/groupmanagement/data")
+      .then((responds) => {
+        console.log("the responds at client is ", responds.data);
+        return responds.data;
+      });
+  }
 }
 export default new UserService();

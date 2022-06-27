@@ -44,7 +44,6 @@ const EditUser = () => {
       typeof value === "string" ? value.split(",") : value
     );
   };
-  console.log("the edit group is", editGroup);
   const handleChangePasswordField = (e) => {
     e.preventDefault();
     setOpenPasswordField(!openPasswordField);
@@ -100,10 +99,10 @@ const EditUser = () => {
           if (!check.result) {
             alertify.alert(check.message.toString());
           } else {
-            updateprofile(editPassword);
+            updateUserProfile(editPassword);
           }
         } else {
-          updateprofile();
+          updateUserProfile();
         }
       } else {
         alert("Sorry!,Session Timeout, Please Login Again!");
@@ -111,7 +110,7 @@ const EditUser = () => {
       }
     });
   };
-  const updateprofile = (editPassword) => {
+  const updateUserProfile = (editPassword) => {
     var editUser = {
       username: localStorage.getItem("selectedUsername"),
       password: editPassword,
@@ -126,16 +125,18 @@ const EditUser = () => {
         };
         userService.deleteGroupByUser(user).then((res) => {
           if (res.result) {
-            for (let i = 0; i < editGroup.length; i++) {
-              var groupdetail = {
-                username: localStorage.getItem("selectedUsername"),
-                groupname: editGroup[i],
-              };
-              userService.createGroupByUser(groupdetail).then((res) => {
-                if (res.result) {
-                  console.log("create succcesfully");
-                }
-              });
+            if (editGroup.length != 0) {
+              for (let i = 0; i < editGroup.length; i++) {
+                var groupdetail = {
+                  username: localStorage.getItem("selectedUsername"),
+                  groupname: editGroup[i],
+                };
+                userService.createGroupByUser(groupdetail).then((res) => {
+                  if (res.result) {
+                    console.log("create succcesfully");
+                  }
+                });
+              }
             }
           }
         });
@@ -143,6 +144,7 @@ const EditUser = () => {
           localStorage.getItem("selectedUsername") +
             " profile is being updated successfully"
         );
+        navigate("/admin/usermanagement");
       }
     });
   };
