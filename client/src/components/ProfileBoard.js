@@ -25,7 +25,6 @@ const ProfileBoard = () => {
     alertify.success("Sign Out Successfully");
     navigate("/");
   };
-  console.log(userGroup.length);
 
   return (
     <div>

@@ -30,7 +30,6 @@ const UserManagment = () => {
   /* getting all the group */
   useEffect(() => {
     //getting all users
-    console.log("getting all the user list");
     userService.getAllUsers().then((res) => {
       if (res.message === "Found") setUserList(res.result);
     });
@@ -113,7 +112,6 @@ const UserManagment = () => {
       });
   };
   const editHandler = (username) => {
-    console.log("the selected is", username);
     setPopup(true);
     localStorage.setItem("selectedUsername", username);
   };
