@@ -59,7 +59,11 @@ const EditUser = () => {
         if (res.message === "Found") {
           setEditUser(res.result);
           setEditEmail(res.result.email);
-          setEditGroup(res.result.user_group.split(","));
+          setEditGroup(
+            res.result.user_group.length != 0
+              ? res.result.user_group.split(",")
+              : []
+          );
           // setEditGroup(res.result);
         }
       });
@@ -69,7 +73,7 @@ const EditUser = () => {
         setGroupList(res.result.map((res) => res.name));
       setGroupDetailList(res.result.map((res) => res));
     });
-  }, []);
+  }, [localStorage.getItem("selectedUsername")]);
 
   const validatePassword = (value) => {
     var regularExpression =
@@ -111,9 +115,8 @@ const EditUser = () => {
           updateUserProfile();
         }
       } else {
-        alertify
-          .alert("Sorry!,Session Timeout, Please Login Again!")
-          .setHeader('<em style="color:black;">Error !</em>');
+        alertify.error("Session Timeout, please login again!");
+
         localStorage.clear();
         setLoggedIn(false);
         navigate("/");
@@ -130,7 +133,6 @@ const EditUser = () => {
 
     userService.updateProfile(editUser).then((res) => {
       if (res.result) {
-        localStorage.setItem("loginEmail", editEmail);
         var user = {
           username: localStorage.getItem("selectedUsername"),
         };
@@ -206,7 +208,6 @@ const EditUser = () => {
                     placeholder="Email"
                     value={editEmail}
                     onChange={(e) => setEditEmail(e.target.value)}
-                    required="required"
                   />
                 </div>
               </fieldset>

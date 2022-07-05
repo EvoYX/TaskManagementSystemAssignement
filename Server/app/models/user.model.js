@@ -149,7 +149,7 @@ const createUsers = (req, response) => {
 
 const createGroup = (req, response) => {
   sql.query(
-    `insert into user_group (name,status)  values ('${req.groupname}','enable')`,
+    `insert into user_group (name,status)  values ('${req.groupname}','Enable')`,
     (err, res) => {
       if (err) {
         response(err, { message: "Error in creating group", result: false });
@@ -213,15 +213,19 @@ const disableUser = (req, response) => {
 };
 
 const updateProfile = (req, response) => {
-  console.log("the request is ", req);
+  console.log("the request is ", req.user_group);
   if (req.password == null) {
-    if (req.user_group != undefined) {
+    if (req.user_group) {
       query = `update accounts set email ='${req.email}',user_group= '${req.user_group}' where username = '${req.username}' `;
     } else {
       query = `update accounts set email ='${req.email}' where username = '${req.username}' `;
     }
   } else {
-    query = `update accounts set email ='${req.email}',password= '${req.password}',user_group= '${req.user_group}' where username = '${req.username}' `;
+    if (req.user_group) {
+      query = `update accounts set email ='${req.email}',password= '${req.password}',user_group= '${req.user_group}' where username = '${req.username}' `;
+    } else {
+      query = `update accounts set email ='${req.email}',password= '${req.password}' where username = '${req.username}' `;
+    }
   }
   sql.query(query, (err, res) => {
     if (err) {

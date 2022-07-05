@@ -5,13 +5,17 @@ import { useNavigate } from "react-router-dom";
 import TMSContext from "./TMSContext";
 import alertify from "alertifyjs";
 import "../alertify/css/themes/bootstrap.css";
+
 const ProfileBoard = () => {
   const [userGroup, setUserGroup] = useState([]);
   const navigate = useNavigate();
   const { setLoggedIn } = useContext(TMSContext);
 
   useEffect(() => {
-    var splitGroup = localStorage.getItem("user_group").split(",");
+    var splitGroup =
+      localStorage.getItem("user_group").length !== 0
+        ? localStorage.getItem("user_group").split(",")
+        : [];
     setUserGroup(splitGroup);
   }, []);
   const logout = () => {
@@ -21,6 +25,7 @@ const ProfileBoard = () => {
     alertify.success("Sign Out Successfully");
     navigate("/");
   };
+  console.log(userGroup.length);
 
   return (
     <div>
@@ -48,6 +53,7 @@ const ProfileBoard = () => {
               {" "}
               <button className="ghost">User {<br />} Managment</button>
             </Link>
+
             <Link to="/admin/groupmanagement">
               {" "}
               <button className="ghost">Group {<br />} Management</button>
@@ -57,11 +63,15 @@ const ProfileBoard = () => {
 
         <div className="skills">
           <h6>Groups:</h6>
-          <ul>
-            {userGroup.map((name) => (
-              <li>{name}</li>
-            ))}
-          </ul>
+          {userGroup.length != 0 ? (
+            <ul>
+              {userGroup.map((name) => (
+                <li>{name}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>No Assigned Groups</p>
+          )}
         </div>
       </div>
       {/* User Managmenet */}

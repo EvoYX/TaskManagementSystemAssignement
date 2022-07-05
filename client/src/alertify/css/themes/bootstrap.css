@@ -27,6 +27,7 @@
 .alertify .ajs-body {
   font-family: "Roboto", sans-serif;
   color: black;
+  text-align: center;
 }
 .alertify.ajs-resizable .ajs-content,
 .alertify.ajs-maximized:not(.ajs-resizable) .ajs-content {

@@ -120,6 +120,9 @@ const UserManagment = () => {
   const handleAddModal = () => {
     setAddModal(!showAddModal);
   };
+  const tableStyle = {
+    "border-top": "none",
+  };
   return (
     <>
       {["end"].map((placement, idx) => (
@@ -142,55 +145,58 @@ const UserManagment = () => {
         </Offcanvas>
       ))}
       <div className="table">
-        {/* <Link to="/admin/usermanagement/createuser" className="createLink">
-          <button className="createBtn" onClick={handleAddModal}>Add User</button>
-        </Link> */}
-        <button className="createBtn" onClick={handleAddModal}>
-          Add User
-        </button>
+        <div>
+          <button className="createBtn" onClick={handleAddModal}>
+            Add User
+          </button>
+        </div>
+        <div style={tableStyle}>
+          <Table striped bordered hover size="sm" className="table-auto">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>User</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Groups</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {userList.map((doc, index) => {
+                return (
+                  <tr key={doc.id}>
+                    <td>{index + 1}</td>
+                    <td>{doc.username}</td>
+                    <td>{doc.email}</td>
+                    <td>{doc.status}</td>
+                    <td>{doc.user_group}</td>
 
-        <Table striped bordered hover size="sm" className="table-auto">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>User</th>
-              <th>Email</th>
-              <th>Status</th>
-              <th>Groups</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {userList.map((doc, index) => {
-              return (
-                <tr key={doc.id}>
-                  <td>{index + 1}</td>
-                  <td>{doc.username}</td>
-                  <td>{doc.email}</td>
-                  <td>{doc.status}</td>
-                  <td>{doc.user_group}</td>
-
-                  <td>
-                    <button
-                      className="actionBtn"
-                      onClick={(e) => handleDisable(doc.username, doc.status)}
-                    >
-                      {doc.status == "Enable" ? "Disable" : "Enable"}
-                    </button>
-                    <Link to="/admin/usermanagement/edituser">
+                    <td>
                       <button
-                        className="edit"
-                        onClick={(e) => editHandler(doc.username)}
+                        className="actionBtn"
+                        onClick={(e) => handleDisable(doc.username, doc.status)}
+                        disabled={
+                          doc.user_group.includes("admin") ? true : false
+                        }
                       >
-                        Edit Profile
+                        {doc.status == "Enable" ? "Disable" : "Enable"}
                       </button>
-                    </Link>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
+                      <Link to="/admin/usermanagement/edituser">
+                        <button
+                          className="edit"
+                          onClick={(e) => editHandler(doc.username)}
+                        >
+                          Edit Profile
+                        </button>
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        </div>
       </div>
       <Dialog
         open={popupModal}

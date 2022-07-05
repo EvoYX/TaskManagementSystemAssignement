@@ -35,7 +35,6 @@ body {
   text-align: center;
 }
 .content {
-  /* position: absolute; */
   min-height: 100%;
   height: 100%;
   width: 95%;
@@ -44,8 +43,7 @@ body {
   right: 0;
   top: 0;
   bottom: 0;
-  /*border: 1px solid #eee;*/
-  /*background-color: yellow;*/
+
   overflow: hidden;
 }
 .short-info {
@@ -54,16 +52,12 @@ body {
   height: auto;
   width: 97.5%;
   margin: 1.5% auto;
-  /*background-color: #f5f5f5;*/
   background-color: #fff;
   background-color: #f2ecee;
-  /*border-top: 2px solid #39cb58;*/
   border-radius: 2.5px;
-  /*box-shadow: inset 0 -1.5px #ddd;*/
 }
 .details {
   width: 97.5%;
-  /*background-color: red;*/
   margin: 2.5px auto;
 }
 .tab-heads {
@@ -85,44 +79,7 @@ span.fa-envelope {
   left: 56%;
   color: #39cb58;
 }
-span.photo {
-  position: relative;
-  height: 80px;
-  width: 80px;
-  border-radius: 5px;
-  margin: 10px 0 2.5px;
-  display: block;
-  top: 10%;
-  left: 10%;
-  overflow: hidden;
-  background: #ddd
-    url("https://www.adtechnology.co.uk/images/UGM-default-user.png");
-  background-size: 100%;
-  border-radius: 100%;
-  border: 2px solid #ddd;
-}
-span.photo:after {
-  content: " Add Profile Pic ";
-  text-align: center;
-  position: absolute;
-  left: 0;
-  z-index: 2;
-  padding: 35% 0 65%;
-  height: 0;
-  width: 100%;
-  opacity: 0;
-  color: #222;
-  background-color: rgba(0, 0, 0, 0.25);
-  background-size: 100%;
-  transition: 0.35s ease-in-out;
-  overflow: hidden;
-  border-radius: 100%;
-}
-span.photo:hover:after {
-  bottom: 0;
-  opacity: 1;
-  color: #fff;
-}
+
 input[type="file"] {
   /* position: absolute; */
   color: #555;
@@ -156,25 +113,7 @@ label {
 label[for="avatar"] {
   line-height: 120px;
 }
-.btn {
-  /* position: absolute; */
-  top: 45%;
-  left: 25%;
-  /* color: #fff; */
-  /* background-color: rgba(57,203,88,0.65); */
-  background-color: #ddd;
-  padding: 10px 15px;
-  border-radius: 3px;
-  box-shadow: inset 0 0 0 2px #39cb58, 0 2px 0 0 rgba(57, 203, 88, 0.5);
-  cursor: pointer;
-  transition: 0.5s ease;
-}
-span.btn:hover {
-  opacity: 1;
-  color: #fff;
-  background-color: rgba(57, 203, 88, 1);
-  /* background-color: #39cb58; */
-}
+
 .formContainer:hover .btn {
   opacity: 1;
 }
@@ -182,63 +121,6 @@ span.btn:hover {
 h4 {
   display: inline-block;
   margin: 0;
-}
-
-div.circles {
-  width: 100%;
-  margin: 0 auto;
-}
-span.fa-users {
-  color: #777;
-  margin-left: 1px;
-  margin: 7px 7px 2.5px;
-}
-span.fa-users:after {
-  content: "Circles";
-  font-family: Lato;
-  margin-left: 3px;
-  color: #777;
-}
-.myCircle {
-  height: 200px;
-  width: 97.5%;
-  margin: 0 auto;
-  background-color: #f2ecee;
-  border-radius: 2.5px;
-}
-
-/*Circles Styles
-=========================*/
-.myCircle #tabs ul li:nth-child(1) {
-  margin: 0;
-  padding: 0px 5px 10px;
-  /*margin-top: 5px;*/
-  background-color: white;
-  border-radius: 0 0 0 30px;
-}
-.myCircle #tabs ul li:nth-child(2) {
-  margin-left: -3px;
-  padding: 0 5px 10px;
-  border-radius: 0 0 30px 0;
-  background-color: white;
-}
-.myCircle #tabs .active {
-  border-bottom: none;
-  padding-left: 10px;
-}
-.myCircle #tabs {
-  padding: 0;
-  margin: 0;
-}
-.fa-twitter,
-.fa-facebook,
-.fa-github {
-  height: 20px;
-  width: 20px;
-  text-align: center;
-  line-height: 20px;
-  padding: 2.5px;
-  margin-left: -15px;
 }
 
 /*Input Fields Styles
@@ -303,67 +185,6 @@ input:focus {
   border-bottom: 1px solid #ddd;
 }
 
-/*Tabs Styles
-=========================*/
-#tabs {
-  width: 97.5%;
-  margin: 0 auto;
-  position: relative;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-}
-#tabs-1,
-#tabs-2,
-#tabs-3 {
-  width: 95%;
-  margin: 0 auto;
-  /*margin-top: 5px;*/
-  padding: 5px 10px;
-  line-height: 1.3em;
-  padding-bottom: 10px;
-  font-family: Open Sans;
-  background-color: #f2ecee;
-  border-radius: 0 2.5px 2.5px 2.5px;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-}
-#tabs ul {
-  margin: 0 auto;
-  padding: 0;
-}
-#tabs ul li {
-  display: inline-block;
-  margin: 0;
-  padding: 0 7px;
-  width: 65px;
-  text-align: center;
-  padding-bottom: 5px;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-}
-#tabs ul li a {
-  outline: 0;
-  text-decoration: none;
-  padding: 0 3px 0 0;
-  /* background-color: #222; */
-  font-family: Open Sans;
-  margin: 0;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-}
-
-.ui-state-hover {
-  border-bottom: 2.5px solid #aaa;
-}
-.ui-state-active {
-  color: #38cc85;
-  border-bottom: 2.5px solid #39cb58;
-}
-
 /* #CLEARFIX HACK
 =========================*/
 .clear:after {
@@ -374,15 +195,15 @@ input:focus {
 
 /* Edit View
 ======================*/
-.content h1 {
+/* .content h1 {
   text-align: center;
   color: #555;
   font-family: Lato;
   font-size: 40px;
   font-weight: 200;
   margin: 5px auto 15px auto;
-}
-select {
+} */
+/* select {
   width: 80%;
   padding: 7px 10px;
   background-color: #f5f5f5;
@@ -392,7 +213,7 @@ select {
 }
 select option {
   padding: 5px;
-}
+} */
 fieldset {
   text-align: center;
   /* background-color: rgba(0,0,0,0.01); */
@@ -401,9 +222,7 @@ fieldset {
   box-sizing: border-box;
   border-bottom: 1px solid rgba(0, 0, 0, 0.07);
 }
-fieldset:last-child {
-  border-bottom: none;
-}
+
 .preview {
   margin-top: 2rem;
   margin-left: 3rem;
@@ -418,57 +237,7 @@ fieldset:last-child {
 .previewText {
   float: left;
 }
-/* .btn {
-  background-color: #e1ecf4;
-  border-radius: 3px;
-  border: 1px solid #7aa7c7;
-  box-shadow: rgba(255, 255, 255, 0.7) 0 1px 0 0 inset;
-  box-sizing: border-box;
-  color: #39739d;
-  cursor: pointer;
-  display: inline-block;
-  font-family: -apple-system, system-ui, "Segoe UI", "Liberation Sans",
-    sans-serif;
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 1.15385;
-  margin: 0;
-  outline: none;
-  padding: 8px 0.8em;
-  position: relative;
-  float: left;
-  display: block;
-  margin: 40px auto;
-  margin-left: 1%;
-  padding: 15px 0;
-  font-size: 16px;
-  color: #fff;
-  cursor: pointer;
-  touch-action: manipulation;
-  vertical-align: baseline;
-  white-space: nowrap;
-  position: absolute;
 
-  -moz-transform: translateX(-50%) translateY(-50%);
-  -webkit-transform: translateX(-50%) translateY(-50%);
-  transform: translateX(-50%) translateY(-50%);
-}
-
-.btn:hover,
-.btn:focus {
-  background-color: #b3d3ea;
-  color: #2c5777;
-}
-
-.btn:focus {
-  box-shadow: 0 0 0 4px rgba(0, 149, 255, 0.15);
-}
-
-.btn:active {
-  background-color: #a0c7e4;
-  box-shadow: none;
-  color: #2c5777;
-} */
 .editBtn {
   width: 48%;
   float: left;
@@ -502,6 +271,9 @@ fieldset:last-child {
   text-decoration: underline;
   background-color: transparent;
   border: transparent;
+}
+.btnManagement {
+  clear: both;
 }
 /* Header Bar 
 ===========================*/

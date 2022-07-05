@@ -6,6 +6,11 @@ import { useNavigate } from "react-router-dom";
 import TMSContext from "./TMSContext";
 import alertify from "alertifyjs";
 import "../../src/alertify/css/themes/bootstrap.css";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const Login = (props) => {
   const [username, setUsername] = useState("");
@@ -93,10 +98,7 @@ const Login = (props) => {
             />
           </div>
           <div className="form-group">
-            <button
-              type="submit"
-              className="btn btn-primary btn-lg btn-block login-btn"
-            >
+            <button type="submit" className="loginFormBtn">
               Login
             </button>
           </div>

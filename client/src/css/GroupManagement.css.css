@@ -49,25 +49,29 @@
   border-radius: 2% 6% 5% 4% / 1% 1% 2% 4%;
 }
 .table_container {
-  width: 60%;
+  width: 100%;
   float: right;
   display: flex;
   text-align: center;
-  background: aliceblue;
   margin-right: 2rem;
 }
 .table_container1 {
-  width: 40%;
+  width: 100%;
   display: flex;
   text-align: center;
   margin: auto;
-  background: aliceblue;
 }
 .grid-container {
+  width: 40%;
+  margin: auto;
+  margin-top: 5.5rem;
+  text-align: right;
+}
+.grid-container1 {
   width: 100%;
-  /* margin: auto; */
-  margin-top: 6.5rem;
-  text-align: center;
+  margin: auto;
+  margin-top: 5.5rem;
+  text-align: right;
 }
 .table-container {
   width: 40%;
@@ -162,4 +166,26 @@
 .listview ul {
   overflow: hidden;
   overflow-y: scroll;
+}
+.addGrpBtn {
+  /* position: relative; */
+
+  margin: 10px 12% 0px 0px;
+  padding: 0;
+  background-color: aliceblue;
+  border-radius: 3px;
+  border: 1px solid #7aa7c7;
+  font-size: 16px;
+  /* line-height: 1.15385; */
+  padding: 0px 0.8em;
+  margin: 2px 0px;
+  outline: none;
+  position: relative;
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+  float: right;
 }

@@ -1,16 +1,18 @@
 import React from "react";
 import "../css/UpdateProfile.css.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import userService from "../services/user.service";
 import { useNavigate } from "react-router-dom";
 import alertify from "alertifyjs";
+import "../../src/alertify/css/themes/bootstrap.css";
+import TMSContext from "./TMSContext";
 
 const UpdateProfile = () => {
   const [newPassword, setNewPassword] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [hasChanges, setChanges] = useState(false);
   const [disableButton, setDisable] = useState(false);
-
+  const { setLoggedIn } = useContext(TMSContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -78,7 +80,9 @@ const UpdateProfile = () => {
           updateUserProfile();
         }
       } else {
-        alert("Sorry!,Session Timeout, Please Login Again!");
+        localStorage.clear();
+        alertify.error("Sorry!,Session Timeout, Please Login Again!");
+        setLoggedIn(false);
         navigate("/");
       }
     });
@@ -96,7 +100,7 @@ const UpdateProfile = () => {
 
         alertify.success("Profile Updated Successfully");
       } else {
-        alertify.cancel("Profile Updated Failure");
+        alertify.error("Profile Updated Failure");
       }
     });
     setChanges(!hasChanges);
@@ -108,9 +112,71 @@ const UpdateProfile = () => {
   };
   return (
     <>
-      <div className="Container">
-        <p className="title">Update Profile</p>
-        <div className="profileForm">
+      <div className="wrapper">
+        <div className="formContainer">
+          <div className="content">
+            <p className="formTitle">Update Profile</p>
+            <form>
+              {hasChanges && (
+                <fieldset>
+                  <div className="grid-35">
+                    <label>New Password:</label>
+                  </div>
+                  <div className="grid-65">
+                    <input
+                      type="password"
+                      className="form-control"
+                      name="newPassword"
+                      placeholder="NewPassword"
+                      value={newPassword}
+                      onChange={(e) => handlePasswordChange(e)}
+                    />
+                  </div>
+                </fieldset>
+              )}
+              <fieldset>
+                <div className="grid-35">
+                  <label>New Email:</label>
+                </div>
+                <div className="grid-65">
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="email"
+                    placeholder="Email"
+                    value={newEmail}
+                    onChange={(e) => handleEmailChange(e)}
+                  />
+                </div>
+              </fieldset>
+              <div>
+                <button
+                  className="linkBtn"
+                  onClick={(e) => handlePasswordPopup(e)}
+                  disabled={hasChanges ? true : false}
+                >
+                  Change Password
+                </button>
+              </div>
+              <div className="btnManagement">
+                <button className="editBtn" onClick={handleBack}>
+                  {" "}
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="editBtn"
+                  onClick={handleSubmit}
+                >
+                  {" "}
+                  Update Profile
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        {/* <p className="title">Update Profile</p> */}
+        {/* <div className="profileForm">
           <form>
             {hasChanges && (
               <fieldset>
@@ -161,7 +227,7 @@ const UpdateProfile = () => {
               Update Profile
             </button>
           </form>
-        </div>
+        </div> */}
       </div>
     </>
   );

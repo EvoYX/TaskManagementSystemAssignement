@@ -22,7 +22,9 @@ function App() {
   const [accesstoken, setAccessToken] = useState("");
   const [loginUsername, setLoginUsername] = useState("");
 
-  console.log(localStorage.getItem("setIsLoggedIn"));
+  useEffect(() => {
+    console.log(localStorage.getItem("setIsLoggedIn"));
+  }, setLoggedIn);
   return (
     <>
       <TMSContext.Provider value={{ setLoggedIn, setIsAdmin }}>

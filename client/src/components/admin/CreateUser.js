@@ -1,6 +1,8 @@
 import React from "react";
 import { Container } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import TMSContext from "../TMSContext";
+
 import "../../css/CreateUser.css.css";
 import userService from "../../services/user.service";
 
@@ -18,6 +20,7 @@ import "../../../src/alertify/css/themes/bootstrap.css";
 
 const CreateUser = (props) => {
   const navigate = useNavigate();
+  const { setLoggedIn } = useContext(TMSContext);
 
   const [newusers, setNewUsers] = useState([]);
   const [newUsername, setNewUsername] = useState("");
@@ -74,7 +77,6 @@ const CreateUser = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(localStorage.getItem("access-token"));
     var validate = validatePassword(newPassword);
     if (!validate.result) {
       alertify
@@ -89,12 +91,10 @@ const CreateUser = (props) => {
         username: newUsername,
         email: newEmail,
         password: newPassword,
-        status: "enable",
+        status: "Enable",
         userGroups: userGroup,
       };
-      console.log("the final is", userGroup);
       await userService.verifyUser().then((res) => {
-        console.log("the responds in verify is ", res);
         if (res.auth) {
           userService.createUser(newUser).then((res) => {
             for (let i = 0; i < userGroup.length; i++) {
@@ -103,7 +103,7 @@ const CreateUser = (props) => {
                 groupname: userGroup[i],
               };
               userService.createGroupByUser(groupdetail).then((res) => {
-                console.log("addded");
+                console.log("added");
               });
             }
             userService.getAllUsers().then((res) => {
@@ -115,10 +115,16 @@ const CreateUser = (props) => {
           });
         } else {
           localStorage.clear();
-          alert("Session Timeout, please login again!");
+          setLoggedIn(false);
+          alertify.error("Session Timeout, Please Login Again!");
           navigate("/");
         }
       });
+      setNewUsername("");
+      setNewEmail("");
+      setNewPassword("");
+      setNewEmail("");
+      setUserGroup([]);
     }
   };
 
@@ -163,13 +169,12 @@ const CreateUser = (props) => {
         </fieldset>
         <fieldset>
           <input
-            type="email"
+            type="text"
             className="grid-100"
             name="email"
             placeholder="Email"
             value={newEmail}
             onChange={(e) => setNewEmail(e.target.value.trim())}
-            required="required"
           />
         </fieldset>
         <fieldset>

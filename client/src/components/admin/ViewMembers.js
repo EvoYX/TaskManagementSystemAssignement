@@ -72,7 +72,6 @@ const ViewMembers = (props) => {
             .getUsersByGroupname(localStorage.getItem("selectedGroup"))
             .then((res) => {
               if (res.result != null) {
-                console.log("result username", res.result);
                 setMemberList(res.result.map((result) => result.username));
                 setSelectUsers(res.result.map((res) => res.username));
               } else {
@@ -89,7 +88,6 @@ const ViewMembers = (props) => {
   };
   const handleAddModal = () => {
     setAddModal(!showAddModal);
-    console.log(showAddModal);
   };
   const handleChange = (e) => {
     const value = e.target.value;

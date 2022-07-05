@@ -33,7 +33,15 @@ const Header = (props) => {
           <nav className="navbar navbar-inverse navbar-static-top">
             <ul className="nav nav-pills">
               <li>
-                <Link to="/admin/home">Home</Link>
+                <Link
+                  to={
+                    localStorage.getItem("setIsAdmin") == "true"
+                      ? "/admin/home"
+                      : "/home"
+                  }
+                >
+                  Home
+                </Link>
               </li>
               {localStorage.getItem("setIsAdmin") == "true" && (
                 <li>
@@ -49,7 +57,7 @@ const Header = (props) => {
             <ul className="nav nav-pills">
               <li>
                 <Link to="/" onClick={handleLoggedOut}>
-                  Sign out
+                  Log out
                 </Link>
               </li>
             </ul>

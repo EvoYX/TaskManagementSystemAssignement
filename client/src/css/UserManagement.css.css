@@ -35,6 +35,42 @@
   box-shadow: none;
   /* color: #2c5777; */
 }
+.createBtn1 {
+  margin: 10px 15% 0px 0px;
+  padding: 0;
+  background-color: aliceblue;
+  border-radius: 3px;
+  border: 1px solid #7aa7c7;
+  font-size: 16px;
+  /* line-height: 1.15385; */
+  padding: 0px 0.8em;
+  margin-right: 45%;
+  margin-bottom: 2px;
+  outline: none;
+  position: relative;
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+  float: right;
+}
+.createBtn1:hover,
+.createBtn1:focus {
+  background-color: #5cb9d8;
+  color: white;
+}
+
+.createBtn1:focus {
+  box-shadow: 0 0 0 4px rgba(0, 149, 255, 0.15);
+}
+
+.createBtn1:active {
+  /* background-color: #a0c7e4; */
+  box-shadow: none;
+  /* color: #2c5777; */
+}
 .table {
   width: 80%;
   background: transparent;
@@ -42,21 +78,25 @@
   text-align: center;
   margin-left: auto;
   margin-right: auto;
-
+  border-top: none;
   width: 70%;
+}
+.tableBorder {
+  border-top: none;
 }
 .createLink {
   float: right;
   margin-right: 14%;
   margin-bottom: 2rem;
 }
-.thTop {
+/* table {
   border-top: none;
 }
 th:not(:first-child) {
   border-top: none;
-}
+} */
 th {
+  padding: 0px 15px;
   background-color: #3482be;
 }
 tr:nth-child(even) {
@@ -75,10 +115,11 @@ tr:hover {
   width: 80px;
   margin: 10px 5px;
 }
-.actionBtn:hover {
+.actionBtn:enabled:hover {
   background-color: #5cb9d8;
   color: white;
 }
+
 .edit {
   text-decoration: underline;
   background-color: transparent;
