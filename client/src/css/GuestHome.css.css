@@ -170,3 +170,25 @@
   display: inline-block;
   margin: 100px auto;
 }
+.welcomeHeading {
+  top: 40%;
+  left: 50%;
+  position: absolute;
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+.welcomeTitle {
+  font-size: 30px;
+  font-weight: 500;
+  font-family: serif;
+  color: white;
+  margin: 4px;
+  padding-top: 16%;
+}
+.welcomeSubtitle {
+  margin-right: 8px;
+  font-size: 16px;
+  color: white;
+  float: right;
+}

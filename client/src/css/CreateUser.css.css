@@ -14,6 +14,11 @@
 .title {
   font-size: 24px;
 }
-.formgroup {
+.btnGroup {
   margin: 10px;
+  color: black;
+  text-align: center;
+}
+.groupTitle {
+  float: left;
 }

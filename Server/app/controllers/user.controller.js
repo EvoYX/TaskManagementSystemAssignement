@@ -37,11 +37,23 @@ exports.findAllGroup = (req, res) => {
     }
   });
 };
-exports.findUserGroupByFilter = (req, res) => {
+exports.findAllUsersByGroup = (req, res) => {
   console.log("finding user by group");
-  User.findUserGroupByFilter(req, (err, data) => {
+  User.findAllUsersByGroup(req, (err, data) => {
     if (err) {
       res.status(500).send({ message: err.message });
+    } else {
+      console.log("the result is ", data);
+      res.send(data);
+    }
+  });
+};
+exports.findUsersByGroupname = (req, res) => {
+  console.log("the request is ", req.params);
+  User.findUsersByGroupname(req.params.groupname, (err, data) => {
+    if (err) {
+      console.log("error pls", err);
+      res.status(500).send(err, err.sqlMessage);
     } else {
       console.log("the result is ", data);
       res.send(data);
@@ -55,7 +67,8 @@ exports.createUser = async (req, res) => {
 
   User.createUsers(req.body, (err, data) => {
     if (err) {
-      res.send("error", { message: err.message });
+      console.log("hi");
+      res.status(500).send("error", { message: err.message });
     } else {
       res.send(data);
     }
@@ -125,10 +138,9 @@ exports.login = async (req, res) => {
 };
 
 exports.createGroup = async (req, res) => {
-  console.log("creating group");
   User.createGroup(req.body, (err, data) => {
     if (err) {
-      res.send("error", { message: err.message });
+      res.send(err, { message: err.message });
     } else {
       res.send(data);
     }
@@ -171,9 +183,9 @@ exports.updateProfile = async (req, res) => {
   });
 };
 //Update accounts table group member columns
-exports.updateGroupMember = async (req, res) => {
-  console.log("updating groupmember");
-  User.updateGroupMember(req.body, (err, data) => {
+exports.updateAccountUserGroup = async (req, res) => {
+  console.log("updating groupmember", req.body);
+  User.updateAccountUserGroup(req.body, (err, data) => {
     if (err) {
       res.send("error", { message: err.message });
     } else {
@@ -204,9 +216,10 @@ exports.deleteGroupByUsername = async (req, res) => {
   });
 };
 
-exports.getGroupByUser = async (req, res) => {
+/* Finding group status */
+exports.getGroupStatus = async (req, res) => {
   console.log("getting user group", req.params);
-  User.findGroupByUsername(req.params.username, (err, data) => {
+  User.getGroupStatusByGroupname(req.params.username, (err, data) => {
     if (err) {
       res.send(data);
     } else {
@@ -225,7 +238,7 @@ exports.getGroupData = async (req, res) => {
     } else {
       if (data.result != null) {
         groups = data.result.map((result) => result);
-        User.findUserGroupByFilter((err, usersdata) => {
+        User.findAllUsersByGroup((err, usersdata) => {
           if (err) {
             res.status(500).send({ message: err.message });
           } else {
@@ -253,6 +266,16 @@ exports.getGroupData = async (req, res) => {
           result: false,
         });
       }
+    }
+  });
+};
+
+exports.checkGroup = async (req, res) => {
+  User.checkGroup(req.body, (err, data) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(data);
     }
   });
 };

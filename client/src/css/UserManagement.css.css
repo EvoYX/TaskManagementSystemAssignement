@@ -1,35 +1,29 @@
 .createBtn {
-  background-color: #e1ecf4;
+  /* background: transparent; */
+  margin: 10px 15% 0px 0px;
+  padding: 0;
+  background-color: aliceblue;
   border-radius: 3px;
   border: 1px solid #7aa7c7;
-  box-shadow: rgba(255, 255, 255, 0.7) 0 1px 0 0 inset;
-  box-sizing: border-box;
-  /* color: #39739d; */
-  cursor: pointer;
-  display: inline-block;
-  font-family: -apple-system, system-ui, "Segoe UI", "Liberation Sans",
-    sans-serif;
   font-size: 16px;
-  font-weight: 400;
-  line-height: 1.15385;
-  margin: 0;
+  /* line-height: 1.15385; */
+  padding: 0px 0.8em;
+  margin: 2px 0px;
   outline: none;
-  padding: 8px 0.8em;
   position: relative;
   text-align: center;
-  text-decoration: none;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
   vertical-align: baseline;
   white-space: nowrap;
-  position: absolute;
+  float: right;
 }
 
 .createBtn:hover,
 .createBtn:focus {
-  background-color: #b3d3ea;
-  color: #2c5777;
+  background-color: #5cb9d8;
+  color: white;
 }
 
 .createBtn:focus {
@@ -37,17 +31,67 @@
 }
 
 .createBtn:active {
-  background-color: #a0c7e4;
+  /* background-color: #a0c7e4; */
   box-shadow: none;
-  color: #2c5777;
+  /* color: #2c5777; */
 }
 .table {
   width: 80%;
-  background: #fff;
-  margin-top: 15%;
+  background: transparent;
+  margin-top: 5%;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
 
   width: 70%;
+}
+.createLink {
+  float: right;
+  margin-right: 14%;
+  margin-bottom: 2rem;
+}
+.thTop {
+  border-top: none;
+}
+th:not(:first-child) {
+  border-top: none;
+}
+th {
+  background-color: #3482be;
+}
+tr:nth-child(even) {
+  background-color: aliceblue;
+}
+tr:nth-child(odd) {
+  background-color: white;
+}
+tr:hover {
+  background-color: #b2d9e7;
+}
+.actionBtn {
+  background-color: aliceblue;
+  border-radius: 3px;
+  border: 1px solid #7aa7c7;
+  width: 80px;
+  margin: 10px 5px;
+}
+.actionBtn:hover {
+  background-color: #5cb9d8;
+  color: white;
+}
+.edit {
+  text-decoration: underline;
+  background-color: transparent;
+  border: none;
+  color: #2c5777;
+}
+.edit:hover {
+  background-color: #5cb9d8;
+  color: white;
+}
+.canvasTitle {
+  margin-bottom: 0;
+  line-height: 1.5;
+  margin-left: 35%;
+  color: black;
 }

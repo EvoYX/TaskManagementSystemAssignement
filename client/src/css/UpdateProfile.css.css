@@ -1,0 +1,16 @@
+.Container {
+  width: 70%;
+  margin: auto;
+  margin-top: 10%;
+  /* top: 30%; */
+  /* position: absolute; */
+  /* left: 30%; */
+  background: aliceblue;
+}
+.title {
+  padding-top: 2rem;
+  text-align: center;
+}
+.updateBtn {
+  margin-left: 40%;
+}

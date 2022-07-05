@@ -1,6 +1,6 @@
 import React from "react";
 import "../../css/EditUser.css.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import userService from "../../services/user.service";
 import { useNavigate } from "react-router-dom";
 
@@ -13,9 +13,12 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
 import alertify from "alertifyjs";
 import "alertifyjs/build/css/alertify.css";
+import TMSContext from "../TMSContext";
 
 const EditUser = () => {
   const navigate = useNavigate();
+  const { setLoggedIn } = useContext(TMSContext);
+
   const [editUser, setEditUser] = useState([]);
   const [editUsername, setEditUsername] = useState("");
   const [editPassword, setEditPassword] = useState("");
@@ -39,6 +42,7 @@ const EditUser = () => {
     const {
       target: { value },
     } = event;
+
     setEditGroup(
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
@@ -97,7 +101,9 @@ const EditUser = () => {
         if (editPassword != "") {
           var check = validatePassword(editPassword);
           if (!check.result) {
-            alertify.alert(check.message.toString());
+            alertify
+              .alert(check.message.toString())
+              .setHeader('<em style="color:black;">Error !</em>');
           } else {
             updateUserProfile(editPassword);
           }
@@ -105,7 +111,11 @@ const EditUser = () => {
           updateUserProfile();
         }
       } else {
-        alert("Sorry!,Session Timeout, Please Login Again!");
+        alertify
+          .alert("Sorry!,Session Timeout, Please Login Again!")
+          .setHeader('<em style="color:black;">Error !</em>');
+        localStorage.clear();
+        setLoggedIn(false);
         navigate("/");
       }
     });
@@ -120,6 +130,7 @@ const EditUser = () => {
 
     userService.updateProfile(editUser).then((res) => {
       if (res.result) {
+        localStorage.setItem("loginEmail", editEmail);
         var user = {
           username: localStorage.getItem("selectedUsername"),
         };
@@ -148,13 +159,15 @@ const EditUser = () => {
       }
     });
   };
-  const handleCancel = () => {};
+  const handleCancel = () => {
+    navigate("/admin/usermanagement");
+  };
   return (
     <>
       <div className="wrapper">
-        <div className="profile">
+        <div className="formContainer">
           <div className="content">
-            <h1>Edit Profile</h1>
+            <p className="formTitle">Edit Profile</p>
             <form action="">
               <fieldset>
                 <div className="grid-50">
@@ -165,7 +178,7 @@ const EditUser = () => {
               {openPasswordField && (
                 <fieldset>
                   <div className="grid-35">
-                    <label>NewPassword:</label>
+                    <label>New Password:</label>
                   </div>
                   <div className="grid-65">
                     <input
@@ -176,6 +189,7 @@ const EditUser = () => {
                       value={editPassword}
                       onChange={(e) => setEditPassword(e.target.value)}
                       required="required"
+                      maxLength={20}
                     />
                   </div>
                 </fieldset>
@@ -200,7 +214,7 @@ const EditUser = () => {
                 <div className="grid-35">
                   <label>Group:</label>
                 </div>
-                <FormControl sx={{ m: 0, width: 230 }} className="grid-35">
+                <FormControl sx={{ m: 0, width: 250 }} className="grid-100">
                   <InputLabel id="demo-multiple-checkbox-label">
                     Group
                   </InputLabel>
@@ -226,7 +240,11 @@ const EditUser = () => {
                 </FormControl>
                 <div className="preview">
                   <p className="previewTitle">Selected Group:</p>
-                  <p className="previewText">{editGroup}</p>
+                  <p className="previewText">
+                    {editGroup.length != 0
+                      ? editGroup.map((res) => res + " ")
+                      : "You have not selected any group"}
+                  </p>
                 </div>
               </fieldset>
 
@@ -235,7 +253,7 @@ const EditUser = () => {
               </button>
               <br />
               {/* <input type="button" class="Btn cancel" value="Cancel" />
-              <input type="submit" className="Btn" value="Save Changes" /> */}
+              <input type="submit" className="Btn" value="Save Changes" />*/}
               <button onClick={handleCancel} className="editBtn">
                 Cancel
               </button>

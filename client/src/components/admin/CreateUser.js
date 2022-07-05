@@ -11,13 +11,12 @@ import FormControl from "@mui/material/FormControl";
 import ListItemText from "@mui/material/ListItemText";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
+
 import { useNavigate } from "react-router-dom";
 import alertify from "alertifyjs";
 import "../../../src/alertify/css/themes/bootstrap.css";
 
-const API_URL = "http://localhost:8080/";
-
-const CreateUser = () => {
+const CreateUser = (props) => {
   const navigate = useNavigate();
 
   const [newusers, setNewUsers] = useState([]);
@@ -26,8 +25,9 @@ const CreateUser = () => {
   const [newEmail, setNewEmail] = useState("");
   const [userGroup, setUserGroup] = useState([]);
   const [groupList, setGroupList] = useState([]);
+  const [userList, setUserList] = useState([]);
 
-  const ITEM_HEIGHT = 48;
+  const ITEM_HEIGHT = 40;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
     PaperProps: {
@@ -43,6 +43,11 @@ const CreateUser = () => {
     userService.getAllGroup().then((res) => {
       if (res.message === "Found")
         setGroupList(res.result.map((res) => res.name));
+    });
+    userService.getAllUsers().then((res) => {
+      if (res.message === "Found") {
+        setUserList(res.result.map((res) => res.username));
+      }
     });
   }, []);
   const validatePassword = (value) => {
@@ -72,7 +77,13 @@ const CreateUser = () => {
     console.log(localStorage.getItem("access-token"));
     var validate = validatePassword(newPassword);
     if (!validate.result) {
-      alert(validate.message);
+      alertify
+        .alert(validate.message)
+        .setHeader('<em style="color:black;">Error !</em>');
+    } else if (userList.includes(newUsername)) {
+      alertify
+        .alert("Duplicate Username Found")
+        .setHeader('<em style="color:black;">Error !</em>');
     } else {
       var newUser = {
         username: newUsername,
@@ -95,11 +106,15 @@ const CreateUser = () => {
                 console.log("addded");
               });
             }
+            userService.getAllUsers().then((res) => {
+              if (res.message === "Found") props.setUserList(res.result);
+            });
             alertify.success(
               "User " + newUsername + " is created successfully"
             );
           });
         } else {
+          localStorage.clear();
           alert("Session Timeout, please login again!");
           navigate("/");
         }
@@ -123,77 +138,70 @@ const CreateUser = () => {
 
   return (
     <>
-      <Container className="container">
-        <div className="title"> Add New User</div>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group formgroup">
-            <input
-              type="text"
-              className="form-control"
-              name="username"
-              placeholder="Username"
-              value={newUsername}
-              onChange={(e) => setNewUsername(e.target.value)}
-              required="required"
-            />
-          </div>
-          <div className="form-group formgroup">
-            <input
-              type="password"
-              className="form-control"
-              name="password"
-              placeholder="Password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              required="required"
-            />
-          </div>
-          <div className="form-group formgroup">
-            <input
-              type="email"
-              className="form-control"
-              name="email"
-              placeholder="Email"
-              value={newEmail}
-              onChange={(e) => setNewEmail(e.target.value)}
-              required="required"
-            />
-          </div>
-          <FormControl sx={{ m: 1, width: 250 }}>
-            <InputLabel id="demo-multiple-checkbox-label">Group</InputLabel>
+      <form onSubmit={handleSubmit}>
+        <fieldset>
+          <input
+            type="text"
+            name="username"
+            className="grid-100"
+            placeholder="Username"
+            value={newUsername}
+            onChange={(e) => setNewUsername(e.target.value.trim())}
+            required="required"
+          />
+        </fieldset>
+        <fieldset>
+          <input
+            type="password"
+            className="grid-100"
+            name="password"
+            placeholder="Password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            required="required"
+          />
+        </fieldset>
+        <fieldset>
+          <input
+            type="email"
+            className="grid-100"
+            name="email"
+            placeholder="Email"
+            value={newEmail}
+            onChange={(e) => setNewEmail(e.target.value.trim())}
+            required="required"
+          />
+        </fieldset>
+        <fieldset>
+          <InputLabel id="demo-multiple-checkbox-label" className="groupTitle">
+            Groups
+          </InputLabel>
+          <Select
+            labelId="demo-multiple-checkbox-label"
+            id="demo-multiple-checkbox"
+            multiple
+            value={userGroup}
+            onChange={handleChange}
+            input={<OutlinedInput label="Groups" />}
+            renderValue={(selected) => selected.join(", ")}
+            MenuProps={MenuProps}
+            className="grid-100"
+          >
+            {groupList.map((name) => (
+              <MenuItem key={name} value={name}>
+                <Checkbox checked={userGroup.indexOf(name) > -1} />
+                <ListItemText primary={name} />
+              </MenuItem>
+            ))}
+          </Select>
+        </fieldset>
 
-            <Select
-              labelId="demo-multiple-checkbox-label"
-              id="demo-multiple-checkbox"
-              multiple
-              value={userGroup}
-              onChange={handleChange}
-              input={<OutlinedInput label="Tag" />}
-              renderValue={(selected) => selected.join(", ")}
-              MenuProps={MenuProps}
-              className="customSelectGroup"
-            >
-              {groupList.map((name) => (
-                <MenuItem key={name} value={name}>
-                  <Checkbox checked={userGroup.indexOf(name) > -1} />
-                  <ListItemText primary={name} />
-                </MenuItem>
-              ))}
-            </Select>
-            <div className="preview-values">
-              <b>Groups: </b>
-              {userGroup}
-            </div>
-          </FormControl>
-
-          <div className="form-group">
-            <button type="submit" className="btn">
-              Add
-            </button>
-          </div>
-        </form>
-      </Container>
-      ;
+        <div className="btnGroup">
+          <button type="submit" className="addBtn">
+            Add
+          </button>
+        </div>
+      </form>
     </>
   );
 };

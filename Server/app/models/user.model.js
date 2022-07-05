@@ -1,3 +1,4 @@
+const { response } = require("express");
 const sql = require("../config/db");
 
 /* Retreive */
@@ -30,7 +31,7 @@ const findAllUsers = (req, response) => {
     }
   });
 };
-const findGroupByUsername = (req, response) => {
+const getGroupStatusByGroupname = (req, response) => {
   console.log("the request in model is ", req);
   sql.query(`SELECT * FROM user_group WHERE name = '${req}'`, (err, res) => {
     if (err) {
@@ -41,7 +42,7 @@ const findGroupByUsername = (req, response) => {
         response(null, { message: "Found", result: res[0] });
       } else {
         response(null, {
-          message: "User does not have any group",
+          message: "Group not found",
           result: null,
         });
       }
@@ -66,7 +67,7 @@ const findAllGroup = (req, response) => {
     }
   });
 };
-const findUserGroupByFilter = (response) => {
+const findAllUsersByGroup = (response) => {
   sql.query(
     `SELECT * FROM account_user_group  order By groupname`,
     (err, res) => {
@@ -85,14 +86,60 @@ const findUserGroupByFilter = (response) => {
     }
   );
 };
+/* Finding the users that belong to the specfic groups */
+const findUsersByGroupname = (req, response) => {
+  sql.query(
+    `SELECT Distinct(username) FROM account_user_group WHERE groupname = '${req}'`,
+    (err, res) => {
+      if (err) {
+        response(err, { message: err.sqlMessage.toString(), result: null });
+      } else {
+        if (res.length) {
+          response(null, {
+            message: "Found",
+            result: res.map((result) => result),
+          });
+        } else {
+          response(null, {
+            message: "No users has been assigned to this group",
+            result: null,
+          });
+        }
+      }
+    }
+  );
+};
+const checkGroup = (req, response) => {
+  sql.query(
+    `SELECT * FROM account_user_group WHERE groupname = '${req.groupname}' && username= '${req.username}'`,
+    (err, res) => {
+      if (err) {
+        response(err, { result: false });
+      } else {
+        if (res.length) {
+          response(null, {
+            message: "Found",
+            result: true,
+          });
+        } else {
+          response(null, {
+            message: "Not Found",
+            result: false,
+          });
+        }
+      }
+    }
+  );
+};
+
 /* Create */
 const createUsers = (req, response) => {
   sql.query(
-    `insert into accounts (username,email,password,status,user_group)  values ('${req.username}','${req.email}','${req.password}','enable','${req.userGroups}')`,
+    `insert into accounts (username,email,password,status,user_group)  values ('${req.username}','${req.email}','${req.password}','Enable','${req.userGroups}')`,
     (err, res) => {
       if (err) {
-        console.log("error: ", err);
-        response(err, { message: "Errors in adding new user", result: false });
+        console.log("error: ", err.sqlMessage);
+        response(err, { message: err.sqlMessage, result: false });
       } else {
         response(null, { message: "User Created Successfully", result: true });
       }
@@ -101,14 +148,11 @@ const createUsers = (req, response) => {
 };
 
 const createGroup = (req, response) => {
-  console.log("creating at model");
   sql.query(
-    `insert into user_group (name,status)  values ('${req.name}','enable')`,
+    `insert into user_group (name,status)  values ('${req.groupname}','enable')`,
     (err, res) => {
       if (err) {
-        console.log("error: ", err);
         response(err, { message: "Error in creating group", result: false });
-        // return;
       } else {
         response(null, { message: "Group created Successfully", result: true });
       }
@@ -154,7 +198,6 @@ const disableGroup = (req, response) => {
   );
 };
 const disableUser = (req, response) => {
-  console.log("req", req.status, req.username);
   sql.query(
     `update accounts set status ='${req.status}' where username = '${req.username}'`,
     (err, res) => {
@@ -170,8 +213,13 @@ const disableUser = (req, response) => {
 };
 
 const updateProfile = (req, response) => {
+  console.log("the request is ", req);
   if (req.password == null) {
-    query = `update accounts set email ='${req.email}',user_group= '${req.user_group}' where username = '${req.username}' `;
+    if (req.user_group != undefined) {
+      query = `update accounts set email ='${req.email}',user_group= '${req.user_group}' where username = '${req.username}' `;
+    } else {
+      query = `update accounts set email ='${req.email}' where username = '${req.username}' `;
+    }
   } else {
     query = `update accounts set email ='${req.email}',password= '${req.password}',user_group= '${req.user_group}' where username = '${req.username}' `;
   }
@@ -188,26 +236,24 @@ const updateProfile = (req, response) => {
     }
   });
 };
-// const updateGroupMember = (req, response) => {
-//   sql.query(
-//     `update user_group set group_members ='${req.group_members}' where name = '${req.name}' `,
-//     (err, res) => {
-//       if (err) {
-//         console.log("error: ", err);
-//         response(err, {
-//           message: "Unable to add new group members",
-//           result: false,
-//         });
-//         // return;
-//       } else {
-//         response(null, {
-//           message: "Group member updated successfully",
-//           result: true,
-//         });
-//       }
-//     }
-//   );
-// };
+/* Update the usergroup column in accounts table */
+const updateAccountUserGroup = (req, response) => {
+  console.log("the request is lol", req);
+  query = `update accounts set user_group ='${req.user_group}' where username = '${req.username}' `;
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      response(err, { message: "Errors in updating profile", result: false });
+      // return;
+    } else {
+      response(null, {
+        message: "Profile updated successfully",
+        result: true,
+      });
+    }
+  });
+};
+
 const deleteGroupByUsername = (req, response) => {
   sql.query(
     `DELETE FROM account_user_group WHERE username ='${req.username}' `,
@@ -233,13 +279,16 @@ module.exports = {
   findByUsername,
   findAllGroup,
   findAllUsers,
-  findUserGroupByFilter,
+  findAllUsersByGroup,
+  findUsersByGroupname,
   createUsers,
   createGroup,
   createGroupWithUsername,
   disableGroup,
   disableUser,
   updateProfile,
-  findGroupByUsername,
+  updateAccountUserGroup,
+  getGroupStatusByGroupname,
   deleteGroupByUsername,
+  checkGroup,
 };

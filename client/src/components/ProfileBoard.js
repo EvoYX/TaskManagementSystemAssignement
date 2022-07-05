@@ -1,13 +1,11 @@
 import React from "react";
-import "../../css/AdminBoard.css.css";
 import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import TMSContext from "../TMSContext";
+import TMSContext from "./TMSContext";
 import alertify from "alertifyjs";
-import "../../../src/alertify/css/themes/bootstrap.css";
-
-const AdminBoard = () => {
+import "../alertify/css/themes/bootstrap.css";
+const ProfileBoard = () => {
   const [userGroup, setUserGroup] = useState([]);
   const navigate = useNavigate();
   const { setLoggedIn } = useContext(TMSContext);
@@ -18,10 +16,12 @@ const AdminBoard = () => {
   }, []);
   const logout = () => {
     setLoggedIn(false);
-    localStorage.setItem("setIsLoggedIn", false);
+    localStorage.clear();
+
     alertify.success("Sign Out Successfully");
     navigate("/");
   };
+
   return (
     <div>
       {/* Profile Container */}
@@ -42,16 +42,18 @@ const AdminBoard = () => {
         </div>
         <br />
 
-        <div className="managementButtons">
-          <Link to="/admin/usermanagement">
-            {" "}
-            <button className="ghost">User {<br />} Managment</button>
-          </Link>
-          <Link to="/admin/groupmanagement">
-            {" "}
-            <button className="ghost">Group {<br />} Management</button>
-          </Link>
-        </div>
+        {localStorage.getItem("setIsAdmin") == "true" && (
+          <div className="managementButtons">
+            <Link to="/admin/usermanagement">
+              {" "}
+              <button className="ghost">User {<br />} Managment</button>
+            </Link>
+            <Link to="/admin/groupmanagement">
+              {" "}
+              <button className="ghost">Group {<br />} Management</button>
+            </Link>
+          </div>
+        )}
 
         <div className="skills">
           <h6>Groups:</h6>
@@ -68,4 +70,4 @@ const AdminBoard = () => {
   );
 };
 
-export default AdminBoard;
+export default ProfileBoard;

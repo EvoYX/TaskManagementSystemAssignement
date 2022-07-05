@@ -1,7 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../css/Header.css.css";
-
+import TMSContext from "./TMSContext";
+import { useContext } from "react";
+import alertify from "alertifyjs";
+import "../../src/alertify/css/themes/bootstrap.css";
+import { useNavigate } from "react-router-dom";
 import {
   Navbar,
   NavDropdown,
@@ -11,6 +15,17 @@ import {
   NavItem,
 } from "react-bootstrap";
 const Header = (props) => {
+  const { setIsAdmin } = useContext(TMSContext);
+  const { setLoggedIn } = useContext(TMSContext);
+  const navigate = useNavigate();
+
+  const handleLoggedOut = () => {
+    setLoggedIn(false);
+    localStorage.clear();
+    // localStorage.setItem("setIsLoggedIn", false);
+    alertify.success("Sign Out Successfully");
+    navigate("/");
+  };
   return (
     <>
       <nav>
@@ -20,16 +35,22 @@ const Header = (props) => {
               <li>
                 <Link to="/admin/home">Home</Link>
               </li>
-              <li>
-                <Link to="/admin/groupmanagement">Group Management</Link>
-              </li>
-              <li>
-                <Link to="/admin/usermanagement">User Management</Link>
-              </li>
+              {localStorage.getItem("setIsAdmin") == "true" && (
+                <li>
+                  <Link to="/admin/groupmanagement">Group Management</Link>
+                </li>
+              )}
+              {localStorage.getItem("setIsAdmin") == "true" && (
+                <li>
+                  <Link to="/admin/usermanagement">User Management</Link>
+                </li>
+              )}
             </ul>
             <ul className="nav nav-pills">
               <li>
-                <Link to="/admin/home">Sign out</Link>
+                <Link to="/" onClick={handleLoggedOut}>
+                  Sign out
+                </Link>
               </li>
             </ul>
           </nav>

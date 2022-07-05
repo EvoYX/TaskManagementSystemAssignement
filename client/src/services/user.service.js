@@ -23,8 +23,9 @@ class UserService {
     });
   }
   findUsername(username) {
+    console.log("find the usern", username);
     return axios.get(API_URL + `${username}`).then((responds) => {
-      console.log("the service layer is ", responds.data);
+      console.log("the joke service layer is ", responds.data);
       return responds.data;
     });
   }
@@ -57,7 +58,6 @@ class UserService {
     return axios
       .post(API_URL + "admin/groupManagement/createGroup", newGroup)
       .then((responds) => {
-        console.log("the responds at client is ", responds.data);
         return responds.data;
       });
   }
@@ -112,22 +112,30 @@ class UserService {
         return responds.data;
       });
   }
-  /* Finding group consist of how many user */
-  finduserGroupWithFilter() {
-    console.log("finding group");
-    return axios
-      .get(API_URL + "admin/groupmanagement/findgroup")
-      .then((responds) => {
-        console.log("the responds at client is ", responds.data);
-        return responds.data;
-      });
-  }
+
   getGroupData() {
     console.log("finding group");
     return axios
       .get(API_URL + "admin/groupmanagement/data")
       .then((responds) => {
         console.log("the responds at client is ", responds.data);
+        return responds.data;
+      });
+  }
+  getUsersByGroupname(groupname) {
+    return axios
+      .get(API_URL + "admin/groupManagement/" + `${groupname}` + "/data")
+      .then((responds) => {
+        console.log("the service layer is ", responds.data);
+        return responds.data;
+      });
+  }
+  updateUserUserGroup(user) {
+    console.log("request", user);
+    return axios
+      .post(API_URL + "admin/userManagement/updateGroupname")
+      .then((responds) => {
+        console.log("the service layer is ", responds.data);
         return responds.data;
       });
   }

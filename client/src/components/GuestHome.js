@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Login from "./Login";
-import "../css/GuestHome.css.css";
+import Styles from "../css/GuestHome.css.css";
+import logo from "../../src/logo.png";
 
 const GuestHome = () => {
   const [popupModal, setPopupModal] = useState(false);
@@ -16,19 +17,15 @@ const GuestHome = () => {
   };
   return (
     <>
-      <p id="head5" class="header">
-        Welcome to TMS
-      </p>
+      <div className="welcomeHeading">
+        <p className="welcomeTitle">TASK MANAGMENT SYSTEM </p>
+        <span className="welcomeSubtitle">@Yong Xin</span>
+      </div>
+
       <button type="submit" className="loginBtn" onClick={handleModal}>
         Login
       </button>
-      {/* <button type="submit" className="loginBtn" onClick={openModal}>
-        Login
-      </button> */}
 
-      {/* <button type="submit" className="loginBtn" onClick={(e) => openModal(e)}>
-        Login
-      </button> */}
       {popupModal && (
         <div>
           <div className="overlay" onClick={handleModal}></div>

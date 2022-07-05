@@ -11,9 +11,12 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
+import Offcanvas from "react-bootstrap/Offcanvas";
 import { TransitionProps } from "@mui/material/transitions";
 import { useNavigate } from "react-router-dom";
-
+import CreateUser from "./CreateUser";
+import alertify from "alertifyjs";
+import "../../../src/alertify/css/themes/bootstrap.css";
 const UserManagment = () => {
   const navigate = useNavigate();
 
@@ -22,6 +25,8 @@ const UserManagment = () => {
   const [selectedUser, setUser] = useState([]);
   const [dialogMessage, setDiaglog] = useState("");
   const [dialogTitle, setTitle] = useState("");
+  const [showAddModal, setAddModal] = useState(false);
+
   /* getting all the group */
   useEffect(() => {
     //getting all users
@@ -30,19 +35,51 @@ const UserManagment = () => {
       if (res.message === "Found") setUserList(res.result);
     });
   }, []);
-  const handleDialog = (username, status) => {
-    setPopup(true);
-    setUser({ username: username, status: status });
+  const handleDisable = (username, status) => {
+    // setPopup(true);
 
     const msg = `Confirm changing this user access to ${
-      status == "enable" ? "Disable" : "Enable"
+      status == "Enable" ? "Disable" : "Enable"
     }?`;
-    setDiaglog(msg);
+
+    alertify
+      .confirm(
+        `Confirmation`,
+        msg,
+        async function () {
+          await userService
+            .disableUser({
+              username: username,
+              status: status == "Enable" ? "Disable" : "Enable",
+            })
+            .then((res) => {
+              if (res.result) {
+                alertify.success(
+                  `${
+                    selectedUser.status == "Enable" ? "Disable" : "Enable"
+                  } successfuly`
+                );
+                setPopup(false);
+                userService.getAllUsers().then((res) => {
+                  if (res.message === "Found") setUserList(res.result);
+                });
+              } else {
+                alert("Unable to disable");
+              }
+            });
+        },
+        function () {
+          alertify.error("Cancel");
+        }
+      )
+      .set("labels", { ok: "YES", cancel: "NO" });
   };
 
   const handleClose = () => {
     setPopup(false);
-    window.location.reload();
+    userService.getAllUsers().then((res) => {
+      if (res.message === "Found") setUserList(res.result);
+    });
   };
   const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -53,24 +90,25 @@ const UserManagment = () => {
     return <Slide direction="up" ref={ref} {...props} />;
   });
 
-  const disableHandler = () => {
-    userService
+  const disableHandler = async () => {
+    await userService
       .disableUser({
         username: selectedUser.username,
-        status: selectedUser.status == "enable" ? "disable" : "enable",
+        status: selectedUser.status == "Enable" ? "Disable" : "Enable",
       })
       .then((res) => {
         if (res.result) {
-          alert(
+          alertify.success(
             `${
-              selectedUser.status == "enable" ? "disable" : "enable"
+              selectedUser.status == "Enable" ? "Disable" : "Enable"
             } successfuly`
           );
           setPopup(false);
-          window.location.reload();
+          userService.getAllUsers().then((res) => {
+            if (res.message === "Found") setUserList(res.result);
+          });
         } else {
           alert("Unable to disable");
-          window.location.reload();
         }
       });
   };
@@ -79,17 +117,38 @@ const UserManagment = () => {
     setPopup(true);
     localStorage.setItem("selectedUsername", username);
   };
-
+  const handleAddModal = () => {
+    setAddModal(!showAddModal);
+  };
   return (
     <>
-      <div>User Management</div>
-      <div>
-        <Link to="/admin/usermanagement/createuser">
-          <button className="createBtn">Create User</button>
-        </Link>
-      </div>
-
+      {["end"].map((placement, idx) => (
+        <Offcanvas
+          key={idx}
+          placement={placement}
+          name={placement}
+          show={showAddModal}
+          onHide={handleAddModal}
+          className="offcanvas offcanvas-end"
+        >
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title className="canvasTitle">
+              Add New User
+            </Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body>
+            <CreateUser setUserList={setUserList} />
+          </Offcanvas.Body>
+        </Offcanvas>
+      ))}
       <div className="table">
+        {/* <Link to="/admin/usermanagement/createuser" className="createLink">
+          <button className="createBtn" onClick={handleAddModal}>Add User</button>
+        </Link> */}
+        <button className="createBtn" onClick={handleAddModal}>
+          Add User
+        </button>
+
         <Table striped bordered hover size="sm" className="table-auto">
           <thead>
             <tr>
@@ -98,6 +157,7 @@ const UserManagment = () => {
               <th>Email</th>
               <th>Status</th>
               <th>Groups</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -111,21 +171,19 @@ const UserManagment = () => {
                   <td>{doc.user_group}</td>
 
                   <td>
-                    <Button
-                      variant="secondary"
-                      className="disable"
-                      onClick={(e) => handleDialog(doc.username, doc.status)}
+                    <button
+                      className="actionBtn"
+                      onClick={(e) => handleDisable(doc.username, doc.status)}
                     >
-                      {doc.status}
-                    </Button>
+                      {doc.status == "Enable" ? "Disable" : "Enable"}
+                    </button>
                     <Link to="/admin/usermanagement/edituser">
-                      <Button
-                        variant="danger"
-                        className="Edit"
+                      <button
+                        className="edit"
                         onClick={(e) => editHandler(doc.username)}
                       >
-                        Edit
-                      </Button>
+                        Edit Profile
+                      </button>
                     </Link>
                   </td>
                 </tr>

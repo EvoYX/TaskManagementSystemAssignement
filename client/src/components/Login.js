@@ -1,14 +1,18 @@
 import React from "react";
 import "../css/Login.css.css";
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import userService from "../services/user.service";
-import { Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import TMSContext from "./TMSContext";
+import alertify from "alertifyjs";
+import "../../src/alertify/css/themes/bootstrap.css";
 
 const Login = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [userGroups, setUserGroup] = useState([]);
+
+  const { setIsAdmin } = useContext(TMSContext);
+  const { setLoggedIn } = useContext(TMSContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -21,31 +25,41 @@ const Login = (props) => {
       var resultmessage = res.message;
       if (result != null) {
         if (resultmessage === "Found") {
-          if (result.status === "enable") {
+          if (result.status === "Enable") {
             localStorage.setItem("username", result.username);
+            localStorage.setItem("setIsLoggedIn", true);
             localStorage.setItem("access-token", res.accessToken);
             localStorage.setItem("user_group", result.user_group);
             localStorage.setItem("loginEmail", result.email);
 
-            var split = result.user_group.split(",");
-            console.log(split);
-            setUserGroup(split);
-            console.log(userGroups);
-            if (split.includes("admin")) {
+            var groups = result.user_group.split(",");
+
+            if (groups.includes("admin")) {
+              setIsAdmin(true);
+              localStorage.setItem("setIsAdmin", true);
               navigate(`/admin/home`);
             } else {
-              navigate(`/userhome`);
+              setIsAdmin(false);
+              localStorage.setItem("setIsAdmin", false);
+              navigate(`/home`);
             }
+            setLoggedIn(true);
           } else {
-            alert("Your account has been disabled! Please contact the admin");
+            alertify
+              .alert("Your account has been disabled! Please contact the admin")
+              .setHeader('<em style="color:black;">Error !</em>');
           }
         } else {
           if (resultmessage === "Invalid Password") {
-            alert(resultmessage);
+            alertify
+              .alert(resultmessage)
+              .setHeader('<em style="color:black;">Error !</em>');
           }
         }
       } else {
-        alert("Invalid password");
+        alertify
+          .alert(resultmessage)
+          .setHeader('<em style="color:black;">Error !</em>');
       }
     });
   };
@@ -55,7 +69,6 @@ const Login = (props) => {
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <img src="https://bit.ly/2aQB5uu" alt="login icon" />
-
             <h4 className="modal-title">Login</h4>
 
             <input

@@ -19,6 +19,7 @@ import GroupManagement from "./GroupManagement";
 import CreateUser from "./CreateUser";
 import UserManagment from "./UserManagment";
 import EditUser from "./EditUser";
+import ProfileBoard from "../ProfileBoard";
 const AdminHome = () => {
   return (
     <>
@@ -46,7 +47,9 @@ const AdminHome = () => {
           </Container>
         </Navbar>
       } */}
-      <AdminBoard className="profileBoard"></AdminBoard>
+      <div className="profile_section">
+        <ProfileBoard className="profileBoard"></ProfileBoard>
+      </div>
     </>
   );
 };

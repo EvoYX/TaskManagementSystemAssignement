@@ -19,20 +19,27 @@ module.exports = (app) => {
   router.get("/admin/getAllUsers", users.findAllUser);
   router.post("/admin/groupManagement/createGroup", users.createGroup);
   router.post("/admin/groupMangment/disableGroup", users.disableGroup);
-  // router.post(
-  //   "/admin/groupmanagement/updateGroupMember",
-  //   users.updateGroupMember
-  // );
+  /* update accounts table usergroup columns */
+  router.post(
+    "/admin/userManagement/updateGroupname",
+    users.updateAccountUserGroup
+  );
+  /* find all the users from specific group */
+  router.get(
+    "/admin/groupManagement/:groupname/data",
+    users.findUsersByGroupname
+  );
+
   router.post("/admin/userManagement/disableUser", users.disableUser);
 
   router.post("/:username/updateProfile", users.updateProfile);
-  router.get("/:username/getusergroup", users.getGroupByUser);
+  router.get("/admin/getGroupStatus", users.getGroupStatus);
 
   /* for update and delete on account_user_group table */
   router.post("/admin/deleteGroupMember", users.deleteGroupByUsername);
   router.post("/admin/updateGroupMember", users.updatingGroupByUsername);
-  router.get("/admin/groupmanagement/findgroup", users.findUserGroupByFilter);
   router.get("/admin/groupmanagement/data", users.getGroupData);
+  router.get("/checkgroup/data", users.checkGroup);
   /* Post */
   router.post("/admin/usermanagement/createuser", users.createUser);
   router.post("/login", users.login);
