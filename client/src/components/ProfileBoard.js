@@ -5,18 +5,31 @@ import { useNavigate } from "react-router-dom";
 import TMSContext from "./TMSContext";
 import alertify from "alertifyjs";
 import "../alertify/css/themes/bootstrap.css";
+import userService from "../services/user.service";
 
 const ProfileBoard = () => {
   const [userGroup, setUserGroup] = useState([]);
+  const [userEmail, setUserEmail] = useState("");
   const navigate = useNavigate();
   const { setLoggedIn } = useContext(TMSContext);
 
   useEffect(() => {
-    var splitGroup =
-      localStorage.getItem("user_group").length !== 0
-        ? localStorage.getItem("user_group").split(",")
-        : [];
-    setUserGroup(splitGroup);
+    // var splitGroup =
+    //   localStorage.getItem("user_group").length !== 0
+    //     ? localStorage.getItem("user_group").split(",")
+    //     : [];
+    // setUserGroup(splitGroup);
+    userService.findUsername(localStorage.getItem("username")).then((res) => {
+      if (res.message === "Found") {
+        setUserGroup(
+          res.result.user_group.length != 0
+            ? res.result.user_group.split(",")
+            : []
+        );
+        setUserEmail(res.result.email);
+        // setEditGroup(res.result);
+      }
+    });
   }, []);
   const logout = () => {
     setLoggedIn(false);
@@ -36,7 +49,7 @@ const ProfileBoard = () => {
 
         <h3>{localStorage.getItem("username")}</h3>
         <h6>Email Address:</h6>
-        <p>{localStorage.getItem("loginEmail")}</p>
+        {userEmail == "" ? <p>No Email </p> : <p>{userEmail}</p>}
         <div className="buttons">
           <Link to="/updateprofile">
             {" "}

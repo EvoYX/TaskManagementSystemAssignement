@@ -54,9 +54,7 @@ const UserManagment = () => {
             .then((res) => {
               if (res.result) {
                 alertify.success(
-                  `${
-                    selectedUser.status == "Enable" ? "Disable" : "Enable"
-                  } successfuly`
+                  `${status == "Enable" ? "Disable" : "Enable"} successfuly`
                 );
                 setPopup(false);
                 userService.getAllUsers().then((res) => {
@@ -89,28 +87,29 @@ const UserManagment = () => {
     return <Slide direction="up" ref={ref} {...props} />;
   });
 
-  const disableHandler = async () => {
-    await userService
-      .disableUser({
-        username: selectedUser.username,
-        status: selectedUser.status == "Enable" ? "Disable" : "Enable",
-      })
-      .then((res) => {
-        if (res.result) {
-          alertify.success(
-            `${
-              selectedUser.status == "Enable" ? "Disable" : "Enable"
-            } successfuly`
-          );
-          setPopup(false);
-          userService.getAllUsers().then((res) => {
-            if (res.message === "Found") setUserList(res.result);
-          });
-        } else {
-          alert("Unable to disable");
-        }
-      });
-  };
+  // const disableHandler = async () => {
+  //   await userService
+  //     .disableUser({
+  //       username: selectedUser.username,
+  //       status: selectedUser.status == "Enable" ? "Disable" : "Enable",
+  //     })
+  //     .then((res) => {
+  //       var msg = selectedUser.status == "Enable" ? "Disable" : "Enable";
+  //       if (res.result) {
+  //         alertify.success(
+  //           `${
+  //             selectedUser.status == "Enable" ? "Disable" : "Enable"
+  //           } successfuly`
+  //         );
+  //         setPopup(false);
+  //         userService.getAllUsers().then((res) => {
+  //           if (res.message === "Found") setUserList(res.result);
+  //         });
+  //       } else {
+  //         alertify.alert("Unable to disable");
+  //       }
+  //     });
+  // };
   const editHandler = (username) => {
     setPopup(true);
     localStorage.setItem("selectedUsername", username);
@@ -196,7 +195,7 @@ const UserManagment = () => {
           </Table>
         </div>
       </div>
-      <Dialog
+      {/* <Dialog
         open={popupModal}
         TransitionComponent={Transition}
         keepMounted
@@ -213,7 +212,7 @@ const UserManagment = () => {
           <Button onClick={disableHandler}>Yes</Button>
           <Button onClick={handleClose}>No</Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </>
   );
 };

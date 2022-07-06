@@ -113,7 +113,7 @@ exports.login = async (req, res) => {
             if (doMatch) {
               const username = data.result.username;
               const token = jwt.sign({ username }, config.secret, {
-                expiresIn: 300, //5mins
+                expiresIn: 3600, //1hr
               });
               return res.json({
                 message: "Found",
