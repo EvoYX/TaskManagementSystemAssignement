@@ -279,6 +279,55 @@ const deleteGroupByUsername = (req, response) => {
   );
 };
 
+/* Application, Plans, Task Tables */
+const createApplication = (req, response) => {
+  sql.query(
+    `insert into application (App_Acronym,App_Description,App_Rnumber,App_startDate,App_endDate,App_permit_Open,App_permit_toDoList,App_permit_Doing,App_permit_Done)  
+    values ('${req.App_Acronym}','${req.App_Description}','${req.App_Rnumber}','${req.App_startDate}','${req.App_endDate}','${req.App_permit_Open}','${req.App_permit_toDoList}','${req.App_permit_Doing}','${req.App_permit_Done}')`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err.sqlMessage);
+        response(err, { message: err.sqlMessage, result: false });
+      } else {
+        response(null, {
+          message: "Application Created Successfully",
+          result: true,
+        });
+      }
+    }
+  );
+};
+
+const createPlan = (req, response) => {
+  sql.query(
+    `insert into plan (Plan_MVP_name,Plan_startDate,Plan_endDate,Plan_app_Acronym)  
+    values ('${req.Plan_MVP_name}','${req.Plan_startDate}','${req.Plan_endDate}','${req.Plan_app_Acronym}')`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err.sqlMessage);
+        response(err, { message: err.sqlMessage, result: false });
+      } else {
+        response(null, { message: "Plan Created Successfully", result: true });
+      }
+    }
+  );
+};
+
+const createTask = (req, response) => {
+  sql.query(
+    `insert into task (Task_id,Task_name,Task_description,Task_notes,Task_plan,Task_app_acronym,Task_state,Task_creator,Task_owner,Task_creatDate)  
+    values ('${req.Task_id}','${req.Task_name}','${req.Task_description}','${req.Task_notes}','${req.Task_plan}','${req.Task_app_acronym}','${req.Task_state}','${req.Task_creator}','${req.Task_owner}','${req.Task_creatDate}')`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err.sqlMessage);
+        response(err, { message: err.sqlMessage, result: false });
+      } else {
+        response(null, { message: "Task Created Successfully", result: true });
+      }
+    }
+  );
+};
+
 module.exports = {
   findByUsername,
   findAllGroup,
@@ -295,4 +344,7 @@ module.exports = {
   getGroupStatusByGroupname,
   deleteGroupByUsername,
   checkGroup,
+  createApplication,
+  createPlan,
+  createTask,
 };

@@ -55,20 +55,17 @@ const ProfileBoard = () => {
             {" "}
             <button className="primary">Edit Profile</button>
           </Link>{" "}
-          <button className="primary ghost">My Tasks</button>
+          <button className="primary">My Tasks</button>
         </div>
         <br />
 
         {localStorage.getItem("setIsAdmin") == "true" && (
           <div className="managementButtons">
             <Link to="/admin/usermanagement">
-              {" "}
-              <button className="ghost">User {<br />} Managment</button>
-            </Link>
-
+              <button className="primary">User {<br />} Managment</button>
+            </Link>{" "}
             <Link to="/admin/groupmanagement">
-              {" "}
-              <button className="ghost">Group {<br />} Management</button>
+              <button className="primary">Group {<br />} Management</button>
             </Link>
           </div>
         )}

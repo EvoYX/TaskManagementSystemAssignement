@@ -39,7 +39,18 @@ module.exports = (app) => {
   router.post("/admin/deleteGroupMember", users.deleteGroupByUsername);
   router.post("/admin/updateGroupMember", users.updatingGroupByUsername);
   router.get("/admin/groupmanagement/data", users.getGroupData);
+  /* Check group function */
   router.get("/checkgroup/data", users.checkGroup);
+
+  /* Application route */
+  router.post("/application/createApplication", users.createApplication);
+
+  /* Plan route */
+  router.post("/plan/createPlan", users.createPlan);
+
+  /* Task route */
+  router.post("/task/createTask", users.createTask);
+
   /* Post */
   router.post("/admin/usermanagement/createuser", users.createUser);
   router.post("/login", users.login);

@@ -279,3 +279,35 @@ exports.checkGroup = async (req, res) => {
     }
   });
 };
+
+/* Assignment 2  Application/Plan/Task controller */
+exports.createApplication = async (req, res) => {
+  console.log("Creating Application", req.body);
+  User.createApplication(req.body, (err, data) => {
+    if (err) {
+      res.send("error", { message: err.message });
+    } else {
+      res.send(data);
+    }
+  });
+};
+exports.createPlan = async (req, res) => {
+  console.log("Creating Plan", req.body);
+  User.createPlan(req.body, (err, data) => {
+    if (err) {
+      res.send("error", { message: err.message });
+    } else {
+      res.send(data);
+    }
+  });
+};
+exports.createTask = async (req, res) => {
+  console.log("Creating Task", req.body);
+  User.createTask(req.body, (err, data) => {
+    if (err) {
+      res.send("error", { message: err.message });
+    } else {
+      res.send(data);
+    }
+  });
+};
