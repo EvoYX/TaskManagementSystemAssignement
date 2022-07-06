@@ -82,7 +82,7 @@ const EditUser = () => {
       return {
         result: false,
         message:
-          "Password needs to be at least 8 character and must not excceed  10 characters",
+          "Password needs to be at least 8 character and must not exceed  10 characters",
       };
     } else if (!regularExpression.test(value)) {
       return {
@@ -115,7 +115,7 @@ const EditUser = () => {
           updateUserProfile();
         }
       } else {
-        alertify.error("Session Timeout, please login again!");
+        alertify.error("Session Timeout, Please Login Again!");
 
         localStorage.clear();
         setLoggedIn(false);
@@ -187,7 +187,7 @@ const EditUser = () => {
                       type="password"
                       className="form-control"
                       name="newPassword"
-                      placeholder="NewPassword"
+                      placeholder="New Password"
                       value={editPassword}
                       onChange={(e) => setEditPassword(e.target.value)}
                       required="required"

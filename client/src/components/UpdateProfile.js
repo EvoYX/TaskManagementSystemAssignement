@@ -30,7 +30,7 @@ const UpdateProfile = () => {
       return {
         result: false,
         message:
-          "Password needs to be at least 8 character and must not excceed  10 characters",
+          "Password needs to be at least 8 character and must not exceed  10 characters",
       };
     } else if (!regularExpression.test(value)) {
       return {
@@ -81,7 +81,7 @@ const UpdateProfile = () => {
         }
       } else {
         localStorage.clear();
-        alertify.error("Sorry!,Session Timeout, Please Login Again!");
+        alertify.error("Session Timeout, Please Login Again!");
         setLoggedIn(false);
         navigate("/");
       }
@@ -127,7 +127,7 @@ const UpdateProfile = () => {
                       type="password"
                       className="form-control"
                       name="newPassword"
-                      placeholder="NewPassword"
+                      placeholder="New Password"
                       value={newPassword}
                       onChange={(e) => handlePasswordChange(e)}
                     />

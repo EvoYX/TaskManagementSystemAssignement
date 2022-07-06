@@ -18,7 +18,7 @@ const GuestHome = () => {
   return (
     <>
       <div className="welcomeHeading">
-        <p className="welcomeTitle">TASK MANAGMENT SYSTEM </p>
+        <p className="welcomeTitle">TASK MANAGEMENT SYSTEM </p>
         <span className="welcomeSubtitle">@Yong Xin</span>
       </div>
 
