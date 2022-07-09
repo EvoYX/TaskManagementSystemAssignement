@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth");
-const { Console } = require("console");
 
 exports.findUser = (req, res) => {
   console.log("finding user by username");
@@ -271,7 +270,8 @@ exports.getGroupData = async (req, res) => {
 };
 
 exports.checkGroup = async (req, res) => {
-  User.checkGroup(req.body, (err, data) => {
+  console.log("controller", req);
+  User.checkGroup(req.params, (err, data) => {
     if (err) {
       res.send(err);
     } else {
@@ -282,10 +282,13 @@ exports.checkGroup = async (req, res) => {
 
 /* Assignment 2  Application/Plan/Task controller */
 exports.createApplication = async (req, res) => {
-  console.log("Creating Application", req.body);
+  console.log("Creating Application", req);
   User.createApplication(req.body, (err, data) => {
     if (err) {
-      res.send("error", { message: err.message });
+      res.send({
+        message: "Duplicate Entry Found! Please Try Again, Thank You!",
+        result: false,
+      });
     } else {
       res.send(data);
     }
@@ -304,6 +307,36 @@ exports.createPlan = async (req, res) => {
 exports.createTask = async (req, res) => {
   console.log("Creating Task", req.body);
   User.createTask(req.body, (err, data) => {
+    if (err) {
+      res.send("error", { message: err.message });
+    } else {
+      res.send(data);
+    }
+  });
+};
+exports.retreiveAllApplication = async (req, res) => {
+  console.log("Retreive all application", req);
+  User.retrieveAllApplication(req, (err, data) => {
+    if (err) {
+      res.send({ message: err.message });
+    } else {
+      res.send(data);
+    }
+  });
+};
+exports.retreiveApplication = async (req, res) => {
+  console.log("Retreiving application", req.params);
+  User.retrieveApplicationByName(req.params, (err, data) => {
+    if (err) {
+      res.send("error", { message: err.message });
+    } else {
+      res.send(data);
+    }
+  });
+};
+exports.retreivePlans = async (req, res) => {
+  console.log("Retreiving plans", req.params);
+  User.retrieveAllPlansByApplication(req.params, (err, data) => {
     if (err) {
       res.send("error", { message: err.message });
     } else {

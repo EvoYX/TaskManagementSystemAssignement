@@ -99,6 +99,7 @@ const EditUser = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("HI", editGroup);
 
     await userService.verifyUser().then((res) => {
       if (res.auth) {

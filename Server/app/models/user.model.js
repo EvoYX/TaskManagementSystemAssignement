@@ -110,8 +110,9 @@ const findUsersByGroupname = (req, response) => {
   );
 };
 const checkGroup = (req, response) => {
+  console.log("the checking", req.username);
   sql.query(
-    `SELECT * FROM account_user_group WHERE groupname = '${req.groupname}' && username= '${req.username}'`,
+    `SELECT * FROM account_user_group WHERE groupname = '${req.groupname}' && username = '${req.username}'`,
     (err, res) => {
       if (err) {
         response(err, { result: false });
@@ -282,17 +283,60 @@ const deleteGroupByUsername = (req, response) => {
 /* Application, Plans, Task Tables */
 const createApplication = (req, response) => {
   sql.query(
-    `insert into application (App_Acronym,App_Description,App_Rnumber,App_startDate,App_endDate,App_permit_Open,App_permit_toDoList,App_permit_Doing,App_permit_Done)  
-    values ('${req.App_Acronym}','${req.App_Description}','${req.App_Rnumber}','${req.App_startDate}','${req.App_endDate}','${req.App_permit_Open}','${req.App_permit_toDoList}','${req.App_permit_Doing}','${req.App_permit_Done}')`,
+    `insert into application (App_Acronym,App_Description,App_Rnumber,App_startDate,App_endDate,App_permit_Open,App_permit_toDoList,App_permit_Doing,App_permit_Done,App_permit_create)  
+    values ('${req.App_Acronym}','${req.App_Description}','${req.App_Rnumber}','${req.App_startDate}','${req.App_endDate}','${req.App_permit_Open}','${req.App_permit_toDoList}','${req.App_permit_Doing}','${req.App_permit_Done}','${req.App_permit_create}')`,
     (err, res) => {
       if (err) {
+        /* return error message if there's error */
         console.log("error: ", err.sqlMessage);
-        response(err, { message: err.sqlMessage, result: false });
+        response(err, null);
       } else {
         response(null, {
           message: "Application Created Successfully",
           result: true,
         });
+      }
+    }
+  );
+};
+const retrieveAllApplication = (req, response) => {
+  sql.query(`SELECT * FROM application`, (err, res) => {
+    if (err) {
+      response(err, { result: false });
+    } else {
+      if (res.length) {
+        response(null, {
+          message: "Found",
+          result: res,
+        });
+      } else {
+        response(null, {
+          message: "Not Found",
+          result: false,
+        });
+      }
+    }
+  });
+};
+
+const retrieveApplicationByName = (req, response) => {
+  sql.query(
+    `SELECT * FROM application WHERE App_Acronym = '${req.app_acronym}'`,
+    (err, res) => {
+      if (err) {
+        response(err, { result: false });
+      } else {
+        if (res.length) {
+          response(null, {
+            message: "Found",
+            result: res,
+          });
+        } else {
+          response(null, {
+            message: "Not Found",
+            result: false,
+          });
+        }
       }
     }
   );
@@ -312,11 +356,33 @@ const createPlan = (req, response) => {
     }
   );
 };
+const retrieveAllPlansByApplication = (req, response) => {
+  sql.query(
+    `SELECT * FROM plan WHERE Plan_app_Acronym = '${req.plan_app_Acronym}'`,
+    (err, res) => {
+      if (err) {
+        response(err, { result: false });
+      } else {
+        if (res.length) {
+          response(null, {
+            message: "Found",
+            result: res,
+          });
+        } else {
+          response(null, {
+            message: "Not Found",
+            result: false,
+          });
+        }
+      }
+    }
+  );
+};
 
 const createTask = (req, response) => {
   sql.query(
-    `insert into task (Task_id,Task_name,Task_description,Task_notes,Task_plan,Task_app_acronym,Task_state,Task_creator,Task_owner,Task_creatDate)  
-    values ('${req.Task_id}','${req.Task_name}','${req.Task_description}','${req.Task_notes}','${req.Task_plan}','${req.Task_app_acronym}','${req.Task_state}','${req.Task_creator}','${req.Task_owner}','${req.Task_creatDate}')`,
+    `insert into task (Task_id,Task_name,Task_description,Task_notes,Task_plan,Task_app_acronym,Task_state,Task_creator,Task_owner,Task_createDate)  
+    values ('${req.Task_id}','${req.Task_name}','${req.Task_description}','${req.Task_notes}','${req.Task_plan}','${req.Task_app_acronym}','${req.Task_state}','${req.Task_creator}','${req.Task_owner}','${req.Task_createDate}')`,
     (err, res) => {
       if (err) {
         console.log("error: ", err.sqlMessage);
@@ -347,4 +413,7 @@ module.exports = {
   createApplication,
   createPlan,
   createTask,
+  retrieveAllApplication,
+  retrieveApplicationByName,
+  retrieveAllPlansByApplication,
 };

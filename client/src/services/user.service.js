@@ -61,6 +61,13 @@ class UserService {
         return responds.data;
       });
   }
+  checkGroup(username, groupname) {
+    return axios
+      .get(API_URL + `checkgroup/${username}/${groupname}`)
+      .then((responds) => {
+        return responds.data;
+      });
+  }
   disableGroup(group) {
     return axios
       .post(API_URL + "admin/groupMangment/disableGroup", group)
@@ -136,6 +143,30 @@ class UserService {
       .post(API_URL + "admin/userManagement/updateGroupname")
       .then((responds) => {
         console.log("the service layer is ", responds.data);
+        return responds.data;
+      });
+  }
+
+  getAllApplication() {
+    console.log("getting all applications");
+    return axios.get(API_URL + "application/getAll").then((responds) => {
+      return responds.data;
+    });
+  }
+  getApplication(app_acronym) {
+    console.log("find the user", app_acronym);
+    return axios
+      .get(API_URL + "application/" + `${app_acronym}`)
+      .then((responds) => {
+        console.log("the joke service layer is ", responds.data);
+        return responds.data;
+      });
+  }
+  createApplication(application) {
+    console.log("Creating");
+    return axios
+      .post(API_URL + "application/createApplication", application)
+      .then((responds) => {
         return responds.data;
       });
   }

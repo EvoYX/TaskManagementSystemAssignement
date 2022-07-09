@@ -54,6 +54,8 @@ const CreateUser = (props) => {
     });
   }, []);
   const validatePassword = (value) => {
+    console.log("s", value);
+
     var regularExpression =
       /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
     if (value.length < 8 || value.length > 10) {
