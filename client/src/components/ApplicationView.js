@@ -74,7 +74,7 @@ const ApplicationView = () => {
                   <td>{doc.App_permit_Doing}</td>
                   <td>{doc.App_permit_Done}</td>
                   <td>
-                    <Link to="/home/allapplication/application">
+                    <Link to="/home/applications/detail">
                       <button
                         className="actionBtn"
                         onClick={(e) => handleViewMore(doc)}

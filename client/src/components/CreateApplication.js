@@ -15,7 +15,6 @@ import ListItemText from "@mui/material/ListItemText";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
 import alertify from "alertifyjs";
-
 const CreateApplication = () => {
   /*   application(
     App_Acronym,
@@ -102,7 +101,7 @@ const CreateApplication = () => {
   }, []);
   return (
     <div className="wrapper">
-      <div className="formContainer">
+      <div className="applicationContainer">
         <div className="content">
           <p className="formTitle">New Application</p>
           <form action="">
@@ -146,6 +145,7 @@ const CreateApplication = () => {
                   <DatePicker
                     label="Start Date"
                     value={startDate}
+                    inputFormat="dd-MM-yyyy"
                     onChange={(newValue) => {
                       setStartDate(newValue);
                     }}
@@ -163,6 +163,7 @@ const CreateApplication = () => {
                   <DatePicker
                     label="End Date"
                     value={endDate}
+                    inputFormat="dd-MM-yyyy"
                     onChange={(newValue) => {
                       setEndDate(newValue);
                     }}
@@ -171,123 +172,127 @@ const CreateApplication = () => {
                 </LocalizationProvider>
               </div>
             </fieldset>
-            <fieldset>
-              <FormControl sx={{ m: 0, width: 250 }} className="grid-100">
-                <InputLabel id="demo-multiple-checkbox-label">
-                  App Permit Create
-                </InputLabel>
 
-                <Select
-                  labelId="demo-multiple-checkbox-label"
-                  id="demo-multiple-checkbox"
-                  value={permitCreate}
-                  onChange={handlePermitCreate}
-                  input={<OutlinedInput label="Tag" />}
-                  MenuProps={MenuProps}
-                  className="customSelectGroup"
-                >
-                  {groupList.map((name) => (
-                    <MenuItem key={name} value={name}>
-                      <ListItemText primary={name} />
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </fieldset>
-            <fieldset>
-              <FormControl sx={{ m: 0, width: 250 }} className="grid-100">
-                <InputLabel id="demo-multiple-checkbox-label">
-                  App Permit Open
-                </InputLabel>
+            <div className="formRight">
+              <fieldset>
+                <FormControl sx={{ m: 0, width: 250 }} className="grid-100">
+                  <InputLabel id="demo-multiple-checkbox-label">
+                    App Permit Create
+                  </InputLabel>
 
-                <Select
-                  labelId="demo-multiple-checkbox-label"
-                  id="demo-multiple-checkbox"
-                  value={permitOpen}
-                  onChange={handlePermitOpen}
-                  input={<OutlinedInput label="Tag" />}
-                  MenuProps={MenuProps}
-                  className="customSelectGroup"
-                >
-                  {groupList.map((name) => (
-                    <MenuItem key={name} value={name}>
-                      <ListItemText primary={name} />
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </fieldset>
-            <fieldset>
-              <FormControl sx={{ m: 0, width: 250 }} className="grid-100">
-                <InputLabel id="demo-multiple-checkbox-label">
-                  App Permit ToDo
-                </InputLabel>
+                  <Select
+                    labelId="demo-multiple-checkbox-label"
+                    id="demo-multiple-checkbox"
+                    value={permitCreate}
+                    onChange={handlePermitCreate}
+                    input={<OutlinedInput label="Tag" />}
+                    MenuProps={MenuProps}
+                    className="customSelectGroup"
+                  >
+                    {groupList.map((name) => (
+                      <MenuItem key={name} value={name}>
+                        <ListItemText primary={name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </fieldset>
+              <fieldset>
+                <FormControl sx={{ m: 0, width: 250 }} className="grid-100">
+                  <InputLabel id="demo-multiple-checkbox-label">
+                    App Permit Open
+                  </InputLabel>
 
-                <Select
-                  labelId="demo-multiple-checkbox-label"
-                  id="demo-multiple-checkbox"
-                  value={permitToDo}
-                  onChange={handlePermitToDo}
-                  input={<OutlinedInput label="Tag" />}
-                  MenuProps={MenuProps}
-                  className="customSelectGroup"
-                >
-                  {groupList.map((name) => (
-                    <MenuItem key={name} value={name}>
-                      <ListItemText primary={name} />
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </fieldset>
-            <fieldset>
-              <FormControl sx={{ m: 0, width: 250 }} className="grid-100">
-                <InputLabel id="demo-multiple-checkbox-label">
-                  App Permit Doing
-                </InputLabel>
+                  <Select
+                    labelId="demo-multiple-checkbox-label"
+                    id="demo-multiple-checkbox"
+                    value={permitOpen}
+                    onChange={handlePermitOpen}
+                    input={<OutlinedInput label="Tag" />}
+                    MenuProps={MenuProps}
+                    className="customSelectGroup"
+                  >
+                    {groupList.map((name) => (
+                      <MenuItem key={name} value={name}>
+                        <ListItemText primary={name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </fieldset>
+            </div>
+            <div>
+              <fieldset>
+                <FormControl sx={{ m: 0, width: 250 }} className="grid-100">
+                  <InputLabel id="demo-multiple-checkbox-label">
+                    App Permit ToDo
+                  </InputLabel>
 
-                <Select
-                  labelId="demo-multiple-checkbox-label"
-                  id="demo-multiple-checkbox"
-                  value={permitDoing}
-                  onChange={handlePermitDoing}
-                  MenuProps={MenuProps}
-                  input={<OutlinedInput label="Tag" />}
-                  className="customSelectGroup"
-                >
-                  {groupList.map((name) => (
-                    <MenuItem key={name} value={name}>
-                      <ListItemText primary={name} />
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </fieldset>
-            <fieldset>
-              <FormControl sx={{ m: 0, width: 250 }} className="grid-100">
-                <InputLabel id="demo-multiple-checkbox-label">
-                  App Permit Done
-                </InputLabel>
+                  <Select
+                    labelId="demo-multiple-checkbox-label"
+                    id="demo-multiple-checkbox"
+                    value={permitToDo}
+                    onChange={handlePermitToDo}
+                    input={<OutlinedInput label="Tag" />}
+                    MenuProps={MenuProps}
+                    className="customSelectGroup"
+                  >
+                    {groupList.map((name) => (
+                      <MenuItem key={name} value={name}>
+                        <ListItemText primary={name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </fieldset>
+              <fieldset>
+                <FormControl sx={{ m: 0, width: 250 }} className="grid-100">
+                  <InputLabel id="demo-multiple-checkbox-label">
+                    App Permit Doing
+                  </InputLabel>
 
-                <Select
-                  labelId="demo-multiple-checkbox-label"
-                  id="demo-multiple-checkbox"
-                  value={permitDone}
-                  onChange={handlePermitDone}
-                  input={<OutlinedInput label="Tag" />}
-                  MenuProps={MenuProps}
-                  className="customSelectGroup"
-                >
-                  {groupList.map((name) => (
-                    <MenuItem key={name} value={name}>
-                      <ListItemText primary={name} />
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </fieldset>
-            {/* <input type="button" class="Btn cancel" value="Cancel" />
-          <input type="submit" className="Btn" value="Save Changes" />*/}
+                  <Select
+                    labelId="demo-multiple-checkbox-label"
+                    id="demo-multiple-checkbox"
+                    value={permitDoing}
+                    onChange={handlePermitDoing}
+                    MenuProps={MenuProps}
+                    input={<OutlinedInput label="Tag" />}
+                    className="customSelectGroup"
+                  >
+                    {groupList.map((name) => (
+                      <MenuItem key={name} value={name}>
+                        <ListItemText primary={name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </fieldset>
+              <fieldset>
+                <FormControl sx={{ m: 0, width: 250 }} className="grid-100">
+                  <InputLabel id="demo-multiple-checkbox-label">
+                    App Permit Done
+                  </InputLabel>
+
+                  <Select
+                    labelId="demo-multiple-checkbox-label"
+                    id="demo-multiple-checkbox"
+                    value={permitDone}
+                    onChange={handlePermitDone}
+                    input={<OutlinedInput label="Tag" />}
+                    MenuProps={MenuProps}
+                    className="customSelectGroup"
+                  >
+                    {groupList.map((name) => (
+                      <MenuItem key={name} value={name}>
+                        <ListItemText primary={name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </fieldset>
+            </div>
+
             <button onClick={handleCancel} className="editBtn">
               Cancel
             </button>

@@ -23,6 +23,8 @@ import userService from "./services/user.service";
 import "./alertify/css/themes/bootstrap.css";
 import ApplicationDetail from "./components/ApplicationDetail";
 import CreateApplication from "./components/CreateApplication";
+import EditApplication from "./components/EditApplication";
+import ApplicationDashboard from "./components/ApplicationDashboard";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -88,6 +90,14 @@ function App() {
               <Route
                 path="/application/createApplication"
                 element={<CreateApplication />}
+              ></Route>
+              <Route
+                path="/application/editApplication"
+                element={<EditApplication />}
+              ></Route>
+              <Route
+                path="/application/dashboard"
+                element={<ApplicationDashboard />}
               ></Route>
             </Routes>
           </BrowserRouter>

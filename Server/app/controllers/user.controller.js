@@ -298,7 +298,7 @@ exports.createPlan = async (req, res) => {
   console.log("Creating Plan", req.body);
   User.createPlan(req.body, (err, data) => {
     if (err) {
-      res.send("error", { message: err.message });
+      res.send({ message: err.message, result: false });
     } else {
       res.send(data);
     }
@@ -339,6 +339,33 @@ exports.retreivePlans = async (req, res) => {
   User.retrieveAllPlansByApplication(req.params, (err, data) => {
     if (err) {
       res.send("error", { message: err.message });
+    } else {
+      res.send(data);
+    }
+  });
+};
+
+exports.updateApplication = async (req, res) => {
+  console.log("Updating Application");
+  User.updateApplication(req.body, (err, data) => {
+    if (err) {
+      res.send({
+        message: "Fail To Update! Please try again",
+        result: false,
+      });
+    } else {
+      res.send(data);
+    }
+  });
+};
+exports.updatePlan = async (req, res) => {
+  console.log("Updating Plan");
+  User.updatePlan(req.body, (err, data) => {
+    if (err) {
+      res.send({
+        message: "Fail To Update! Please try again",
+        result: false,
+      });
     } else {
       res.send(data);
     }

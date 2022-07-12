@@ -341,6 +341,24 @@ const retrieveApplicationByName = (req, response) => {
     }
   );
 };
+const updateApplication = (req, response) => {
+  console.log("req, ", req);
+  sql.query(
+    `update application set App_Description ='${req.App_Description}',App_startDate ='${req.App_startDate}',App_endDate ='${req.App_endDate}',App_permit_Open ='${req.App_permit_Open}',App_permit_toDoList ='${req.App_permit_toDoList}',App_permit_Doing ='${req.App_permit_Doing}',App_permit_Done= '${req.App_permit_Done}',App_permit_create ='${req.App_permit_Create}' where App_Acronym ='${req.App_Acronym}'`,
+    (err, res) => {
+      if (err) {
+        /* return error message if there's error */
+        console.log("error: ", err.sqlMessage);
+        response(err, null);
+      } else {
+        response(null, {
+          message: "Application Updated Successfully",
+          result: true,
+        });
+      }
+    }
+  );
+};
 
 const createPlan = (req, response) => {
   sql.query(
@@ -348,10 +366,26 @@ const createPlan = (req, response) => {
     values ('${req.Plan_MVP_name}','${req.Plan_startDate}','${req.Plan_endDate}','${req.Plan_app_Acronym}')`,
     (err, res) => {
       if (err) {
-        console.log("error: ", err.sqlMessage);
-        response(err, { message: err.sqlMessage, result: false });
+        response(err, null);
       } else {
         response(null, { message: "Plan Created Successfully", result: true });
+      }
+    }
+  );
+};
+const updatePlan = (req, response) => {
+  sql.query(
+    `update plan set Plan_startDate = '${req.Plan_startDate}', Plan_endDate = '${req.Plan_endDate}' where Plan_MVP_name = '${req.Plan_MVP_name}'`,
+    (err, res) => {
+      if (err) {
+        /* return error message if there's error */
+        console.log("error: ", err.sqlMessage);
+        response(err, null);
+      } else {
+        response(null, {
+          message: "Application Updated Successfully",
+          result: true,
+        });
       }
     }
   );
@@ -416,4 +450,6 @@ module.exports = {
   retrieveAllApplication,
   retrieveApplicationByName,
   retrieveAllPlansByApplication,
+  updateApplication,
+  updatePlan,
 };

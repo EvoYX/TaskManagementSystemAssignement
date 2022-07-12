@@ -84,14 +84,7 @@ class UserService {
         return responds.data;
       });
   }
-  // updateGroupMember(member) {
-  //   return axios
-  //     .post(API_URL + "admin/groupmanagement/updateGroupMember", member)
-  //     .then((responds) => {
-  //       console.log("the responds at client is ", responds.data);
-  //       return responds.data;
-  //     });
-  // }
+
   updateProfile(user) {
     console.log("the user in updating profile is ", user);
     return axios
@@ -167,6 +160,34 @@ class UserService {
     return axios
       .post(API_URL + "application/createApplication", application)
       .then((responds) => {
+        return responds.data;
+      });
+  }
+
+  updateApplication(application) {
+    return axios
+      .post(API_URL + "application/update", application)
+      .then((responds) => {
+        return responds.data;
+      });
+  }
+  createPlan(plan) {
+    console.log("Creating");
+    return axios.post(API_URL + "plan/createPlan", plan).then((responds) => {
+      return responds.data;
+    });
+  }
+  updatePlan(plan) {
+    console.log("updating");
+    return axios.post(API_URL + "plan/update", plan).then((responds) => {
+      return responds.data;
+    });
+  }
+  retrieveAllPlan(plan_app_Acronoym) {
+    return axios
+      .get(API_URL + `${plan_app_Acronoym}` + "/getPlans")
+      .then((responds) => {
+        console.log("s", responds.data);
         return responds.data;
       });
   }

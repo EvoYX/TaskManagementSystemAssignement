@@ -42,16 +42,205 @@
   margin-top: 20%;
 }
 
-/* @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 2s linear;
+.applicationContainer {
+  background-color: #e5f2f5;
+  padding: 1rem;
+  border-radius: 8px;
+  width: 70%;
+  margin: auto;
+  box-shadow: rgb(99 99 99 / 10%) 0px 2px 8px;
+
+  margin-top: 2rem;
+}
+.applicationIcon {
+  float: right;
+}
+.applicationTitle {
+}
+.applicationDesc {
+  font-size: 16px;
+  font-weight: normal;
+}
+.applicationDate {
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.applicationStart {
+  text-align: center;
+  margin-right: 10px;
+}
+.applicationEnd {
+  text-align: center;
+}
+.applicationPermission {
+  /* text-align: center; */
+  /* margin: auto; */
+  /* width: 80%; */
+  /* margin-bottom: 5rem; */
+  /* margin-left: 15%;*/
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.permissionContent {
+  float: left;
+  text-align: center;
+  margin-right: 2%;
+}
+.permisionTitle {
+  font-weight: bold;
+}
+
+.planContainer {
+  clear: both;
+  width: 300px;
+  margin-left: 1rem;
+  padding-top: 2rem;
+}
+.planHeader {
+  text-align: center;
+}
+.applicationContainer,
+.content {
+  -webkit-transition: 0.5s ease;
+  -moz-transition: 0.5s ease;
+  transition: 0.5s ease;
+}
+.applicationContainer {
+  position: absolute;
+  top: 100px;
+  bottom: auto;
+  left: 0;
+  right: 0;
+  height: auto;
+  width: 75%;
+  margin: 20px auto;
+  margin-top: 5rem;
+  margin-bottom: 100px;
+  background-color: #fff;
+  border: 5px solid #307aa1;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 2.5px 5px #ccc;
+}
+/*Media Queries
+=========================*/
+@media only screen and (min-width: 768px) {
+  /*Desktop*/
+  .applicationContainer {
+    width: 500px;
+  }
+  .search {
+    float: none;
+    /* top: 0; */
+    left: 0;
+    right: 0;
+    margin: 0 auto;
   }
 }
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(-5deg);
-  }
-  to {
-    transform: rotate(5deg);
-  }
-} */
+.dashBoardBtn {
+  width: 48%;
+  float: left;
+  display: block;
+  margin-left: 1%;
+  margin-top: 10px;
+  padding: 15px 0;
+  font-size: 16px;
+  color: #39739d;
+  cursor: pointer;
+  background-color: #e1ecf4;
+  box-shadow: rgba(255, 255, 255, 0.7) 0 1px 0 0 inset;
+  border-radius: 3px;
+  border: 1px solid #7aa7c7;
+
+  transition: 0.5s ease;
+}
+.planHeader {
+  text-align: center;
+  font-size: 24px;
+  color: #e1ecf4;
+}
+.task {
+  cursor: move;
+  background-color: #e1ecf4;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;
+  margin-bottom: 1rem;
+  border: 3px dashed transparent;
+}
+.task:hover {
+  box-shadow: rgba(99, 99, 99, 0.3) 0px 2px 8px 0px;
+  border-color: rgba(162, 179, 207, 0.2) !important;
+}
+.task p {
+  font-size: 15px;
+  margin: 1.2rem 0;
+}
+.task__tag {
+  border-radius: 100px;
+  padding: 2px 13px;
+  font-size: 12px;
+}
+.task__tag--copyright {
+  color: var(--tag-4-text);
+  background-color: var(--tag-4);
+}
+.task__tag--design {
+  color: var(--tag-3-text);
+  background-color: var(--tag-3);
+}
+.task__tag--illustration {
+  color: var(--tag-2-text);
+  background-color: var(--tag-2);
+}
+.task__tags {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.task__options {
+  background: transparent;
+  border: 0;
+  color: var(--light-grey);
+  font-size: 17px;
+}
+.task__stats {
+  position: relative;
+  width: 100%;
+  color: var(--light-grey);
+  font-size: 12px;
+}
+.task__stats span:not(:last-of-type) {
+  margin-right: 1rem;
+}
+.task__stats svg {
+  margin-right: 5px;
+}
+.task__owner {
+  width: 25px;
+  height: 25px;
+  border-radius: 100rem;
+  background: var(--purple);
+  position: absolute;
+  display: inline-block;
+  right: 0;
+  bottom: 0;
+}
+.task-hover {
+  border: 3px dashed var(--light-grey) !important;
+}
+.task-details {
+  width: 24%;
+  border-left: 1px solid #d9e0e9;
+  display: inline-block;
+  height: 100%;
+  vertical-align: top;
+  padding: 3rem 2rem;
+}

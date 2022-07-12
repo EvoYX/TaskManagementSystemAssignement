@@ -46,10 +46,12 @@ module.exports = (app) => {
   router.post("/application/createApplication", users.createApplication);
   router.get("/application/getAll", users.retreiveAllApplication);
   router.get("/application/:app_acronym", users.retreiveApplication);
+  router.post("/application/update", users.updateApplication);
 
   /* Plan route */
   router.post("/plan/createPlan", users.createPlan);
   router.get("/:plan_app_Acronym/getPlans", users.retreivePlans);
+  router.post("/plan/update", users.updatePlan);
 
   /* Task route */
   router.post("/task/createTask", users.createTask);
