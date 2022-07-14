@@ -23,7 +23,6 @@ const findAllUsers = (req, response) => {
       response(err, { message: err.sqlMessage.toString(), result: null });
     } else {
       if (res.length) {
-        console.log("found User: ", res);
         response(null, { message: "Found", result: res });
       } else {
         response(null, { message: "User not found", result: null });
@@ -32,13 +31,11 @@ const findAllUsers = (req, response) => {
   });
 };
 const getGroupStatusByGroupname = (req, response) => {
-  console.log("the request in model is ", req);
   sql.query(`SELECT * FROM user_group WHERE name = '${req}'`, (err, res) => {
     if (err) {
       response(err, { message: err.sqlMessage.toString(), result: null });
     } else {
       if (res.length) {
-        console.log("the responds is ", res);
         response(null, { message: "Found", result: res[0] });
       } else {
         response(null, {
@@ -56,7 +53,6 @@ const findAllGroup = (req, response) => {
       response(err, { message: "No available groups", result: null });
     }
     if (res.length) {
-      console.log("Group found: ", res);
       response(null, {
         message: "Found",
         result: res.map((result) => result),
@@ -110,7 +106,6 @@ const findUsersByGroupname = (req, response) => {
   );
 };
 const checkGroup = (req, response) => {
-  console.log("the checking", req.username);
   sql.query(
     `SELECT * FROM account_user_group WHERE groupname = '${req.groupname}' && username = '${req.username}'`,
     (err, res) => {
@@ -139,7 +134,6 @@ const createUsers = (req, response) => {
     `insert into accounts (username,email,password,status,user_group)  values ('${req.username}','${req.email}','${req.password}','Enable','${req.userGroups}')`,
     (err, res) => {
       if (err) {
-        console.log("error: ", err.sqlMessage);
         response(err, { message: err.sqlMessage, result: false });
       } else {
         response(null, { message: "User Created Successfully", result: true });
@@ -166,7 +160,6 @@ const createGroupWithUsername = (req, response) => {
     `insert into account_user_group (username,groupname)  values ('${req.username}','${req.groupname}')`,
     (err, res) => {
       if (err) {
-        console.log("error: ", err);
         response(err, {
           message: "Errors in adding the user group details",
           result: false,
@@ -186,7 +179,6 @@ const disableGroup = (req, response) => {
     `update user_group set status ='${req.status}' where name = '${req.name}' `,
     (err, res) => {
       if (err) {
-        console.log("error: ", err);
         response(err, {
           message: "Errors in disabling the group",
           result: false,
@@ -203,7 +195,6 @@ const disableUser = (req, response) => {
     `update accounts set status ='${req.status}' where username = '${req.username}'`,
     (err, res) => {
       if (err) {
-        console.log("error: ", err);
         response(err, { message: "Unable to disable", result: false });
         // return;
       } else {
@@ -214,7 +205,6 @@ const disableUser = (req, response) => {
 };
 
 const updateProfile = (req, response) => {
-  console.log("the request is ", req.user_group);
   if (req.password == null) {
     if (req.user_group) {
       query = `update accounts set email ='${req.email}',user_group= '${req.user_group}' where username = '${req.username}' `;
@@ -230,7 +220,6 @@ const updateProfile = (req, response) => {
   }
   sql.query(query, (err, res) => {
     if (err) {
-      console.log("error: ", err);
       response(err, { message: "Errors in updating profile", result: false });
       // return;
     } else {
@@ -243,11 +232,9 @@ const updateProfile = (req, response) => {
 };
 /* Update the usergroup column in accounts table */
 const updateAccountUserGroup = (req, response) => {
-  console.log("the request is lol", req);
   query = `update accounts set user_group ='${req.user_group}' where username = '${req.username}' `;
   sql.query(query, (err, res) => {
     if (err) {
-      console.log("error: ", err);
       response(err, { message: "Errors in updating profile", result: false });
       // return;
     } else {
@@ -264,7 +251,6 @@ const deleteGroupByUsername = (req, response) => {
     `DELETE FROM account_user_group WHERE username ='${req.username}' `,
     (err, res) => {
       if (err) {
-        console.log("error: ", err);
         response(err, {
           message: "Unable to delete the group",
           result: false,
@@ -288,7 +274,6 @@ const createApplication = (req, response) => {
     (err, res) => {
       if (err) {
         /* return error message if there's error */
-        console.log("error: ", err.sqlMessage);
         response(err, null);
       } else {
         response(null, {
@@ -341,8 +326,26 @@ const retrieveApplicationByName = (req, response) => {
     }
   );
 };
-const updateApplication = (req, response) => {
+
+const updateRNumber = (req, response) => {
   console.log("req, ", req);
+  sql.query(
+    `update application set App_Rnumber ='${req.App_Rnumber}' where App_Acronym ='${req.App_Acronym}'`,
+    (err, res) => {
+      if (err) {
+        /* return error message if there's error */
+        response(err, null);
+      } else {
+        response(null, {
+          message: "RNumber Updated Successfully",
+          result: true,
+        });
+      }
+    }
+  );
+};
+
+const updateApplication = (req, response) => {
   sql.query(
     `update application set App_Description ='${req.App_Description}',App_startDate ='${req.App_startDate}',App_endDate ='${req.App_endDate}',App_permit_Open ='${req.App_permit_Open}',App_permit_toDoList ='${req.App_permit_toDoList}',App_permit_Doing ='${req.App_permit_Doing}',App_permit_Done= '${req.App_permit_Done}',App_permit_create ='${req.App_permit_Create}' where App_Acronym ='${req.App_Acronym}'`,
     (err, res) => {
@@ -420,14 +423,94 @@ const createTask = (req, response) => {
     (err, res) => {
       if (err) {
         console.log("error: ", err.sqlMessage);
-        response(err, { message: err.sqlMessage, result: false });
+        response(err, null);
       } else {
+        sql.query(
+          `update application set App_Rnumber ='${req.App_Rnumber}' where App_Acronym = '${req.Task_app_acronym}'`
+        );
         response(null, { message: "Task Created Successfully", result: true });
       }
     }
   );
 };
-
+const retrieveTaskByState = (req, response) => {
+  sql.query(
+    `SELECT * FROM task WHERE Task_state = '${req.Task_state}' && Task_app_acronym = '${req.Task_app_acronym}'`,
+    (err, res) => {
+      if (err) {
+        response(err, { result: false });
+      } else {
+        if (res.length) {
+          response(null, {
+            message: "Found",
+            result: res,
+          });
+        } else {
+          response(null, {
+            message: "Not Found",
+            result: false,
+          });
+        }
+      }
+    }
+  );
+};
+const retrieveTaskByApplication = (req, response) => {
+  sql.query(
+    `SELECT * FROM task WHERE Task_app_acronym = '${req.Task_app_acronym}'`,
+    (err, res) => {
+      if (err) {
+        response(err, { result: false });
+      } else {
+        if (res.length) {
+          response(null, {
+            message: "Found",
+            result: res,
+          });
+        } else {
+          response(null, {
+            message: "Not Found",
+            result: false,
+          });
+        }
+      }
+    }
+  );
+};
+const changeTaskState = (req, response) => {
+  sql.query(
+    `update task set Task_state = '${req.Task_state}' where Task_id = '${req.Task_id}'`,
+    (err, res) => {
+      if (err) {
+        /* return error message if there's error */
+        response(err, null);
+      } else {
+        response(null, {
+          message: "Task State Change successfullly",
+          result: true,
+        });
+      }
+    }
+  );
+};
+const updateTask = (req, response) => {
+  var updateNotes = req.oldNotes + "\n\n" + req.Task_notes;
+  console.log("the notes is", updateNotes);
+  sql.query(
+    `update task set Task_name ='${req.Task_name}',Task_description = '${req.Task_description}',Task_notes ='${updateNotes}', Task_plan = '${req.Task_plan}', Task_owner ='${req.Task_owner}' where Task_id = '${req.Task_id}'`,
+    (err, res) => {
+      if (err) {
+        /* return error message if there's error */
+        response(err, null);
+      } else {
+        response(null, {
+          message: "Task Updated Successfully",
+          result: true,
+        });
+      }
+    }
+  );
+};
 module.exports = {
   findByUsername,
   findAllGroup,
@@ -452,4 +535,8 @@ module.exports = {
   retrieveAllPlansByApplication,
   updateApplication,
   updatePlan,
+  retrieveTaskByState,
+  retrieveTaskByApplication,
+  changeTaskState,
+  updateTask,
 };

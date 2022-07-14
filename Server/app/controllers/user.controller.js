@@ -308,7 +308,7 @@ exports.createTask = async (req, res) => {
   console.log("Creating Task", req.body);
   User.createTask(req.body, (err, data) => {
     if (err) {
-      res.send("error", { message: err.message });
+      res.send({ message: err.message, result: false });
     } else {
       res.send(data);
     }
@@ -364,6 +364,61 @@ exports.updatePlan = async (req, res) => {
     if (err) {
       res.send({
         message: "Fail To Update! Please try again",
+        result: false,
+      });
+    } else {
+      res.send(data);
+    }
+  });
+};
+
+exports.changeTaskStatus = async (req, res) => {
+  console.log("Updating Status");
+  User.changeTaskState(req.body, (err, data) => {
+    if (err) {
+      res.send({
+        message: "Change Status Fail",
+        result: false,
+      });
+    } else {
+      res.send(data);
+    }
+  });
+};
+exports.updateTask = async (req, res) => {
+  console.log("Updating Task");
+  User.updateTask(req.body, (err, data) => {
+    if (err) {
+      res.send({
+        message: "Update Failure",
+        result: false,
+      });
+    } else {
+      res.send(data);
+    }
+  });
+};
+
+exports.retrieveTasks = async (req, res) => {
+  console.log("retrieving Task", req.body);
+  User.retrieveTaskByState(req.body, (err, data) => {
+    console.log("the data is", data);
+    if (err) {
+      res.send({
+        message: "Change Status Fail",
+        result: false,
+      });
+    } else {
+      res.send(data);
+    }
+  });
+};
+exports.retrieveApplicationTasks = async (req, res) => {
+  console.log("retrieving Task", req.body);
+  User.retrieveTaskByApplication(req.body, (err, data) => {
+    if (err) {
+      res.send({
+        message: "No Task",
         result: false,
       });
     } else {

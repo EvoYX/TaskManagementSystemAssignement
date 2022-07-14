@@ -191,5 +191,32 @@ class UserService {
         return responds.data;
       });
   }
+
+  retrieveTasksByStatus(task) {
+    return axios.post(API_URL + "task/getTasks", task).then((responds) => {
+      return responds.data;
+    });
+  }
+  retrieveTasksByApplication(task) {
+    return axios.post(API_URL + "task/getAppTasks", task).then((responds) => {
+      return responds.data;
+    });
+  }
+
+  changeTaskStatus(task) {
+    return axios.post(API_URL + "task/changeStatus", task).then((responds) => {
+      return responds.data;
+    });
+  }
+  updateTask(task) {
+    return axios.post(API_URL + "task/updateTask", task).then((responds) => {
+      return responds.data;
+    });
+  }
+  createTask(task) {
+    return axios.post(API_URL + "task/createTask", task).then((responds) => {
+      return responds.data;
+    });
+  }
 }
 export default new UserService();

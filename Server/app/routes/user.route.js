@@ -55,6 +55,10 @@ module.exports = (app) => {
 
   /* Task route */
   router.post("/task/createTask", users.createTask);
+  router.post("/task/getTasks", users.retrieveTasks);
+  router.post("/task/changeStatus", users.changeTaskStatus);
+  router.post("/task/updateTask", users.updateTask);
+  router.post("/task/getAppTasks", users.retrieveApplicationTasks);
 
   /* Post */
   router.post("/admin/usermanagement/createuser", users.createUser);
