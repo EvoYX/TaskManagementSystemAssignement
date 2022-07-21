@@ -1,21 +1,15 @@
 import React from "react";
 import userService from "../services/user.service";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import ListItemText from "@mui/material/ListItemText";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Task from "./Task";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-const KanbanBoard = () => {
+
+const KanbanBoard = (props) => {
   const [taskList, setTaskList] = useState([]);
   const [openList, setOpenList] = useState([]);
   const [todoList, setTodoList] = useState([]);
@@ -23,9 +17,13 @@ const KanbanBoard = () => {
   const [doneList, setDoneList] = useState([]);
   const [closeList, setCloseList] = useState([]);
 
+  const [dragging, setDragging] = useState(false);
+  const dragItem = useRef();
+  const dragItemNode = useRef();
+
   useEffect(() => {
     retrieveTasks();
-  }, []);
+  }, [props.application]);
   const retrieveTasks = async () => {
     var appName = localStorage.getItem("selectedApplication");
     let openList = [];
@@ -54,62 +52,252 @@ const KanbanBoard = () => {
       Task_state: "Close",
     };
     await userService.retrieveTasksByStatus(openTask).then((res) => {
-      if (res.result) {
+      if (res.result.length) {
         openList = { name: "Open", task: res.result };
-        console.log("j", openList);
+      } else {
+        openList = { name: "Open", task: [] };
       }
     });
-    console.log("sasa", openList);
     await userService.retrieveTasksByStatus(toDoTask).then((res) => {
-      if (res.result) {
+      if (res.result.length) {
         toDoList = { name: "To Do", task: res.result };
+      } else {
+        toDoList = { name: "To Do", task: [] };
       }
     });
     await userService.retrieveTasksByStatus(doingTask).then((res) => {
-      if (res.result) {
+      if (res.result.length) {
         doingList = { name: "Doing", task: res.result };
+      } else {
+        doingList = { name: "Doing", task: [] };
       }
     });
     await userService.retrieveTasksByStatus(doneTask).then((res) => {
-      if (res.result) {
+      if (res.result.length) {
         doneList = { name: "Done", task: res.result };
+      } else {
+        doneList = { name: "Done", task: [] };
       }
     });
     await userService.retrieveTasksByStatus(closeTask).then((res) => {
-      if (res.result) {
+      if (res.result.length) {
         closeList = { name: "Close", task: res.result };
+      } else {
+        closeList = { name: "Close", task: [] };
       }
     });
-    console.log("hi", openList, toDoList, doingList, doneList, closeList);
     setTaskList([openList, toDoList, doingList, doneList, closeList]);
   };
-  const onDragEnd = () => {};
+
+  const getStyles = (task) => {
+    if (
+      dragItem.current.index === task.index &&
+      dragItem.current.taskIndex === task.taskIndex
+    ) {
+      return "task-item-current";
+    }
+    return "task-item";
+  };
+
   return (
     <>
-      <div className="kanbanBoard">
-        {taskList.map((tasks, index) => {
-          return (
-            <div>
-              <h4>
-                <span>{tasks.name}</span>
-              </h4>
-
-              <div>
-                {tasks.task.length > 0 &&
-                  tasks.task.map((item, iIndex) => {
-                    return (
-                      <Task
-                        key={item.id}
-                        data={item}
-                        index={iIndex}
-                        className="m-3"
-                      />
-                    );
-                  })}
-              </div>
-            </div>
-          );
-        })}
+      <div className="openStateSection">
+        <div className="stateHeader">Open</div>
+        <div className="stateContainer">
+          {taskList
+            .filter((taskList) => taskList.name == "Open")
+            .map((result) => {
+              <div>{result.name}</div>;
+              return result.task.map((task) => {
+                return (
+                  <div>
+                    <Task
+                      data={task}
+                      setTaskList={setTaskList}
+                      application={props.application}
+                      showEdit={
+                        localStorage
+                          .getItem("user_group")
+                          .split(",")
+                          .includes(props.application.App_permit_Open)
+                          ? true
+                          : false
+                      }
+                      showRight={
+                        localStorage
+                          .getItem("user_group")
+                          .split(",")
+                          .includes(props.application.App_permit_Open)
+                          ? true
+                          : false
+                      }
+                      setApplicationDetail={props.setApplicationDetail}
+                      appPlan={props.appPlan}
+                    />
+                  </div>
+                );
+              });
+            })}
+        </div>
+      </div>
+      <div className="toDoStateSection">
+        <div className="stateHeader">To Do</div>
+        <div className="stateContainer">
+          {taskList
+            .filter((taskList) => taskList.name == "To Do")
+            .map((result) => {
+              <div>{result.name}</div>;
+              return result.task.map((task) => {
+                return (
+                  <div>
+                    <Task
+                      data={task}
+                      setTaskList={setTaskList}
+                      application={props.application}
+                      showEdit={
+                        localStorage
+                          .getItem("user_group")
+                          .split(",")
+                          .includes(props.application.App_permit_toDoList)
+                          ? true
+                          : false
+                      }
+                      showRight={
+                        localStorage
+                          .getItem("user_group")
+                          .split(",")
+                          .includes(props.application.App_permit_toDoList)
+                          ? true
+                          : false
+                      }
+                      setApplicationDetail={props.setApplicationDetail}
+                      appPlan={props.appPlan}
+                    />
+                  </div>
+                );
+              });
+            })}
+        </div>
+      </div>
+      <div className="doingStateSection">
+        <div className="stateHeader">Doing</div>
+        <div className="stateContainer">
+          {taskList
+            .filter((taskList) => taskList.name == "Doing")
+            .map((result) => {
+              <div>{result.name}</div>;
+              return result.task.map((task) => {
+                return (
+                  <div>
+                    <Task
+                      data={task}
+                      setTaskList={setTaskList}
+                      application={props.application}
+                      showEdit={
+                        localStorage
+                          .getItem("user_group")
+                          .split(",")
+                          .includes(props.application.App_permit_Doing)
+                          ? true
+                          : false
+                      }
+                      showRight={
+                        localStorage
+                          .getItem("user_group")
+                          .split(",")
+                          .includes(props.application.App_permit_Doing)
+                          ? true
+                          : false
+                      }
+                      showLeft={
+                        localStorage
+                          .getItem("user_group")
+                          .split(",")
+                          .includes(props.application.App_permit_Doing)
+                          ? true
+                          : false
+                      }
+                      setApplicationDetail={props.setApplicationDetail}
+                      appPlan={props.appPlan}
+                    />
+                  </div>
+                );
+              });
+            })}
+        </div>
+      </div>
+      <div className="doneStateSection">
+        <div className="stateHeader">Done</div>
+        <div className="stateContainer">
+          {taskList
+            .filter((taskList) => taskList.name == "Done")
+            .map((result) => {
+              <div>{result.name}</div>;
+              return result.task.map((task) => {
+                return (
+                  <div>
+                    <Task
+                      data={task}
+                      setTaskList={setTaskList}
+                      application={props.application}
+                      showEdit={
+                        localStorage
+                          .getItem("user_group")
+                          .split(",")
+                          .includes(props.application.App_permit_Done)
+                          ? true
+                          : false
+                      }
+                      showRight={
+                        localStorage
+                          .getItem("user_group")
+                          .split(",")
+                          .includes(props.application.App_permit_Done)
+                          ? true
+                          : false
+                      }
+                      showLeft={
+                        localStorage
+                          .getItem("user_group")
+                          .split(",")
+                          .includes(props.application.App_permit_Done)
+                          ? true
+                          : false
+                      }
+                      setApplicationDetail={props.setApplicationDetail}
+                      appPlan={props.appPlan}
+                    />
+                  </div>
+                );
+              });
+            })}
+        </div>
+      </div>
+      <div className="closeStateSection">
+        <div className="stateHeader">Close</div>
+        <div className="stateContainer">
+          {taskList
+            .filter((taskList) => taskList.name == "Close")
+            .map((result) => {
+              <div>{result.name}</div>;
+              return result.task.map((task) => {
+                return (
+                  <div>
+                    <Task
+                      data={task}
+                      setTaskList={setTaskList}
+                      application={props.application}
+                      setApplicationDetail={props.setApplicationDetail}
+                      showLeft={false}
+                      showRight={false}
+                      showEdit={false}
+                      appPlan={props.appPlan}
+                    />
+                  </div>
+                );
+              });
+            })}
+        </div>
       </div>
     </>
   );

@@ -99,8 +99,6 @@ const EditUser = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("HI", editGroup);
-
     await userService.verifyUser().then((res) => {
       if (res.auth) {
         if (editPassword != "") {
@@ -117,7 +115,6 @@ const EditUser = () => {
         }
       } else {
         alertify.error("Session Timeout, Please Login Again!");
-
         localStorage.clear();
         setLoggedIn(false);
         navigate("/");
@@ -131,7 +128,7 @@ const EditUser = () => {
       email: editEmail,
       user_group: editGroup,
     };
-
+    localStorage.setItem("user_group", editGroup);
     userService.updateProfile(editUser).then((res) => {
       if (res.result) {
         var user = {
@@ -145,11 +142,7 @@ const EditUser = () => {
                   username: localStorage.getItem("selectedUsername"),
                   groupname: editGroup[i],
                 };
-                userService.createGroupByUser(groupdetail).then((res) => {
-                  if (res.result) {
-                    console.log("create succcesfully");
-                  }
-                });
+                userService.createGroupByUser(groupdetail);
               }
             }
           }

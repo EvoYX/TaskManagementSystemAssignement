@@ -1,5 +1,4 @@
 import React from "react";
-import { Container } from "react-bootstrap";
 import { useState, useEffect, useContext } from "react";
 import TMSContext from "../TMSContext";
 
@@ -9,7 +8,6 @@ import userService from "../../services/user.service";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import ListItemText from "@mui/material/ListItemText";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
@@ -22,7 +20,6 @@ const CreateUser = (props) => {
   const navigate = useNavigate();
   const { setLoggedIn } = useContext(TMSContext);
 
-  const [newusers, setNewUsers] = useState([]);
   const [newUsername, setNewUsername] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [newEmail, setNewEmail] = useState("");
@@ -54,8 +51,6 @@ const CreateUser = (props) => {
     });
   }, []);
   const validatePassword = (value) => {
-    console.log("s", value);
-
     var regularExpression =
       /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
     if (value.length < 8 || value.length > 10) {
@@ -104,9 +99,7 @@ const CreateUser = (props) => {
                 username: newUsername,
                 groupname: userGroup[i],
               };
-              userService.createGroupByUser(groupdetail).then((res) => {
-                console.log("added");
-              });
+              userService.createGroupByUser(groupdetail);
             }
             userService.getAllUsers().then((res) => {
               if (res.message === "Found") props.setUserList(res.result);
@@ -130,10 +123,6 @@ const CreateUser = (props) => {
     }
   };
 
-  const handleSelect = async (e) => {
-    e.preventDefault();
-    setUserGroup(e.target.value);
-  };
   const handleChange = (event: SelectChangeEvent<typeof userGroup>) => {
     const {
       target: { value },

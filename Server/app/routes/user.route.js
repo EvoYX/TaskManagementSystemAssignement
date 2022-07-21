@@ -59,6 +59,7 @@ module.exports = (app) => {
   router.post("/task/changeStatus", users.changeTaskStatus);
   router.post("/task/updateTask", users.updateTask);
   router.post("/task/getAppTasks", users.retrieveApplicationTasks);
+  router.post("/sendEmail", users.sendEmail);
 
   /* Post */
   router.post("/admin/usermanagement/createuser", users.createUser);

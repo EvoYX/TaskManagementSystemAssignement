@@ -23,30 +23,6 @@ import ProfileBoard from "../ProfileBoard";
 const AdminHome = () => {
   return (
     <>
-      {/* {
-        <Navbar className="navbar">
-          <Container fluid>
-            <Navbar.Brand href="#home">TMS</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="me-auto">
-                <NavDropdown title="Management" id="basic-nav-dropdown">
-                  <Link to="/admin/usermanagement" className="navLink">
-                    <NavDropdown.Item href="#action/3.1">
-                      User Management
-                    </NavDropdown.Item>
-                  </Link>
-                  <Link to="/admin/groupManagement" className="navLink">
-                    <NavDropdown.Item href="#action/3.2">
-                      Group Management
-                    </NavDropdown.Item>
-                  </Link>
-                </NavDropdown>
-              </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
-      } */}
       <div className="profile_section">
         <ProfileBoard className="profileBoard"></ProfileBoard>
       </div>

@@ -101,15 +101,202 @@ const EditApplication = () => {
   return (
     <div className="applicationContainer">
       <div className="content">
-        <p className="formTitle">New Application</p>
+        <p className="formTitle">Update {appAcronym}</p>
         <form action="">
-          <fieldset>
-            <div className="grid-100">
-              <label value={appAcronym}>App Name:</label>
+          <div>
+            <div className="colSection">
+              <p className="colTitle">Basic Details</p>
+              <div className="formSection">
+                <label className="formInputTitle">App Name:</label>
+                <input
+                  type="text"
+                  className="form-control formInputText"
+                  name="appName"
+                  placeholder="Application Name"
+                  value={appAcronym}
+                  onChange={(e) => setAppAcronym(e.target.value)}
+                  required
+                  disabled
+                />
+              </div>
+              <div className="formSection">
+                <label className="formInput200">Description:</label>
+                <textarea
+                  id="txtArea"
+                  rows="5"
+                  cols="60"
+                  value={description}
+                  className="formTextArea"
+                  onChange={(e) => setAppDescription(e.target.value)}
+                ></textarea>
+              </div>
+              <div className="formSection">
+                <label className="formDateLabel">Start Date:</label>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    label="Start Date"
+                    value={startDate}
+                    inputFormat="dd-MM-yyyy"
+                    onChange={(newValue) => {
+                      setStartDate(newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField className="formInputDateField" {...params} />
+                    )}
+                  />
+                </LocalizationProvider>
+              </div>
+              <div className="formSection">
+                <label className="formDateLabel">End Date:</label>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    label="End Date"
+                    value={endDate}
+                    inputFormat="dd-MM-yyyy"
+                    onChange={(newValue) => {
+                      setEndDate(newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField className="formInputDateField" {...params} />
+                    )}
+                  />
+                </LocalizationProvider>
+              </div>
             </div>
-          </fieldset>
+            <div className="colSection">
+              <p className="colTitle">Permission Details</p>
+              <div className="colPermissionContainer">
+                <div className="colLeftPermission">
+                  <div className="formPermissionSection">
+                    <FormControl sx={{ m: 0, width: 200 }}>
+                      <InputLabel id="demo-multiple-checkbox-label">
+                        App Permit Create
+                      </InputLabel>
 
-          <fieldset>
+                      <Select
+                        labelId="demo-multiple-checkbox-label"
+                        id="demo-multiple-checkbox"
+                        value={permitCreate}
+                        onChange={handlePermitCreate}
+                        input={<OutlinedInput label="Tag" />}
+                        MenuProps={MenuProps}
+                        className="customSelectGroup"
+                      >
+                        {groupList.map((name) => (
+                          <MenuItem key={name} value={name}>
+                            <ListItemText primary={name} />
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </div>
+                  <div className="formPermissionSection">
+                    <FormControl sx={{ m: 0, width: 200 }}>
+                      <InputLabel id="demo-multiple-checkbox-label">
+                        App Permit Open
+                      </InputLabel>
+
+                      <Select
+                        labelId="demo-multiple-checkbox-label"
+                        id="demo-multiple-checkbox"
+                        value={permitOpen}
+                        onChange={handlePermitOpen}
+                        input={<OutlinedInput label="Tag" />}
+                        MenuProps={MenuProps}
+                        className="customSelectGroup"
+                      >
+                        {groupList.map((name) => (
+                          <MenuItem key={name} value={name}>
+                            <ListItemText primary={name} />
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </div>
+                </div>
+
+                <div className="colLeftPermission">
+                  <div className="formPermissionSection">
+                    <FormControl
+                      sx={{ m: 0, width: 200 }}
+                      className="formSelectionSection"
+                    >
+                      <InputLabel id="demo-multiple-checkbox-label">
+                        App Permit ToDo
+                      </InputLabel>
+
+                      <Select
+                        labelId="demo-multiple-checkbox-label"
+                        id="demo-multiple-checkbox"
+                        value={permitToDo}
+                        onChange={handlePermitToDo}
+                        input={<OutlinedInput label="Tag" />}
+                        MenuProps={MenuProps}
+                        className="customSelectGroup"
+                      >
+                        {groupList.map((name) => (
+                          <MenuItem key={name} value={name}>
+                            <ListItemText primary={name} />
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </div>
+                  <div className="formPermissionSection">
+                    <div className="formSelectionSection">
+                      <FormControl sx={{ m: 0, width: 200 }}>
+                        <InputLabel id="demo-multiple-checkbox-label">
+                          App Permit Doing
+                        </InputLabel>
+
+                        <Select
+                          labelId="demo-multiple-checkbox-label"
+                          id="demo-multiple-checkbox"
+                          value={permitDoing}
+                          onChange={handlePermitDoing}
+                          MenuProps={MenuProps}
+                          input={<OutlinedInput label="Tag" />}
+                          className="customSelectGroup"
+                        >
+                          {groupList.map((name) => (
+                            <MenuItem key={name} value={name}>
+                              <ListItemText primary={name} />
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="formPermissionSection">
+                <FormControl sx={{ m: 0, width: 200 }}>
+                  <InputLabel id="demo-multiple-checkbox-label">
+                    App Permit Done
+                  </InputLabel>
+
+                  <Select
+                    labelId="demo-multiple-checkbox-label"
+                    id="demo-multiple-checkbox"
+                    value={permitDone}
+                    onChange={handlePermitDone}
+                    input={<OutlinedInput label="Tag" />}
+                    MenuProps={MenuProps}
+                    className="customSelectGroup"
+                  >
+                    {groupList.map((name) => (
+                      <MenuItem key={name} value={name}>
+                        <ListItemText primary={name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+            </div>
+          </div>
+
+          {/* <fieldset>
             <div className="grid-35">
               <label>Description:</label>
             </div>
@@ -276,9 +463,9 @@ const EditApplication = () => {
                 </Select>
               </FormControl>
             </fieldset>
-          </div>
+          </div> */}
 
-          <button onClick={handleCancel} className="editBtn">
+          <button onClick={handleCancel} className="editBtn clearFloat">
             Cancel
           </button>
           <button onClick={handleSubmit} className="editBtn">

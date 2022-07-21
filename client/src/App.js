@@ -27,30 +27,25 @@ import EditApplication from "./components/EditApplication";
 import ApplicationDashboard from "./components/ApplicationDashboard";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(undefined);
   const [isAdmin, setIsAdmin] = useState(false);
   const [accesstoken, setAccessToken] = useState("");
   const [loginUsername, setLoginUsername] = useState("");
   const [isAuthorised, setIsAuthorised] = useState(false);
 
   useEffect(() => {
-    console.log(localStorage.getItem("setIsLoggedIn"));
+    const user = localStorage.getItem("setIsLoggedIn");
+    if (user) {
+      setLoggedIn(user);
+    }
   }, setLoggedIn);
-  // useEffect(() => {
-  //   userService.verifyUser().then((res) => {
-  //     if (!res.auth) {
-  //       localStorage.clear();
-  //       alertify.error("Unauthorised Access! Please login with valid account");
-  //       setIsAuthorised(false);
-  //     }
-  //   });
-  // }, []);
+
   return (
     <>
       <TMSContext.Provider value={{ setLoggedIn, setIsAdmin }}>
         <div className="App">
           <BrowserRouter>
-            {localStorage.getItem("setIsLoggedIn") == "true" && (
+            {localStorage.getItem("setIsLoggedIn") == "true" && loggedIn && (
               <Header isAdmin={isAdmin}></Header>
             )}
 

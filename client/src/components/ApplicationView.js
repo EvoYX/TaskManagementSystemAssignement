@@ -3,10 +3,13 @@ import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Table } from "@mui/material";
+import alertify from "alertifyjs";
 
 import userService from "../services/user.service";
 import "../css/UserManagement.css.css";
-import alertify from "alertifyjs";
+import EditIcon from "@mui/icons-material/ModeEditOutlineOutlined";
+import { BsEyeFill, BsFillFileEarmarkPlusFill } from "react-icons/bs";
+import { FaPlusCircle } from "react-icons/fa";
 
 const ApplicationView = () => {
   const [applicationList, setApplicationList] = useState([]);
@@ -14,12 +17,17 @@ const ApplicationView = () => {
 
   useEffect(() => {
     userService.getAllApplication().then((res) => {
-      setApplicationList(res.result);
+      if (res.result.length) {
+        setApplicationList(res.result);
+      } else {
+        setApplicationList([]);
+      }
     });
   }, []);
 
   const handleViewMore = (e) => {
     localStorage.setItem("selectedApplication", e.App_Acronym);
+    navigate("/home/applications/detail");
   };
   const handleNavigate = () => {
     const user = {
@@ -29,7 +37,6 @@ const ApplicationView = () => {
     userService
       .checkGroup(localStorage.getItem("username"), "admin")
       .then((res) => {
-        console.log(res);
         if (res.result) {
           navigate("/application/createApplication");
         } else {
@@ -41,53 +48,57 @@ const ApplicationView = () => {
   };
   return (
     <div>
-      <button onClick={handleNavigate}>Create New Application</button>
-      <div className="table">
-        <Table striped bordered hover size="sm" className="table-auto">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>App Name</th>
-              <th>Description</th>
-              <th>R_No.</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Open Permission</th>
-              <th>ToDo Permission</th>
-              <th>Do Permission</th>
-              <th>Done Permission</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {applicationList.map((doc, index) => {
-              return (
-                <tr key={doc.id}>
-                  <td>{index + 1}</td>
-                  <td>{doc.App_Acronym}</td>
-                  <td>{doc.App_Description}</td>
-                  <td>{doc.App_Rnumber}</td>
-                  <td>{doc.App_startDate}</td>
-                  <td>{doc.App_endDate}</td>
-                  <td>{doc.App_permit_Open}</td>
-                  <td>{doc.App_permit_toDoList}</td>
-                  <td>{doc.App_permit_Doing}</td>
-                  <td>{doc.App_permit_Done}</td>
-                  <td>
-                    <Link to="/home/applications/detail">
-                      <button
-                        className="actionBtn"
-                        onClick={(e) => handleViewMore(doc)}
-                      >
-                        View
-                      </button>
-                    </Link>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
+      <div className="sectionHeader">
+        <h2 className="pageHeader">All Application</h2>
+      </div>
+      <div className="allApplicationsContainer">
+        {applicationList.length != 0 &&
+          applicationList.map((doc, index) => {
+            return (
+              <div
+                className="applicationCard"
+                onClick={(e) => {
+                  handleViewMore(doc);
+                }}
+              >
+                <div className="applicationCardTitle">
+                  <p className="applicationTitlePtag">{doc.App_Acronym}</p>
+                </div>
+                <div className="applicationCardContent">
+                  <p className="applicationContentPtag">
+                    {doc.App_Description}
+                  </p>
+                </div>
+                <div className="applicationCardFooter"></div>
+              </div>
+              // <Link to="/home/applications/detail">
+              //   <button
+              //     type="button"
+              //     className="icnBtn"
+              //     data-toggle="tooltip"
+              //     data-placement="top"
+              //     title="View Detail"
+              //     onClick={(e) => {
+              //       handleViewMore(doc);
+              //     }}
+              //   >
+
+              //   </button>
+              // </Link>
+            );
+          })}
+        <button
+          type="button"
+          className="icnBtn"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Add New Application"
+        >
+          <BsFillFileEarmarkPlusFill
+            onClick={handleNavigate}
+            className="addIcon"
+          />
+        </button>
       </div>
     </div>
   );

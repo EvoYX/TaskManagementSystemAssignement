@@ -2,31 +2,10 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Table } from "@mui/material";
 import userService from "../../services/user.service";
-import Button from "@mui/material/Button";
-import { Link, NavLink } from "react-router-dom";
 import "../../css/GroupManagement.css.css";
 import alertify from "alertifyjs";
 import "../../../src/alertify/css/themes/bootstrap.css";
 
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import Slide from "@mui/material/Slide";
-import { TransitionProps } from "@mui/material/transitions";
-
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import Checkbox from "@mui/material/Checkbox";
-
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
 import ViewMembers from "./ViewMembers";
 import "../../css/GroupManagement.css.css";
 
@@ -72,58 +51,6 @@ const GroupManagement = () => {
     setSelectedGroup(groupname);
     localStorage.setItem("selectedGroup", groupname);
     localStorage.setItem("selectedGroupStatus", status);
-
-    // setSelectedGroupStatus(status);
-    // await userService.getUsersByGroupname(groupname).then((res) => {
-    //   if (res.result != null) {
-    //     setMemberList(res.result.map((result) => result.username));
-    //     setSelectUsers(res.result.map((res) => res.username));
-    //   } else {
-    //     setMemberList([]);
-    //     setSelectUsers([]);
-    //   }
-    // });
-    // handleModal();
-  };
-  const handleModal = () => {
-    if (selectedGroupname == "") {
-      setViewModal(!viewModal);
-    }
-  };
-  const openCreateGroup = async (e) => {
-    e.preventDefault();
-    /* Steps:
-    retrieve all the groupname from user_group table
-    if there's no duplicate then add into the database.
-  */
-    if ((groupName == "") | (groupName == null)) {
-      alertify
-        .alert("Please enter the new group name!")
-        .setHeader('<em style="color:black;">Error !</em>');
-    } else {
-      var newGroup = { groupname: groupName };
-      if (!groupList.includes(groupName)) {
-        userService.createGroup(newGroup).then((res) => {
-          if (res.result) {
-            userService.getGroupData().then((res) => {
-              if (res.message === "Found") {
-                setGroupDetailList(res.result.map((result) => result));
-                setGroupList(res.result.map((result) => result.groupname));
-              }
-            });
-            alertify.success("Group Successsfully created");
-          }
-        });
-      } else {
-        alertify
-          .alert("Duplicated Group name")
-          .setHeader('<em style="color:black;">Error !</em>');
-      }
-    }
-  };
-
-  const handleAddPopup = () => {
-    // setAddPopup(!addPopup);
   };
 
   const handleChange = (e) => {
@@ -178,7 +105,6 @@ const GroupManagement = () => {
           var newGroup = { groupname: value };
           if (!groupList.includes(value)) {
             userService.createGroup(newGroup).then((res) => {
-              console.log(res);
               if (res.result) {
                 userService.getGroupData().then((res) => {
                   if (res.message === "Found") {
@@ -204,7 +130,6 @@ const GroupManagement = () => {
   return (
     <>
       <div>
-        {/*  // className="grid place-items-center"> */}
         <div
           className={
             selectedGroupname == "" ? "grid-container" : "grid-container1"
@@ -250,7 +175,6 @@ const GroupManagement = () => {
                           {doc.status == "Enable" ? "Disable" : "Enable"}
                         </button>
 
-                        {/* <Link to="/admin/groupmanagement/viewgroup"> */}
                         <button
                           className="viewBtn"
                           onClick={(e) =>
@@ -273,27 +197,6 @@ const GroupManagement = () => {
           </div>
         </div>
       </div>
-
-      {viewModal && (
-        <div className="modalContent">
-          <p className="groupTitle">{selectedGroupname}</p>
-          <p className="groupSubHeading">Members:</p>
-          {memberList.length == 0 && "No one is in this group"}
-
-          {memberList.length != 0 &&
-            memberList.map((name) => <ListItemText primary={name} />)}
-          <div className="managementButtons">
-            <button onClick={handleAddPopup} className="primaryBtn">
-              {" "}
-              Add User
-            </button>
-            <button onClick={handleDisable} className="secondaryBtn">
-              {" "}
-              Disable Group
-            </button>
-          </div>
-        </div>
-      )}
     </>
   );
 };

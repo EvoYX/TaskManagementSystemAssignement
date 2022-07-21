@@ -1,30 +1,18 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Table } from "@mui/material";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../../css/UserManagement.css.css";
 import userService from "../../services/user.service";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import Slide from "@mui/material/Slide";
+
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { TransitionProps } from "@mui/material/transitions";
-import { useNavigate } from "react-router-dom";
 import CreateUser from "./CreateUser";
 import alertify from "alertifyjs";
 import "../../../src/alertify/css/themes/bootstrap.css";
 const UserManagment = () => {
-  const navigate = useNavigate();
-
   const [userList, setUserList] = useState([]);
   const [popupModal, setPopup] = useState(false);
   const [selectedUser, setUser] = useState([]);
-  const [dialogMessage, setDiaglog] = useState("");
-  const [dialogTitle, setTitle] = useState("");
   const [showAddModal, setAddModal] = useState(false);
 
   /* getting all the group */
@@ -35,8 +23,6 @@ const UserManagment = () => {
     });
   }, []);
   const handleDisable = (username, status) => {
-    // setPopup(true);
-
     const msg = `Confirm changing this user access to ${
       status == "Enable" ? "Disable" : "Enable"
     }?`;
@@ -72,44 +58,6 @@ const UserManagment = () => {
       .set("labels", { ok: "YES", cancel: "NO" });
   };
 
-  const handleClose = () => {
-    setPopup(false);
-    userService.getAllUsers().then((res) => {
-      if (res.message === "Found") setUserList(res.result);
-    });
-  };
-  const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-      children: React.ReactElement<any, any>,
-    },
-    ref: React.Ref<unknown>
-  ) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
-
-  // const disableHandler = async () => {
-  //   await userService
-  //     .disableUser({
-  //       username: selectedUser.username,
-  //       status: selectedUser.status == "Enable" ? "Disable" : "Enable",
-  //     })
-  //     .then((res) => {
-  //       var msg = selectedUser.status == "Enable" ? "Disable" : "Enable";
-  //       if (res.result) {
-  //         alertify.success(
-  //           `${
-  //             selectedUser.status == "Enable" ? "Disable" : "Enable"
-  //           } successfuly`
-  //         );
-  //         setPopup(false);
-  //         userService.getAllUsers().then((res) => {
-  //           if (res.message === "Found") setUserList(res.result);
-  //         });
-  //       } else {
-  //         alertify.alert("Unable to disable");
-  //       }
-  //     });
-  // };
   const editHandler = (username) => {
     setPopup(true);
     localStorage.setItem("selectedUsername", username);
@@ -195,24 +143,6 @@ const UserManagment = () => {
           </Table>
         </div>
       </div>
-      {/* <Dialog
-        open={popupModal}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle>{"Enable / Disable this user?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            {dialogMessage}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={disableHandler}>Yes</Button>
-          <Button onClick={handleClose}>No</Button>
-        </DialogActions>
-      </Dialog> */}
     </>
   );
 };

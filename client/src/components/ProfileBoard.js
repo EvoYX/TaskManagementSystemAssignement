@@ -56,7 +56,7 @@ const ProfileBoard = () => {
             <button className="primary">Edit Profile</button>
           </Link>{" "}
           <Link to="/home/applications">
-            <button className="primary">My Tasks</button>
+            <button className="primary">All Application</button>
           </Link>
         </div>
         <br />

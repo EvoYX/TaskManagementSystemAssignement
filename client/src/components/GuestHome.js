@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Login from "./Login";
 import Styles from "../css/GuestHome.css.css";
-import logo from "../../src/logo.png";
 
 const GuestHome = () => {
   const [popupModal, setPopupModal] = useState(false);

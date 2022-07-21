@@ -42,16 +42,6 @@
   margin-top: 20%;
 }
 
-.applicationContainer {
-  background-color: #e5f2f5;
-  padding: 1rem;
-  border-radius: 8px;
-  width: 70%;
-  margin: auto;
-  box-shadow: rgb(99 99 99 / 10%) 0px 2px 8px;
-
-  margin-top: 2rem;
-}
 .applicationIcon {
   float: right;
 }
@@ -99,8 +89,6 @@
 
 .planContainer {
   clear: both;
-  width: 300px;
-  margin-left: 1rem;
   padding-top: 2rem;
 }
 .planHeader {
@@ -121,12 +109,29 @@
   height: auto;
   width: 75%;
   margin: 20px auto;
-  margin-top: 5rem;
+
   margin-bottom: 100px;
   background-color: #fff;
   border: 5px solid #307aa1;
   border-radius: 0 0 5px 5px;
   box-shadow: 0 2.5px 5px #ccc;
+}
+.applicationViewContainer {
+  position: absolute;
+  top: 100px;
+  bottom: auto;
+  left: 0;
+  right: 0;
+  height: auto;
+  width: 75%;
+  margin: 20px auto;
+
+  margin-bottom: 100px;
+  background-color: #fff;
+  border: 5px solid #307aa1;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 2.5px 5px #ccc;
+  padding: 10px;
 }
 .kanbanBoard {
   display: flex;
@@ -136,7 +141,10 @@
 @media only screen and (min-width: 768px) {
   /*Desktop*/
   .applicationContainer {
-    width: 500px;
+    width: 90%;
+  }
+  .applicationViewContainer {
+    width: 576px;
   }
   .search {
     float: none;
@@ -160,6 +168,7 @@
   box-shadow: rgba(255, 255, 255, 0.7) 0 1px 0 0 inset;
   border-radius: 3px;
   border: 1px solid #7aa7c7;
+  margin: auto;
 
   transition: 0.5s ease;
 }
@@ -251,6 +260,49 @@
 
 .flex-display {
   display: flex;
+  justify-content: center;
+}
+.allApplicationsContainer {
+  display: grid;
+  grid-template-columns: 15rem 15rem 15rem 15rem;
+  grid-gap: 1rem;
+  justify-content: center;
+}
+.applicationCard {
+  background-color: #aecad6;
+  background-image: linear-gradient(315deg, #aecad6 0%, #b8d3fe 74%);
+  border: 4px solid #4eaad2;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  padding-top: 10px;
+}
+.applicationCardTitle {
+  padding: 10px;
+}
+.applicationTitlePtag {
+  font-size: 24px;
+}
+.applicationCardContent {
+  height: 40px;
+  padding-left: 10px;
+}
+.applicationContentPtag {
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.applicationCardFooter {
+  padding-left: 10px;
+}
+.pageHeader {
+  text-align: center;
+  color: #79caed;
+
+  font-weight: 600;
+  margin-top: 4rem;
+  margin-bottom: 1rem;
 }
 .kanbanContainer {
   display: grid;
@@ -282,9 +334,236 @@
   text-align: center;
   margin-right: 2%;
 }
-.stateTitle {
+
+.task-item {
+  opacity: 1;
+}
+.task-item-current {
+  opacity: 0.5;
+}
+.formInputText {
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 78%;
+}
+.formInputTitle {
+  margin-top: 4px;
+  width: 100px;
+}
+.formPermissionSection {
+  margin-top: 10px;
+  /* width: 100px; */
+  /* float: left; */
+  width: 200px;
+}
+.formSection {
+  display: flex;
+  margin-top: 1rem;
+}
+.formTextArea {
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  appearance: none;
+  border-radius: 0.25rem;
+  margin-left: 10px;
+}
+.formDate {
+  padding-right: 20px;
+}
+.formDateSection {
+  margin-top: 1rem;
+  display: flex;
+  padding-left: 10px;
+}
+.formResizeInput {
+  width: 78%;
+}
+.formInput200 {
+  margin-top: 4px;
+  width: 120px;
+}
+.formDisplayText {
+  padding-top: 10px;
+  margin-top: 4px;
+  padding-left: 10px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.formDisplayTextArea {
+  margin-top: 4px;
+}
+.formInputDateField {
+  width: 375px;
+}
+.formPermissionSection {
+  display: flex;
+  margin-top: 1rem;
+  margin-left: 10px;
+}
+.formSelectionSection {
+  margin-right: 22px;
+}
+.formSelectionCenter {
+  justify-content: center;
+}
+.colSection {
+  float: left;
+  width: 50%;
+
+  padding: 1rem;
+}
+.colTitle {
+  font-weight: 600;
+}
+.formBtnSection {
+  clear: both;
+}
+.formDateLabel {
+  margin-right: 25px;
+  margin-top: 4px;
+  width: 100px;
+}
+
+.stateHeader {
   text-align: center;
   font-size: 18px;
-  background: orange;
+  background-color: #aee1f9;
+  background-image: linear-gradient(315deg, #aee1f9 0%, #f6ebe6 74%);
   padding: 10px;
+}
+.stateContainer {
+  width: 240px;
+  height: 80%;
+}
+
+.taskCard {
+  min-height: 48px;
+  font-size: 16px;
+  padding: 10px;
+  margin: 10px;
+  min-height: 100px;
+  border-radius: 2px;
+  background-color: #aee1f9;
+  background-image: linear-gradient(315deg, #aee1f9 0%, #f6ebe6 74%);
+}
+.cardDesc {
+  inline-size: 180px;
+  overflow-wrap: break-word;
+  padding-top: 10px;
+}
+.cardIcon {
+  cursor: pointer;
+  margin-right: 10px;
+  color: #44596c;
+}
+.cardIcon:hover {
+  color: #1f8dab;
+}
+.cardRightSection {
+  float: right;
+}
+.icnBtn {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+.icnBtnZoom {
+  zoom: 0.85;
+  cursor: pointer;
+  margin-right: 10px;
+  color: #44596c;
+}
+.icnBtnZoom:hover {
+  color: #1f8dab;
+}
+.addIcon {
+  cursor: pointer;
+  margin-right: 10px;
+  color: #79caed;
+  height: 100px;
+  width: 100px;
+}
+.addIcon:hover {
+  color: #71b1c2;
+}
+.breadCrumb {
+  padding-left: 10px;
+  margin-top: 10px;
+}
+.linkText {
+  font-size: 18px;
+  color: #65bac8;
+}
+.scrollPlan {
+  overflow: auto;
+  white-space: nowrap;
+}
+.scrollPlan div {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.planTItle {
+  width: 40%;
+  margin: auto;
+}
+.addIconMedium {
+  height: 40px;
+  width: 40px;
+  color: #1a3379;
+  cursor: pointer;
+  margin-right: 20px;
+  margin-top: 20px;
+}
+.addIconMedium:hover {
+  background: #8ed6e2;
+}
+.planCard {
+  background: #2c5777;
+  border: 3px solid #1f8dab;
+  /* justify-content: center; */
+  padding: 10px;
+  margin-bottom: 10px;
+  height: 150px;
+}
+.planCard:hover {
+  background: #8ed6e2;
+  color: black;
+}
+.noTask {
+  padding: 10px;
+  margin-bottom: 10px;
+  height: 150px;
+  color: white;
+}
+.icnAddBtn {
+  background: transparent;
+  /* border-color: blue; */
+  margin-right: 20px;
+  border: 1px solid #f9fafb;
+}
+.planContainerHeader {
+  display: flex;
+  justify-content: space-between;
+}
+.colLeftPermission {
+  /* border: 2px solid red; */
+}
+.colPermissionContainer {
+  /* border: 2px solid green; */
+  display: flex;
+}
+.clearFloat {
+  clear: both;
+}
+.customLink:hover {
+  color: #8ed6e2;
 }
