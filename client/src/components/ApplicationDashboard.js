@@ -45,7 +45,6 @@ const ApplicationDashboard = () => {
   const [taskOwner, setTaskOwner] = useState(""); // last person who edit it
   const [taskCreateDate, setTaskCreateDate] = useState(null);
   const [hasCreateTask, setHasCreateTask] = useState(false);
-  const navigate = useNavigate();
   const handlePlanChange = (e) => {
     setTaskPlan(e.target.value);
   };
