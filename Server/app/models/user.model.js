@@ -513,6 +513,52 @@ const retrieveAllUserEmail = (req, response) => {
     }
   );
 };
+
+const retrieveApplicationByAppAcronym = (req, response) => {
+  sql.query(
+    `SELECT * FROM application WHERE App_Acronym = '${req.App_acronym}'`,
+    (err, res) => {
+      if (err) {
+        response(err, null);
+      } else {
+        if (res.length) {
+          response(null, {
+            message: "Found",
+            result: res,
+          });
+        } else {
+          response(null, {
+            message: "Not Found",
+            result: false,
+          });
+        }
+      }
+    }
+  );
+};
+
+const retrieveTaskById = (req, response) => {
+  sql.query(
+    `SELECT * FROM task WHERE Task_id = '${req.Task_id}'`,
+    (err, res) => {
+      if (err) {
+        response(err, null);
+      } else {
+        if (res.length) {
+          response(null, {
+            message: "Found",
+            result: res,
+          });
+        } else {
+          response(null, {
+            message: "Not Found",
+            result: false,
+          });
+        }
+      }
+    }
+  );
+};
 module.exports = {
   findByUsername,
   findAllGroup,
@@ -542,4 +588,6 @@ module.exports = {
   changeTaskState,
   updateTask,
   retrieveAllUserEmail,
+  retrieveApplicationByAppAcronym,
+  retrieveTaskById,
 };

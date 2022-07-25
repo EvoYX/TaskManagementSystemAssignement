@@ -64,5 +64,23 @@ module.exports = (app) => {
   /* Post */
   router.post("/admin/usermanagement/createuser", users.createUser);
   router.post("/login", users.login);
+
+  /* Assignment 3 */
+  router.post(
+    "/api/CreateTask/:Username/:Password/:App_acronym",
+    [users.verifyUser, users.verifyPermission],
+    users.createTaskAssignement3
+  );
+
+  router.post(
+    "/api/GetTaskByState/:Username/:Password/:App_acronym/:Task_state",
+    [users.verifyUser],
+    users.retrieveTaskAssignment3
+  );
+  router.post(
+    "/api/PromoteTask2Done/:Username/:Password/:Task_id",
+    [users.verifyUser],
+    users.updateTaskAssignment3
+  );
   app.use("/", router);
 };

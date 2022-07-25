@@ -265,7 +265,7 @@ const Task = (props) => {
           new Date().toUTCString() +
           " " +
           loginUser +
-          " change from Doing state to Done state";
+          "change from Doing state to Done state";
         const task = {
           Task_id: props.data.Task_id,
           Task_state: "Done",
