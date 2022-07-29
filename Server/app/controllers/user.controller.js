@@ -446,25 +446,27 @@ async function main(username, senderEmail, receiverEmail, taskid) {
 }
 
 /* Assignment 3 */
+
 exports.verifyUser = (req, res, next) => {
+  console.log("veiry user");
   User.findByUsername(req.params.Username, (err, data) => {
     if (err) {
-      res.send({ code: 401, result: [] });
+      res.send({ code: 401 });
     } else {
       if (data.result == null) {
-        res.send({ code: 401, result: [] });
+        res.send({ code: 401 });
       } else {
         bcrypt
           .compare(req.params.Password, data.result.password)
           .then((doMatch) => {
             if (doMatch) {
               if (data.result.status == "Disable") {
-                res.send({ code: 403, result: [] });
+                res.send({ code: 403 });
               } else {
                 next();
               }
             } else {
-              res.send({ code: 400, result: [] });
+              res.send({ code: 400 });
             }
           })
           .catch((err) => {
@@ -476,107 +478,58 @@ exports.verifyUser = (req, res, next) => {
 };
 
 exports.verifyPermission = (req, res, next) => {
+  console.log("verifying ");
   User.findByUsername(req.params.Username, (err, data) => {
-    if (data.result) {
+    console.log("s", data.result);
+    if (data.result != null) {
       User.retrieveApplicationByAppAcronym(req.params, (err, data1) => {
         if (data1.result) {
           var group = data.result.user_group.split(",");
           if (group.includes(data1.result[0].App_permit_create)) {
             next();
           } else {
-            res.send({ code: 402, result: [] });
+            res.send({ code: 402 });
           }
         } else {
           console.log("error");
-          res.send({ code: 501, result: [] });
+          res.send({ code: 501 });
+        }
+      });
+    } else {
+      res.send({ code: 401 });
+    }
+  });
+};
+exports.verifyDonePermission = (req, res, next) => {
+  User.findByUsername(req.params.Username, (err, data) => {
+    if (data.result) {
+      User.retrieveApplicationByAppAcronym(req.params, (err, data1) => {
+        if (data1.result) {
+          var group = data.result.user_group.split(",");
+          if (group.includes(data1.result[0].App_permit_Done)) {
+            next();
+          } else {
+            res.send({ code: 402 });
+          }
+        } else {
+          console.log("error");
+          res.send({ code: 501 });
         }
       });
     }
   });
 };
-
 exports.createTaskAssignement3 = async (req, res) => {
   console.log("Entering createTask");
-  User.findByUsername(req.params.Username, (err, data) => {
-    if (data.result) {
-      console.log("the t", req.body.Task_plan);
-      if (typeof req.body.Task_plan !== "undefined" && req.body.Task_plan) {
-        console.log("lool");
-        var planName = {
-          plan_app_Acronym: req.params.App_acronym,
-        };
-        User.retrieveAllPlansByApplication(planName, (err, data) => {
-          if (data.result) {
-            var validPlan = data.result
-              .map((res) => res.Plan_MVP_name)
-              .includes(req.body.Task_plan);
-            if (validPlan) {
-              User.retrieveApplicationByAppAcronym(
-                req.params,
-                (err1, data1) => {
-                  if (data1.result) {
-                    if (req.body.Task_id == "") {
-                      res.send({ code: 500, result: [] });
-                    } else {
-                      var rnum =
-                        "R" +
-                        (parseInt(data1.result[0].App_Rnumber.slice(1)) + 1);
-                      var Task_id = data1.result[0].App_Acronym + "_" + rnum;
-                      var notes =
-                        "Current State: Open, " +
-                        new Date().toUTCString() +
-                        " Task Created By " +
-                        req.params.Username;
-                      var Task = {
-                        Task_id: Task_id,
-                        Task_name: req.body.Task_name,
-                        Task_description: req.body.Task_description,
-                        Task_notes: notes,
-                        Task_plan: req.body.Task_plan,
-                        Task_app_acronym: req.params.App_acronym,
-                        Task_state: "Open",
-                        Task_owner: req.params.Username,
-                        Task_creator: req.params.Username,
-                        Task_createDate: new Date().toLocaleDateString(),
-                        App_Rnumber: rnum,
-                      };
-                      User.createTask(Task, (err2, data2) => {
-                        if (data2.result) {
-                          res.send({
-                            code: 200,
-                            result: true,
-                            Message: "Task Created Successfully",
-                          });
-                        } else {
-                          //not sure need cater for duplicate task_id anot
-                        }
-                      });
-                    }
-                  }
-                }
-              );
-            } else {
-              console.log("invalid planname");
-              res.send({
-                code: 502,
-                result: [],
-                Message: "Failure In Creating Task",
-              });
-            }
-          } else {
-            res.send({
-              code: 502,
-              result: [],
-              Message: "Failure In Creating Task",
-            });
-          }
-        });
-      } else {
-        User.retrieveApplicationByAppAcronym(req.params, (err1, data1) => {
-          if (data1.result) {
-            if (req.body.Task_id == "") {
-              res.send({ code: 500, result: [] });
-            } else {
+  if (req.body.Task_name == "") {
+    res.send({ code: 500 });
+  } else {
+    User.findByUsername(req.params.Username, (err, data) => {
+      if (data.result) {
+        if (req.body.Task_plan == "") {
+          User.retrieveApplicationByAppAcronym(req.params, (err1, data1) => {
+            if (data1.result) {
+              // else {
               var rnum =
                 "R" + (parseInt(data1.result[0].App_Rnumber.slice(1)) + 1);
               var Task_id = data1.result[0].App_Acronym + "_" + rnum;
@@ -602,45 +555,114 @@ exports.createTaskAssignement3 = async (req, res) => {
                 if (data2.result) {
                   res.send({
                     code: 200,
-                    result: true,
-                    Message: "Task Created Successfully",
                   });
                 } else {
+                  //not sure need cater for duplicate task_id anot
                 }
               });
+              // }
+            } else {
+              res.send({ code: 500 });
             }
-          }
-        });
-      }
-    }
-  });
-};
-exports.retrieveTaskAssignment3 = async (req, res) => {
-  User.retrieveApplicationByAppAcronym(req.params, (err1, data1) => {
-    if (data1.result) {
-      var retreiveTask = {
-        Task_state: req.params.Task_state,
-        Task_app_acronym: req.params.App_acronym,
-      };
-      User.retrieveTaskByState(retreiveTask, (err, data2) => {
-        if (data2.result.length) {
-          res.send({
-            code: 200,
-            result: data2.result,
-            Message: "Tasks Retrieve Successfully",
           });
         } else {
-          res.send({
-            code: 505,
-            result: [],
-            Message: "Tasks Retrieve Failure",
+          var planName = {
+            plan_app_Acronym: req.params.App_acronym,
+          };
+          User.retrieveAllPlansByApplication(planName, (err, data) => {
+            if (data.result) {
+              var validPlan = data.result
+                .map((res) => res.Plan_MVP_name)
+                .includes(req.body.Task_plan);
+              if (validPlan) {
+                User.retrieveApplicationByAppAcronym(
+                  req.params,
+                  (err1, data1) => {
+                    if (data1.result) {
+                      if (req.body.Task_id == "") {
+                        res.send({ code: 500, result: false });
+                      } else {
+                        var rnum =
+                          "R" +
+                          (parseInt(data1.result[0].App_Rnumber.slice(1)) + 1);
+                        var Task_id = data1.result[0].App_Acronym + "_" + rnum;
+                        var notes =
+                          "Current State: Open, " +
+                          new Date().toUTCString() +
+                          " Task Created By " +
+                          req.params.Username;
+                        var Task = {
+                          Task_id: Task_id,
+                          Task_name: req.body.Task_name,
+                          Task_description: req.body.Task_description,
+                          Task_notes: notes,
+                          Task_plan: req.body.Task_plan,
+                          Task_app_acronym: req.params.App_acronym,
+                          Task_state: "Open",
+                          Task_owner: req.params.Username,
+                          Task_creator: req.params.Username,
+                          Task_createDate: new Date().toLocaleDateString(),
+                          App_Rnumber: rnum,
+                        };
+                        User.createTask(Task, (err2, data2) => {
+                          if (data2.result) {
+                            res.send({
+                              code: 200,
+                            });
+                          } else {
+                            //not sure need cater for duplicate task_id anot
+                          }
+                        });
+                      }
+                    }
+                  }
+                );
+              } else {
+                res.send({
+                  code: 502,
+                });
+              }
+            } else {
+              res.send({
+                code: 501,
+              });
+            }
           });
         }
-      });
-    } else {
-      res.send({ code: 502, result: [], Message: "Tasks Retrieve Failure" });
-    }
-  });
+      }
+    });
+  }
+};
+exports.retrieveTaskAssignment3 = async (req, res) => {
+  var taskState = req.params.Task_state;
+  if (
+    taskState == "Open" ||
+    taskState == "Doing" ||
+    taskState == "To Do" ||
+    taskState == "Done" ||
+    taskState == "Close"
+  ) {
+    User.retrieveApplicationByAppAcronym(req.params, (err1, data1) => {
+      if (data1.result) {
+        var retreiveTask = {
+          Task_state: req.params.Task_state,
+          Task_app_acronym: req.params.App_acronym,
+        };
+        User.retrieveTaskByState(retreiveTask, (err, data2) => {
+          // if (data2.result) {
+          res.send({
+            code: 210,
+            result: data2.result,
+          });
+          // }
+        });
+      } else {
+        res.send({ code: 501 });
+      }
+    });
+  } else {
+    res.send({ code: 505 });
+  }
 };
 exports.updateTaskAssignment3 = async (req, res) => {
   User.findByUsername(req.params.Username, (err, data) => {
@@ -651,52 +673,60 @@ exports.updateTaskAssignment3 = async (req, res) => {
           if (data1.result[0].Task_state != "Doing") {
             res.send({
               code: 503,
-              result: [],
-              Message: "Unable To Update The Task Status",
             });
           } else {
-            var newNote =
-              "Current state: Done, " +
-              new Date().toUTCString() +
-              " " +
-              req.params.Username +
-              " " +
-              "change from Doing state to To Do state";
-            var task = {
-              Task_id: data1.result[0].Task_id,
-              Task_state: "Done",
-              Task_owner: req.params.Username,
-              Task_notes: newNote,
-              oldNotes: data1.result[0].Task_notes,
+            var appName = {
+              App_acronym: data1.result[0].Task_app_acronym,
             };
-            User.changeTaskState(task, (err, data2) => {
-              if (data2.result) {
-                User.retrieveAllUserEmail(req, (err, data2) => {
-                  var receiverEmail = data2.result.reduce(
-                    (prev, current) => prev + `${current.email},`,
-                    ""
-                  );
-                  main(
-                    req.params.Username,
-                    email,
-                    receiverEmail,
-                    req.params.Task_id
-                  ).catch(console.error);
+            User.retrieveApplicationByAppAcronym(appName, (err, data3) => {
+              if (data3.result) {
+                var group = data.result.user_group.split(",");
+                if (group.includes(data3.result[0].App_permit_Doing)) {
+                  var newNote =
+                    "Current state: Done, " +
+                    new Date().toUTCString() +
+                    " " +
+                    req.params.Username +
+                    " " +
+                    "change from Doing state to To Do state";
+                  var task = {
+                    Task_id: data1.result[0].Task_id,
+                    Task_state: "Done",
+                    Task_owner: req.params.Username,
+                    Task_notes: newNote,
+                    oldNotes: data1.result[0].Task_notes,
+                  };
+                  User.changeTaskState(task, (err, data2) => {
+                    if (data2.result) {
+                      User.retrieveAllUserEmail(req, (err, data2) => {
+                        var receiverEmail = data2.result.reduce(
+                          (prev, current) => prev + `${current.email},`,
+                          ""
+                        );
+                        main(
+                          req.params.Username,
+                          email,
+                          receiverEmail,
+                          req.params.Task_id
+                        ).catch(console.error);
 
-                  res.send({
-                    Message: "Task Status Updated Successfully",
-                    code: 200,
-                    result: true,
+                        res.send({
+                          code: 220,
+                        });
+                      });
+                    }
                   });
-                });
+                } else {
+                  res.send({ code: 402 });
+                }
+              } else {
+                res.send({ code: 600 });
               }
             });
           }
         } else {
           res.send({
             code: 504,
-            result: [],
-            Message: "Unable To Update The Task Status",
           });
         }
       });

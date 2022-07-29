@@ -13,6 +13,9 @@ module.exports = (app) => {
   //find the username from database
   router.get("/:username", users.findUser);
 
+  const errorHandler = (error, request, response, next) => {
+    response.send({ code: 600, Message: error.message });
+  };
   /* ADMIN Route */
   /* Get */
   router.get("/admin/getAllGroup", users.findAllGroup);
@@ -83,4 +86,5 @@ module.exports = (app) => {
     users.updateTaskAssignment3
   );
   app.use("/", router);
+  app.use("/api", errorHandler);
 };
