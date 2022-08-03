@@ -1,4 +1,3 @@
-const { result } = require("lodash");
 const bcrypt = require("bcrypt");
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
