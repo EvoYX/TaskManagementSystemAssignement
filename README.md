@@ -31,7 +31,7 @@ My backend is written in NODE & front-end is written in React JS :
 
 - Config Folder: This folder will consist of all the backend configuration files. MySQL configuration file (db.js) JWT Secret Key (auth.js)
 - Model Folder: This folder **ONLY CONSIST** of all the sql queries.
-- Controllers Folder: This folder will  use the SQL queries that is created from the model folder and do all the backend logic handling.(Manipulation of data that is retrieve from the Database / Front-end) (Eg: Login)
+- Controllers Folder: This folder will  use the SQL queries that is created from the model folder and do all the backend logic handling.**(Manipulation of data that is retrieve from the Database / Front-end)** Eg: Login
 - Routes Folder: This folder consist of all the routes that is needed for front-end & back-end communication. It uses function that is created from the controller folder.
 
 #### Front-end Code Structure
@@ -56,9 +56,10 @@ In summary of the below image, the **user.model.js** file will pass two paramter
 
 **Front-end (Client Side)** <br>
 At Client side, we will connect the route from Back-end using **AXIOS** and put it inside the **Service** file. The API_URL is the local host url from our backend server. <br>
+Front-end will pass the username parameter to the backend through **AXIOS** & retrieve the data from the database. <br>
 ![image](https://user-images.githubusercontent.com/56182367/182864438-d1b3651d-4a96-44fa-9c02-4c5106cc4ecc.png)
 <br>
-**Note: It is not neccessary to put all the AXIOS link on service file. I do not want to write the lengthy axios code on all my react file and make it easier to debug when there's errors/bugs or typo issue. Thus, it is just personal preference.**
+**Note: It is not neccessary to put all the AXIOS link on service file. I do not want to write the lengthy axios code on all my react file and make it easier to debug when there's errors/bugs or typo issue. Thus, it is just personal preference** 
 <br>
 
 **That all for the full front-end & back-end implementation explaination. Thanks for reading :smiling_face_with_three_hearts:**
