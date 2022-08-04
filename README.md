@@ -8,7 +8,7 @@ This Task Management System Repository is created with the use of React,Node Exp
 - Restful API for Create Task, Promoting Task State , Retrieval Of Task
 - Dockerisation for Server Side
 
-This README.md file shows how the the front-end (Client) to back-End (Server) communicates and the code structure for both front-end and back-end.   
+This README.md file shows how to setup the communication between the front-end (Client) & back-End (Server), & the code structure for both front-end and back-end.   
 
 ### Installation Setting
 - MySQL: Download MYSQL from the MySQL Community Downloads
