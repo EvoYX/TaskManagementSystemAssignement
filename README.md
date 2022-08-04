@@ -8,7 +8,9 @@ This Task Management System Repository is created with the use of **React,Node E
 - Restful API for Create Task, Promoting Task State , Retrieval Of Task (**The API is at User.route.js File**)
 - Dockerisation for Server Side 
 
-This README.md file shows how does my Backend **(NODE EXPRESS & MYSQL)** communicate with Front-end **(REACT JS)**
+As most of the youtube videos and online tutorial only shows 1 layer for their communication between Front-end & Back-end, it makes the entire file lengthy & harder to debug. It is harder to separate it into different layers as it require more understanding towards functions & classes.
+
+Thus,this README.md file will shows how does my Backend **(NODE EXPRESS & MYSQL)** communicate with Front-end **(REACT JS)**  with 3-layer approach on **Back-end** & 2-layer approach on **Front-end**<br> **Because I scare I forgot :sweat_smile::sweat_smile:**
 
 ### Installation Setting
 - MySQL: Download MYSQL from the MySQL Community Downloads
