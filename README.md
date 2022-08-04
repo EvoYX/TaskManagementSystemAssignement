@@ -1,14 +1,14 @@
 
 ## Task Management System
-This Task Management System Repository is created with the use of React,Node Express & MySQL and it consist of the following features:
+This Task Management System Repository is created with the use of **React,Node Express & MySQL** and it consist of the following features:
 
 - Login System
 - User Management
 - Kanban Board For Task Management
-- Restful API for Create Task, Promoting Task State , Retrieval Of Task
-- Dockerisation for Server Side
+- Restful API for Create Task, Promoting Task State , Retrieval Of Task (**The API is at User.route.js File**)
+- Dockerisation for Server Side 
 
-This README.md file shows how to setup the communication between the front-end (Client) & back-End (Server), & the code structure for both front-end and back-end.   
+This README.md file shows how does my Backend **(NODE EXPRESS & MYSQL)** communicate with Front-end **(REACT JS)**
 
 ### Installation Setting
 - MySQL: Download MYSQL from the MySQL Community Downloads
@@ -29,8 +29,8 @@ My backend is written in NODE & front-end is written in React JS :
 
 - Config Folder: This folder will consist of all the backend configuration files. MySQL configuration file (db.js) JWT Secret Key (auth.js)
 - Model Folder: This folder **ONLY CONSIST** of all the sql queries.
-- Controllers Folder: This folder consist of all the backend logic handling.(Manipulation of data that is retrieve from the database) (Eg: Login)
-- Routes Folder: This folder consist of all the routes that is needed for front-end & back-end communication.
+- Controllers Folder: This folder will  use the SQL queries that is created from the model folder and do all the backend logic handling.(Manipulation of data that is retrieve from the Database / Front-end) (Eg: Login)
+- Routes Folder: This folder consist of all the routes that is needed for front-end & back-end communication. It uses function that is created from the controller folder.
 
 #### Front-end Code Structure
 ![image](https://user-images.githubusercontent.com/56182367/182775271-7a501606-82af-41d6-b14e-49021ef25809.png)
@@ -39,9 +39,27 @@ My backend is written in NODE & front-end is written in React JS :
 - Service Folder: This folder consist of all the axios routes that is link to the Back-end (Server). The link must be the **SAME**
 - Component Folder: This folder consist of all my react UI.
 
-#### MySQL Database Tables
 
-#### Back-end To Front-end Implementation Example (EG: Retrieve User Data By Username)
+## Example: Back-end To Front-end Implementation (EG: Retrieve User Data By Username)
+**Back-end (Server Side)**<br>
+In summary of the below image, the **user.model.js** file will pass two paramters (Error & SQL Result) out to **user.controller.js** file.The controller file will manipulate the output receive from the model class and **only** return a single output parameter to the routes that is using the function. 
+<br> **NOTE: The number of output parameter is subjective to the creator, you can also only return one output parameter for the model class** 
+
+![image](https://user-images.githubusercontent.com/56182367/182854033-4c262264-96ed-4790-94a1-7f7103fd22e7.png)
+<br>
+**SQL Tips:** 
+- Select Statement will not return any error even if there's no such data in the database. It will just return an empty array when there's nothing in the database. Thus, it is optional to handle error condition for **SELECT** SQL Query. However, it is a must to handle error condition for **INSERT,UPDATE,DELETE** because it will **STOP** your server if you never handle properly
+
+**After finish writing the Back-end, We can TEST using POSTMAN or just move to Front-end Implementation**
+
+**Front-end (Client Side)** <br>
+At Client side, we will connect the route from Back-end using **AXIOS** and put it inside the **Service** file. The API_URL is the local host url from our backend server. <br>
+![image](https://user-images.githubusercontent.com/56182367/182864438-d1b3651d-4a96-44fa-9c02-4c5106cc4ecc.png)
+<br>
+**Note: It is not neccessary to put all the AXIOS link on service file. I do not want to write the lengthy axios code on all my react file and make it easier to debug when there's errors/bugs or typo issue. Thus, it is just personal preference.**
+<br>
+
+**That all for the full front-end & back-end implementation explaination. Thanks for reading :smiling_face_with_three_hearts:**
 
 
 
