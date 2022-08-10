@@ -8,7 +8,7 @@ const mysql = require("mysql");
 // });
 
 var connection = mysql.createPool({
-  host: process.env.HOST || "host.docker.internal",
+  host: process.env.HOST || "localhost" || host.docker.internal,
   user: process.env.USER || "root",
   password: process.env.PASSWORD || "Pass1234!",
   database: process.env.NAME || "reactcourse",

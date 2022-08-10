@@ -1,4 +1,3 @@
-const { response } = require("express");
 const sql = require("../config/db");
 
 /* Retreive */
