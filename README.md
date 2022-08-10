@@ -14,7 +14,15 @@ In order for **NODE** to connect to **MYSQL**, it will need the **EXPRESS** modu
 Thus,this README.md file will shows how does my Backend **(NODE EXPRESS & MYSQL)** communicate with Front-end **(REACT JS)**  with 3-layer approach on **Back-end** & 2-layer approach on **Front-end**<br> **Because I scare I forgot :sweat_smile::sweat_smile:**
 
 ### Installation Setting
-- MySQL: Download MYSQL from the MySQL Community Downloads
+- MySQL: Download MYSQL from the MySQL Community Downloads 
+<br>For the **SQL** setting, the authentication method need to change to **Legacy Authentication Method** to prevent any permission issue.(Below Image)
+
+![image](https://user-images.githubusercontent.com/56182367/183786939-195adb10-dd4f-4af7-a9b7-2fbe0cae84a8.png)
+
+### Database
+Below is my TMS Database<br>
+![image](https://user-images.githubusercontent.com/56182367/183786742-c896242e-1a8f-4416-bec6-999b7b2e3157.png)
+
 
 ### Task Management System Overview Structure
 ![image](https://user-images.githubusercontent.com/56182367/182769064-97bc3af4-b185-46e5-b822-7032f34dbbd8.png)
