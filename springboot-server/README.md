@@ -41,6 +41,11 @@ This readme file uses **REACT JS** as Client(Front-end) & **Springboot**
 
 ## Useful Annotations
 
+**@Data:** It can generate getters and setters for those object automatically
+
+**@AllArgsConstructor:**
+
+**@NoArgsConstructor:**
 **@ExceptionHandler:** The @ExceptionHandler is an annotation used to handle the specific exceptions & sendin the custom responses to the client
 
 **@ControllerAdvice:** The @ControllerAdvice  is an annotation used to handle the exceptions globally
