@@ -39,6 +39,11 @@ This readme file uses **REACT JS** as Client(Front-end) & **Springboot**
 **Service:**
 - The folder contains all the logic handling after retriving data from the repository folder.
 
+### Useful Annotations
+
+**@ExceptionHandler:** The @ExceptionHandler is an annotation used to handle the specific exceptions & sendin the custom responses to the client
+
+**@ControllerAdvice:** The @ControllerAdvice  is an annotation used to handle the exceptions globally
 
 **Thanks for reading :smiling_face_with_three_hearts:**
 
