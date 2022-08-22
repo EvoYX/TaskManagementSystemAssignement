@@ -15,6 +15,7 @@ import com.tmsbackend.springbootserver.service.AccountsService;
 @RequestMapping("")
 public class UserController {
     private AccountsService accountService;
+    
     public UserController(AccountsService accountService){
         this.accountService = accountService;
     

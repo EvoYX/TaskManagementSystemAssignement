@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.tmsbackend.springbootserver.entity.Accounts;
  
-
-public interface AccountsRepository extends JpaRepository<Accounts,Long> {
+// we put String for datatype because the primary key for Accounts table is long
+public interface AccountsRepository extends JpaRepository<Accounts,String> {
 
     @Query(value ="SELECT * FROM accounts",nativeQuery = true)
     List<Accounts> findAllUser(String query);
