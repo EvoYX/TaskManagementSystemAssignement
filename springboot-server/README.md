@@ -65,6 +65,12 @@ This readme file uses **REACT JS** as Client(Front-end) & **Springboot**
 
 **@NotBlank:** can be applied only to text values and validates that the property is not null or whitespace
 
+## Common Knowledge
+**Why create DTO(Data Transfer Object) classes in Spring Boot?**
+- We use it to limit the exposure of the stuff that we allow the app to expose for use.(Eg: unit testing)
+- Eg:![image](https://user-images.githubusercontent.com/56182367/185888766-2b5da1f4-c6e2-4ab7-ab79-f706173689af.png)
+![image](https://user-images.githubusercontent.com/56182367/185888904-25de5f57-b8c5-4f6c-9499-e0658356da7c.png)
+
 **Thanks for reading :smiling_face_with_three_hearts:**
 
 
