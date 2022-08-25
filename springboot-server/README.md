@@ -72,6 +72,8 @@ This readme file uses **REACT JS** as Client(Front-end) & **Springboot**
 <br>![image](https://user-images.githubusercontent.com/56182367/185888766-2b5da1f4-c6e2-4ab7-ab79-f706173689af.png)
 ![image](https://user-images.githubusercontent.com/56182367/185888904-25de5f57-b8c5-4f6c-9499-e0658356da7c.png)
 
+## Useful Link
+https://www.youtube.com/watch?v=wzQT7Dp9VL0&t=1622s&ab_channel=TechProgramme **Spring Boot with React and MySql (unable to detect sql error)**
 **Thanks for reading :smiling_face_with_three_hearts:**
 
 
