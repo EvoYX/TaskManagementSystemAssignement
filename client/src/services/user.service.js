@@ -3,6 +3,29 @@ import axios from "axios";
 const API_URL = "http://localhost:8080/";
 
 class UserService {
+  getUserTable(pageNo, pageSize, sortBy, sortDir) {
+    return axios
+      .get(
+        API_URL +
+          "api/users" +
+          `?pageNo=${pageNo}` +
+          `&pageSize=${pageSize}` +
+          `&sortBy=${sortBy}`
+      )
+      .then((res) => {
+        return res.data;
+      });
+  }
+  getAllUserTable() {
+    return axios.get(API_URL + "findAll").then((res) => {
+      return res.data;
+    });
+  }
+  createSpringbootUser(user) {
+    return axios.post(API_URL + "api/users/addUser", user).then((res) => {
+      return res.data;
+    });
+  }
   getAllUsers() {
     return axios.get(API_URL + "admin/getAllUsers").then((res) => {
       return res.data;

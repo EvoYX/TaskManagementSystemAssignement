@@ -28,6 +28,11 @@ public class AccountsService {
         List<Accounts> user=accountRepository.findByUsername(query);
         return user;
     }
+    public boolean createResult(Accounts user){
+        boolean result = accountRepository.createNewUser(user);
+        return result;
+    }
+
     public Pagination getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir) {
 
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
@@ -37,6 +42,7 @@ public class AccountsService {
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 
         Page<Accounts> accounts = accountRepository.findAll(pageable);
+        System.out.println(accounts);
 
         // get content for page object
         List<Accounts> listOfAccounts = accounts.getContent();
@@ -44,12 +50,12 @@ public class AccountsService {
         // List<Accounts> content= listOfAccounts.stream().map(post -> mapToDTO(post)).collect(Collectors.toList());
 
         Pagination result = new Pagination();
-        // result.setContent(content);
-        // result.setPageNo(posts.getNumber());
-        // result.setPageSize(posts.getSize());
-        // result.setTotalElements(posts.getTotalElements());
-        // result.setTotalPages(posts.getTotalPages());
-        // result.setLast(posts.isLast());
+        result.setContent(listOfAccounts);
+        result.setPageNo(accounts.getNumber());
+        result.setPageSize(accounts.getSize());
+        result.setTotalElements(accounts.getTotalElements());
+        result.setTotalPages(accounts.getTotalPages());
+        result.setLast(accounts.isLast());
 
         return result;
     }
