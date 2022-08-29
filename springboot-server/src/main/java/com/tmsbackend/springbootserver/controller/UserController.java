@@ -1,7 +1,10 @@
 package com.tmsbackend.springbootserver.controller;
 
+import java.security.cert.PKIXRevocationChecker.Option;
 import java.util.List;
 import java.util.Optional;
+
+import javax.swing.RepaintManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -66,8 +69,19 @@ public class UserController {
     @PostMapping("/api/users/addUser")
     @CrossOrigin(origins = "http://localhost:3000")
 
-    public Accounts createUser(@RequestBody Accounts user){
-        return  accRepo.save(user);
+    public ResponseEntity createUser(@RequestBody Accounts user){
+        Optional<Accounts> newUser= accRepo.findById(user.getUsername());
+        // Checking for duplicate username
+        if(newUser.isPresent()){
+            return ResponseEntity.badRequest().body("Duplicate Username Found!");
+        }
+        else{
+            //insert data into database
+            accRepo.save(user);
+            return ResponseEntity.ok("Insert successfully");
+
+        }
+
     }
 
     @PostMapping("/api/users/addUserWithQuery")
