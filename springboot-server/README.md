@@ -26,6 +26,8 @@ This documentation uses **REACT JS** as Client(Front-end) & **Springboot** as ba
 - com is the domain extension
 - learnthepart is the name of organization
 
+**How to run the server:**.\mvnw clean spring-boot:run
+
 ### Installed Dependencies
 ![image](https://user-images.githubusercontent.com/56182367/184104663-f88a9cea-6c2a-4e85-96a4-ff7f49156a52.png)
 <br>
